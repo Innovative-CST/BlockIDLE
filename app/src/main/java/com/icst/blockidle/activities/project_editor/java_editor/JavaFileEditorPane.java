@@ -46,7 +46,7 @@ public class JavaFileEditorPane extends LinearLayout implements PaneView {
 		LayoutInflater inflator = LayoutInflater.from(activity);
 		binding = PaneJavaFileEditorBinding.inflate(inflator);
 
-		binding.viewpager.setAdapter(new JavaFileEditorViewPager(activity));
+		binding.viewpager.setAdapter(new JavaFileEditorViewPager(activity, javaFile));
 
 		// Bind ViewPager and TabLayout
 		TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
@@ -54,8 +54,6 @@ public class JavaFileEditorPane extends LinearLayout implements PaneView {
 				binding.viewpager,
 				(tab, position) -> {
 					if (position == 0) {
-						tab.setText("Variables");
-					} else if (position == 1) {
 						tab.setText("Events");
 					}
 				});

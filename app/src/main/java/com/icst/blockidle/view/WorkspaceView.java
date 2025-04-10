@@ -17,20 +17,12 @@
 
 package com.icst.blockidle.view;
 
-import java.util.ArrayList;
-
-import com.icst.blockidle.databinding.AdapterPaneBinding;
 import com.icst.blockidle.databinding.NoPaneLayoutBinding;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class WorkspaceView extends LinearLayout {
 
@@ -45,7 +37,7 @@ public class WorkspaceView extends LinearLayout {
 
 	public WorkspaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
+
 		paneHolderView = new LinearLayout(context);
 		paneHolderView.setOrientation(VERTICAL);
 
@@ -72,11 +64,12 @@ public class WorkspaceView extends LinearLayout {
 			return;
 		}
 		currentPane = pane;
-		
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
+
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
+
 		pane.getView().setLayoutParams(lp);
-		
+
 		if (paneHolderView.getChildAt(1) != null) {
 			paneHolderView.removeViewAt(1);
 		}

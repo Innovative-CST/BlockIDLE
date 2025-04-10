@@ -19,6 +19,9 @@ package com.icst.blockidle.activities.project_editor.java_editor.adapter;
 
 import java.util.ArrayList;
 
+import com.icst.blockidle.activities.project_editor.java_editor.event_manager.EventManagerFragment;
+import com.icst.blockidle.util.IDLEJavaFile;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -27,12 +30,11 @@ public class JavaFileEditorViewPager extends FragmentStateAdapter {
 
 	private ArrayList<Fragment> fragments;
 
-	public JavaFileEditorViewPager(AppCompatActivity activity) {
+	public JavaFileEditorViewPager(AppCompatActivity activity, IDLEJavaFile javaFile) {
 		super(activity);
 
 		fragments = new ArrayList<Fragment>();
-		fragments.add(new Fragment()); // For variables
-		fragments.add(new Fragment()); // For Events
+		fragments.add(new EventManagerFragment()); // For Events
 	}
 
 	@Override
