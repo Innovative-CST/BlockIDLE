@@ -18,19 +18,16 @@
 package com.icst.blockidle.activities.project_editor.java_editor;
 
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.icst.blockidle.R;
 import com.icst.blockidle.activities.project_editor.java_editor.adapter.JavaFileEditorViewPager;
 import com.icst.blockidle.databinding.PaneJavaFileEditorBinding;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.view.PaneView;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 public class JavaFileEditorPane extends LinearLayout implements PaneView {
 
@@ -63,16 +60,6 @@ public class JavaFileEditorPane extends LinearLayout implements PaneView {
 				LayoutParams.MATCH_PARENT);
 		binding.getRoot().setLayoutParams(lp);
 		addView(binding.getRoot());
-	}
-
-	@Override
-	public Drawable getIcon() {
-		return ContextCompat.getDrawable(getContext(), R.drawable.ic_java);
-	}
-
-	@Override
-	public String getTitle() {
-		return javaFile.getFileName();
 	}
 
 	@Override

@@ -17,7 +17,6 @@
 
 package com.icst.blockidle.view;
 
-import android.graphics.drawable.Drawable;
 import android.view.View;
 
 public interface PaneView {
@@ -27,9 +26,5 @@ public interface PaneView {
 	void onRelease();
 
 	View getView();
-
-	Drawable getIcon();
-
-	String getTitle();
 
 }
