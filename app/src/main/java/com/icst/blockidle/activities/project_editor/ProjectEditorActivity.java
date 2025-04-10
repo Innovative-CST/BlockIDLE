@@ -19,10 +19,12 @@ package com.icst.blockidle.activities.project_editor;
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.project_editor.dialog.NewJavaClassDialog;
+import com.icst.blockidle.activities.project_editor.java_editor.JavaFileEditorPane;
 import com.icst.blockidle.activities.project_editor.viewholder.FileTreeViewHolder;
 import com.icst.blockidle.databinding.ActivityProjectEditorBinding;
 import com.icst.blockidle.exception.IDLEFileAlreadyExistsException;
 import com.icst.blockidle.util.IDLEFolder;
+import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.util.ProjectFile;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
@@ -105,6 +107,11 @@ public class ProjectEditorActivity extends AppCompatActivity {
 			new NewJavaClassDialog(this, javaDir, projectFile);
 		}
 		return true;
+	}
+
+	public void openJavaFile(IDLEJavaFile javaFile) {
+		JavaFileEditorPane pane = new JavaFileEditorPane(this, javaFile);
+		binding.workspace.openPane(pane);
 	}
 
 	private IDLEFolder createOrExistsIDLESourceDir() {

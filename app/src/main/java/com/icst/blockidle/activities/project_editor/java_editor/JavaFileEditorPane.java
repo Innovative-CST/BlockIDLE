@@ -19,31 +19,34 @@ package com.icst.blockidle.activities.project_editor.java_editor;
 
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.project_editor.java_editor.adapter.JavaFileEditorViewPager;
 import com.icst.blockidle.databinding.PaneJavaFileEditorBinding;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.view.PaneView;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class JavaFileEditorPane extends LinearLayout implements PaneView {
 
-	private Context context;
+	private AppCompatActivity activity;
 	private IDLEJavaFile javaFile;
 	private PaneJavaFileEditorBinding binding;
 
-	public JavaFileEditorPane(Context context, IDLEJavaFile javaFile) {
-		super(context);
-		this.context = context;
+	public JavaFileEditorPane(AppCompatActivity activity, IDLEJavaFile javaFile) {
+		super(activity);
+		this.activity = activity;
 		this.javaFile = javaFile;
 
-		LayoutInflater inflator = LayoutInflater.from(context);
+		LayoutInflater inflator = LayoutInflater.from(activity);
 		binding = PaneJavaFileEditorBinding.inflate(inflator);
+
+		binding.viewpager.setAdapter(new JavaFileEditorViewPager(activity));
 
 		// Bind ViewPager and TabLayout
 		TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(
@@ -58,8 +61,9 @@ public class JavaFileEditorPane extends LinearLayout implements PaneView {
 				});
 		tabLayoutMediator.attach();
 
-		binding.getRoot()
-				.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
+		binding.getRoot().setLayoutParams(lp);
 		addView(binding.getRoot());
 	}
 

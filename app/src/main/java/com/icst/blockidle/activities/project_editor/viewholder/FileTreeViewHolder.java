@@ -20,6 +20,7 @@ package com.icst.blockidle.activities.project_editor.viewholder;
 import java.util.concurrent.Executors;
 
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
 import com.icst.blockidle.databinding.ViewHolderFileTreeBinding;
 import com.icst.blockidle.util.IDLEFile;
 import com.icst.blockidle.util.IDLEFolder;
@@ -29,16 +30,15 @@ import com.unnamed.b.atv.model.TreeNode;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.transition.ChangeImageTransform;
 import androidx.transition.TransitionManager;
 
 public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<IDLEFile> {
 
 	private ViewHolderFileTreeBinding binding;
-	private final AppCompatActivity activity;
+	private final ProjectEditorActivity activity;
 
-	public FileTreeViewHolder(AppCompatActivity activity) {
+	public FileTreeViewHolder(ProjectEditorActivity activity) {
 		super(activity);
 		this.activity = activity;
 	}
@@ -125,8 +125,8 @@ public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<IDLEFile> {
 												});
 									});
 				}
-			} else {
-				// Todo: Open file in work space
+			} else if (value instanceof IDLEJavaFile javaFile) {
+				activity.openJavaFile(javaFile);
 			}
 		}
 	}

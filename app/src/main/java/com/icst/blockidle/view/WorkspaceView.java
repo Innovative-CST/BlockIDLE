@@ -34,12 +34,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class WorkspaceView extends LinearLayout {
 
-	private final ArrayList<PaneView> panes;
 	private PaneView currentPane;
 
 	private LinearLayout paneHolderView;
-	private RecyclerView panesList;
-	private PaneListAdapter adapter;
 
 	private LinearLayout noPaneLayout;
 
@@ -48,17 +45,9 @@ public class WorkspaceView extends LinearLayout {
 
 	public WorkspaceView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		panes = new ArrayList<PaneView>();
-		panesList = new RecyclerView(context);
-		panesList.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
+		
 		paneHolderView = new LinearLayout(context);
 		paneHolderView.setOrientation(VERTICAL);
-
-		adapter = new PaneListAdapter(panes);
-		panesList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-		panesList.setAdapter(adapter);
-		paneHolderView.addView(panesList);
 
 		noPaneLayout = NoPaneLayoutBinding.inflate(LayoutInflater.from(context)).getRoot();
 
@@ -78,16 +67,21 @@ public class WorkspaceView extends LinearLayout {
 		paneHolderView.setVisibility(layout == PANE_LAYOUT ? VISIBLE : GONE);
 	}
 
-	public void addPane(PaneView pane) {
+	public void openPane(PaneView pane) {
 		if (pane == null) {
 			return;
 		}
 		currentPane = pane;
-		panes.add(pane);
-		adapter.notifyItemInserted(panes.size() - 1);
-		pane.getView()
-				.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-		openPane(pane);
+		
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		
+		pane.getView().setLayoutParams(lp);
+		
+		if (paneHolderView.getChildAt(1) != null) {
+			paneHolderView.removeViewAt(1);
+		}
+		paneHolderView.addView(pane.getView());
+		showLayout(PANE_LAYOUT);
 	}
 
 	public void requestRelease() {
@@ -95,48 +89,6 @@ public class WorkspaceView extends LinearLayout {
 			return;
 		}
 		currentPane.onReleaseRequest();
-	}
-
-	public void openPane(PaneView pane) {
-		if (paneHolderView.getChildAt(1) != null) {
-			paneHolderView.removeViewAt(1);
-		}
-		paneHolderView.addView(pane.getView());
-	}
-
-	public class PaneListAdapter extends RecyclerView.Adapter<PaneListAdapter.ViewHolder> {
-
-		private final ArrayList<PaneView> panes;
-
-		public PaneListAdapter(ArrayList<PaneView> panes) {
-			this.panes = panes;
-		}
-
-		@NonNull @Override
-		public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-			AdapterPaneBinding binding = AdapterPaneBinding.inflate(LayoutInflater.from(parent.getContext()));
-			return new ViewHolder(binding);
-		}
-
-		@Override
-		public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-			holder.binding.paneTitle.setText(panes.get(position).getTitle());
-			holder.binding.paneIcon.setImageDrawable(panes.get(position).getIcon());
-		}
-
-		@Override
-		public int getItemCount() {
-			return panes.size();
-		}
-
-		public class ViewHolder extends RecyclerView.ViewHolder {
-			public AdapterPaneBinding binding;
-
-			public ViewHolder(AdapterPaneBinding binding) {
-				super(binding.getRoot());
-				this.binding = binding;
-			}
-		}
 	}
 
 }
