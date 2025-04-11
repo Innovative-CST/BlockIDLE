@@ -19,10 +19,18 @@ package com.icst.blockidle.util;
 
 import java.io.File;
 
-public class IDLEJavaFile extends IDLEFile {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class IDLEJavaFile extends IDLEFile implements Parcelable {
 
 	public IDLEJavaFile(File file) {
 		super(file);
+	}
+
+	@SuppressWarnings("deprecation")
+	protected IDLEJavaFile(Parcel in) {
+		super(new File(in.readString()));
 	}
 
 	public File getEventDirectory() {
@@ -32,4 +40,26 @@ public class IDLEJavaFile extends IDLEFile {
 		}
 		return eventDir;
 	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(file.getAbsolutePath());
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	public static final Creator<IDLEJavaFile> CREATOR = new Creator<IDLEJavaFile>() {
+		@Override
+		public IDLEJavaFile createFromParcel(Parcel in) {
+			return new IDLEJavaFile(in);
+		}
+
+		@Override
+		public IDLEJavaFile[] newArray(int size) {
+			return new IDLEJavaFile[size];
+		}
+	};
 }

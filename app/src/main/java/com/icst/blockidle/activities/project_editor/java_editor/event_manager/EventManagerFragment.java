@@ -31,6 +31,7 @@ import androidx.fragment.app.Fragment;
 public class EventManagerFragment extends Fragment {
 
 	private FragmentEventManagerBinding binding;
+	public static final String IDLEJavaFile = "IDLEJavaFile";
 
 	@Override
 	@MainThread
