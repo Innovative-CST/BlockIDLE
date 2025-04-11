@@ -24,4 +24,12 @@ public class IDLEJavaFile extends IDLEFile {
 	public IDLEJavaFile(File file) {
 		super(file);
 	}
+
+	public File getEventDirectory() {
+		File eventDir = new File(file, EnvironmentUtils.EVENT_FOLDER);
+		if (!eventDir.exists()) {
+			eventDir.mkdir();
+		}
+		return eventDir;
+	}
 }

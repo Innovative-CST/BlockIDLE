@@ -35,7 +35,7 @@ public class IntroActivity extends AppCompatActivity {
 
 	private static final String TAG = "IntroActivity";
 
-	ActivityIntroBinding binding;
+	private ActivityIntroBinding binding;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

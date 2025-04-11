@@ -24,6 +24,7 @@ import android.content.Context;
 public class EnvironmentUtils {
 
 	public static final String PROJECT_BEAN_FILE = "ProjectBean";
+	public static final String EVENT_FOLDER = "events";
 
 	public static File projectDirectory;
 
