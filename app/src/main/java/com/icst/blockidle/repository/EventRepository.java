@@ -35,7 +35,7 @@ public class EventRepository {
 
 	private EventRepository(IDLEJavaFile javaFile) {
 		this.javaFile = javaFile;
-		data.setValue(new ArrayList<Pair<File, EventBean>>());
+		data = new MutableLiveData<ArrayList<Pair<File, EventBean>>>(new ArrayList<Pair<File, EventBean>>());
 	}
 
 	public static EventRepository getInstance(IDLEJavaFile javaFile) {
