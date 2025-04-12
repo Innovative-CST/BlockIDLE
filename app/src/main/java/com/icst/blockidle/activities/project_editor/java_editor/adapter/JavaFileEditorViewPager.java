@@ -39,7 +39,7 @@ public class JavaFileEditorViewPager extends FragmentStateAdapter {
 		EventManagerFragment eventManager = new EventManagerFragment();
 
 		Bundle args = new Bundle();
-		args.putParcelable(EventManagerFragment.IDLEJavaFile, javaFile);
+		args.putParcelable(EventManagerFragment.IDLEJavaFileArgument, javaFile);
 		eventManager.setArguments(args);
 
 		fragments.add(eventManager);

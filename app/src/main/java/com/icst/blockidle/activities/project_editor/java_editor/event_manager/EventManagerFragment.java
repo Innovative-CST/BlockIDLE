@@ -23,9 +23,11 @@ import static android.view.View.VISIBLE;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter.EventAdapter;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.FragmentEventManagerBinding;
 import com.icst.blockidle.repository.EventRepository;
+import com.icst.blockidle.util.IDLEJavaFile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,11 +38,15 @@ import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class EventManagerFragment extends Fragment {
 
 	private FragmentEventManagerBinding binding;
-	public static final String IDLEJavaFile = "IDLEJavaFile";
+	private EventAdapter eventAdapter;
+	private IDLEJavaFile javaFile;
+	private EventRepository eventRepo;
+	public static final String IDLEJavaFileArgument = "IDLEJavaFile";
 
 	private static final int EVENTS_LIST = 0;
 	private static final int INFO_SECTION = 1;
@@ -50,12 +56,15 @@ public class EventManagerFragment extends Fragment {
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
 		binding = FragmentEventManagerBinding.inflate(inflator);
-
-		EventRepository eventRepo = EventRepository.getInstance(getArguments().getParcelable(IDLEJavaFile));
+		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
+		eventRepo = EventRepository.getInstance(javaFile);
+		eventRepo.loadEvents();
+		eventAdapter = new EventAdapter(eventRepo.getMutableLiveEvents().getValue());
+		binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
+		binding.list.setAdapter(eventAdapter);
 		eventRepo.getMutableLiveEvents().observe(this, data -> {
 			onDataUpdate(data);
 		});
-
 		return binding.getRoot();
 	}
 
@@ -69,6 +78,8 @@ public class EventManagerFragment extends Fragment {
 		if (data.size() == 0) {
 			binding.info.setText("No events yet");
 			showLayout(INFO_SECTION);
+		} else {
+			showLayout(EVENTS_LIST);
 		}
 	}
 
