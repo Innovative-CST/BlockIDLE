@@ -20,7 +20,7 @@ plugins {
 }
 
 application {
-	mainClassName = "com.icst.blockidle.ExtensionGenerator"
+	mainClassName = "com.icst.blockidle.extension.ExtensionsZipWriter"
 }
 
 task generateExtensions(type: JavaExec) {
@@ -29,7 +29,7 @@ task generateExtensions(type: JavaExec) {
 	outputDir.mkdirs()
 
 	classpath = sourceSets.main.runtimeClasspath
-	main = "com.icst.blockidle.ExtensionGenerator"
+	main = "com.icst.blockidle.extension.ExtensionsZipWriter"
 	args = [
 		outputDir.getAbsolutePath(),
 	]
