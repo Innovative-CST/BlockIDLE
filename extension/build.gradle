@@ -36,16 +36,16 @@ task generateExtensions(type: JavaExec) {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-    // For annotation processing
-    implementation project(":annotations")
+	// For annotation processing
+	implementation project(":annotations")
 	implementation project(":extension-core")
-    annotationProcessor project(":annotations-processor")
-	
+	annotationProcessor project(":annotations-processor")
+
 	implementation project(":beans:basebeans")
 	implementation project(":beans:blockbeans")
 	implementation project(":beans:javabeans")

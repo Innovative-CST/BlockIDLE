@@ -26,6 +26,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Extension {
 
-    String extensionFileName();
+	String extensionFileName();
 
 }

@@ -17,8 +17,6 @@
 
 package com.icst.blockidle;
 
-import java.io.File;
-
 @Extension(extensionFileName = "test.zip")
 public class ExtensionGenerator {
 
