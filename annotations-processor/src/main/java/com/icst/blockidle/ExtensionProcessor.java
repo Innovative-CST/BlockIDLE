@@ -97,6 +97,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 		if (error) {
 			return error;
 		}
+		
 		for (Element element : roundEnv.getElementsAnnotatedWith(Extension.class)) {
 
 			TypeElement classElement = (TypeElement) element;
@@ -112,7 +113,44 @@ public class ExtensionProcessor extends AbstractProcessor {
 			} catch (Exception e) {
 				String errorMessage = "Failed to write class: ".concat(e.getMessage());
 				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage);
+				error = true;
 			}
+		}
+		
+		if(error) {
+			return error;
+		}
+		
+		
+		try {
+		    JavaFileObject file = filer.createSourceFile("com.icst.blockidle.extension.ExtensionsZipWriter");
+			try (Writer writer = file.openWriter()){ 
+			
+			    StringBuilder generateMethodsCodeBlock = new StringBuilder();
+			    StringBuilder importsCodeBlock = new StringBuilder();
+			    
+			    for (Element element : roundEnv.getElementsAnnotatedWith(Extension.class)) {
+    
+					TypeElement classElement = (TypeElement) element;
+					String className = classElement.getSimpleName().toString();
+					String packageName = elementUtils.getPackageOf(classElement).getQualifiedName().toString();
+				    String generatedClassName = className + "ExtensionOutputStream";
+				    
+				    importsCodeBlock.append("import ".concat(packageName).concat(".").concat(generatedClassName).concat(";\n"));
+				    generateMethodsCodeBlock.append("\t\t".concat(generatedClassName).concat(".generateExtension(outputFolder);\n"));
+				}
+			    
+			    writer.write("package com.icst.blockidle.extension.ExtensionsZipWriter;\n\n");
+			    writer.write(importsCodeBlock.toString());
+			    writer.write("\n");
+			    writer.write("public class ExtensionsZipWriter {\n");
+			    writer.write("\tpublic static void main(String[] args) {\n");
+			    writer.write(generateMethodsCodeBlock.toString());
+			    writer.write("\t}\n\n}\n");
+			}
+			
+		} catch(IOException e) {
+			
 		}
 
 		return true;
