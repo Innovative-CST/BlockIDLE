@@ -140,7 +140,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 				    generateMethodsCodeBlock.append("\t\t".concat(generatedClassName).concat(".generateExtension(outputFolder);\n"));
 				}
 			    
-			    writer.write("package com.icst.blockidle.extension.ExtensionsZipWriter;\n\n");
+			    writer.write("package com.icst.blockidle.extension;\n\n");
 			    writer.write(importsCodeBlock.toString());
 			    writer.write("\n");
 			    writer.write("public class ExtensionsZipWriter {\n");
