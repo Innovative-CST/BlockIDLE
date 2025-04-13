@@ -77,6 +77,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 				continue;
 			writer.write("\t\tmExtensionZipOutputStream.writeObjectToZipEntry(".concat("\"")
 					.concat(enclosed.getAnnotation(ExtensionItem.class).extensionItemName()).concat("\", ")
+					.concat(enclosed.getEnclosingElement().getSimpleName().toString()).concat(".")
 					.concat(enclosed.getSimpleName().toString()).concat("());\n"));
 		}
 		writer.write("\tmExtensionZipOutputStream.close();\n");
