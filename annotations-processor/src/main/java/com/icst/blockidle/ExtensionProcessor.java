@@ -163,7 +163,9 @@ public class ExtensionProcessor extends AbstractProcessor {
 		writer.write("import java.io.File;\n\n");
 		writer.write("public class " + generatedClassName + " {\n");
 		writer.write("\tpublic static void generateExtension(File file) {\n");
-		writer.write("\t\tExtensionZipOutputStream mExtensionZipOutputStream = new ExtensionZipOutputStream(file);\n");
+		writer.write("\t\tExtensionZipOutputStream mExtensionZipOutputStream = new ExtensionZipOutputStream(new File(file, ");
+		writer.write("\"".concat(classElement.getAnnotation(Extension.class).extensionFileName()).concat("\""));
+		writer.write("));\n");
 		for (Element enclosed : classElement.getEnclosedElements()) {
 			if (enclosed.getAnnotation(ExtensionItem.class) == null)
 				continue;
