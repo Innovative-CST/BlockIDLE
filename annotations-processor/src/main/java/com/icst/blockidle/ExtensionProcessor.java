@@ -2,11 +2,20 @@ package com.icst.blockidle;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.*;
+import java.util.Set;
 
-import javax.annotation.processing.*;
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.*;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
@@ -58,10 +67,11 @@ public class ExtensionProcessor extends AbstractProcessor {
 				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
 				error = true;
 			}
-			
+
 			if (method.getParameters().size() != 0) {
 				String methodName = method.getSimpleName().toString();
-				String errorMessage = methodName.concat(" is annotated with @ExtensionItem so it must be a parameterless method.");
+				String errorMessage = methodName
+						.concat(" is annotated with @ExtensionItem so it must be a parameterless method.");
 				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
 				error = true;
 			}
