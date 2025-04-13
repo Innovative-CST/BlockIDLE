@@ -36,7 +36,7 @@ rootProject.name = "Block IDLE"
 
 include(":app")
 
-include(":extension")
+include(":extensions")
 include(":extension-core")
 include(":annotations")
 include(":annotations-processor")
