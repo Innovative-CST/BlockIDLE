@@ -30,13 +30,22 @@ public class ExtensionProcessor extends AbstractProcessor {
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 		boolean error = false;
+
+		// Process ExtensionItem
 		for (Element element : roundEnv.getElementsAnnotatedWith(ExtensionItem.class)) {
 			ExecutableElement method = ((ExecutableElement) element);
 			if (method.getEnclosingElement().getAnnotation(Extension.class) == null) {
 				String methodName = method.getSimpleName().toString();
 				String classNameOfMethod = element.getEnclosingElement().getSimpleName().toString();
-				String errorMessage = "Method".concat(methodName).concat(" is annotated with @ExtensionItem but ")
+				String errorMessage = "Method ".concat(methodName).concat(" is annotated with @ExtensionItem but ")
 						.concat(classNameOfMethod).concat(" class is not annotated with @Extension");
+				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
+				error = true;
+			}
+
+			if (!method.getModifiers().contains(Modifier.STATIC)) {
+				String methodName = method.getSimpleName().toString();
+				String errorMessage = methodName.concat(" is annotated with @ExtensionItem so must be static.");
 				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
 				error = true;
 			}
