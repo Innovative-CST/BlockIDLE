@@ -80,7 +80,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 					.concat(enclosed.getEnclosingElement().getSimpleName().toString()).concat(".")
 					.concat(enclosed.getSimpleName().toString()).concat("());\n"));
 		}
-		writer.write("\tmExtensionZipOutputStream.close();\n");
+		writer.write("\t\tmExtensionZipOutputStream.close();\n");
 		writer.write("\t}\n");
 		writer.write("}\n");
 	}
