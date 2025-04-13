@@ -36,6 +36,11 @@ rootProject.name = "Block IDLE"
 
 include(":app")
 
+include(":extension")
+include(":extension-core")
+include(":annotations")
+include(":annotations-processor")
+
 // Beans
 include(":beans:basebeans")
 include(":beans:blockbeans")
