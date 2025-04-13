@@ -21,7 +21,7 @@ package com.icst.blockidle;
 public class ExtensionGenerator {
 
 	@ExtensionItem(extensionItemName = "test")
-	public String main() {
+	public static String main() {
 		return "Hi";
 	}
 

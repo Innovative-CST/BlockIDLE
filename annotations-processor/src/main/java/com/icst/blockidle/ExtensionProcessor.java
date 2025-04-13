@@ -49,6 +49,15 @@ public class ExtensionProcessor extends AbstractProcessor {
 				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
 				error = true;
 			}
+
+			if (!processingEnv.getTypeUtils().isAssignable(method.getReturnType(),
+					elementUtils.getTypeElement("java.io.Serializable").asType())) {
+				String methodName = method.getSimpleName().toString();
+				String errorMessage = methodName
+						.concat(" is annotated with @ExtensionItem so it must return a object that can be serialised.");
+				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
+				error = true;
+			}
 		}
 
 		if (error) {
