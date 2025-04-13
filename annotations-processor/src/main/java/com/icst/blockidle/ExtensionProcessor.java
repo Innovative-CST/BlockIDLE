@@ -58,6 +58,13 @@ public class ExtensionProcessor extends AbstractProcessor {
 				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
 				error = true;
 			}
+			
+			if (method.getParameters().size() != 0) {
+				String methodName = method.getSimpleName().toString();
+				String errorMessage = methodName.concat(" is annotated with @ExtensionItem so it must be a parameterless method.");
+				messager.printMessage(Diagnostic.Kind.ERROR, errorMessage, element);
+				error = true;
+			}
 		}
 
 		if (error) {
