@@ -149,10 +149,6 @@ public class ExtensionProcessor extends AbstractProcessor {
         return error;
     }
     
-    //I separated the processing of the @Extension and @ExtensionItem into two different methods for readability.
-    //I added a way to check whether the current element we process is a class for Extensions and a method for ExtensionItems
-    //
-    
     private boolean processExtension(RoundEnvironment roundEnv) {
         boolean error = false;
         
