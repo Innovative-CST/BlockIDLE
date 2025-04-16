@@ -22,4 +22,4 @@ To contribute to Android App Studio, follow these steps:
 Please make sure to run `spotlessApply` to format the entire project.
 
 ## Special Thanks to
-[rooki_eplay](https://www.instagram.com/rooki_eplay) for UI designing on entire project.
+[kiaraglitz](https://www.instagram.com/kiaraglitz?igsh=eGxhcTh5bXY3YXg2) for UI designing on entire project.
