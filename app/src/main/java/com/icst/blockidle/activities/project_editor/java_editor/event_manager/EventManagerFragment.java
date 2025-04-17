@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter.EventAdapter;
+import com.icst.blockidle.activities.project_editor.java_editor.event_manager.sheet.AddEventSheet;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.FragmentEventManagerBinding;
 import com.icst.blockidle.repository.EventRepository;
@@ -64,6 +65,9 @@ public class EventManagerFragment extends Fragment {
 		binding.list.setAdapter(eventAdapter);
 		eventRepo.getMutableLiveEvents().observe(this, data -> {
 			onDataUpdate(data);
+		});
+		binding.fab.setOnClickListener(v -> {
+			new AddEventSheet(getActivity());
 		});
 		return binding.getRoot();
 	}
