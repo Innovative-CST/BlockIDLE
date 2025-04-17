@@ -21,8 +21,11 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.EventBean;
+import com.icst.blockidle.listener.SerializationListener;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.util.SerializationUtils;
+
+import android.util.Log;
 
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
@@ -40,6 +43,24 @@ public class EventRepository {
 
 	public static EventRepository getInstance(IDLEJavaFile javaFile) {
 		return new EventRepository(javaFile);
+	}
+
+	public void addEvent(EventBean event) {
+		File eventDir = javaFile.getEventDirectory();
+		File eventFile = new File(eventDir, event.getName());
+		SerializationUtils.serialize(event, eventFile, new SerializationListener() {
+
+			@Override
+			public void onSerializationSucess() {
+				events.add(Pair.create(eventFile, event));
+				data.postValue(events);
+			}
+
+			@Override
+			public void onSerializationFailed(Exception exception) {
+				Log.e("Serialization failed", "New event serialization failed", exception);
+			}
+		});
 	}
 
 	public void loadEvents() {
