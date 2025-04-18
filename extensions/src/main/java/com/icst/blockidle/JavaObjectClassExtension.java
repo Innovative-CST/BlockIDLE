@@ -36,6 +36,8 @@ public class JavaObjectClassExtension {
 		event.setActionBlockBeans(new ArrayList<ActionBlockBean>());
 		event.setEventDefinationBlockBean(getObjectEqualsEventBlock());
 		event.setName("equals");
+		event.setTitle("equals");
+		event.setDescription("Compares this class instance with object.");
 
 		StringBuilder code = new StringBuilder();
 		code.append("@Override\n");
