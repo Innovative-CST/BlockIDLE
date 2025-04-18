@@ -85,6 +85,9 @@ dependencies {
 	// Material Design
 	implementation("com.google.android.material:material:$material_design_version")
 
+	// Extension Core
+	implementation project(":extension-core")
+
 	// Beans
 	implementation project(":beans:basebeans")
 	implementation project(":beans:blockbeans")

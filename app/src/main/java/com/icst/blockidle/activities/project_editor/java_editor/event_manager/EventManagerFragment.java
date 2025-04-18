@@ -67,7 +67,7 @@ public class EventManagerFragment extends Fragment {
 			onDataUpdate(data);
 		});
 		binding.fab.setOnClickListener(v -> {
-			new AddEventSheet(getActivity());
+			new AddEventSheet(getActivity(), eventRepo);
 		});
 		return binding.getRoot();
 	}

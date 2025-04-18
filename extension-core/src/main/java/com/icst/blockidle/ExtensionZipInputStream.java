@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -38,6 +39,23 @@ public class ExtensionZipInputStream {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public <T> ArrayList<T> getListOf(Class<T> classType) {
+		ArrayList<T> objects = new ArrayList<T>();
+		try {
+			ZipEntry entry;
+			while ((entry = zis.getNextEntry()) != null) {
+				ObjectInputStream ois = new ObjectInputStream(zis);
+				Object obj = ois.readObject();
+				zis.closeEntry();
+				if (classType.isInstance(obj)) {
+					objects.add((T) obj);
+				}
+			}
+		} catch (IOException | ClassNotFoundException e) {
+		}
+		return objects;
 	}
 
 	public Object readObjectFromZipEntry(String entryName) {

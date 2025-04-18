@@ -27,9 +27,13 @@ public class EnvironmentUtils {
 	public static final String EVENT_FOLDER = "events";
 
 	public static File projectDirectory;
+	public static File extensionsDirectory;
 
 	public static void init(Context context) {
 		projectDirectory = context.getExternalFilesDir("Projects");
 		projectDirectory.mkdirs();
+
+		extensionsDirectory = context.getExternalFilesDir("Extensions");
+		extensionsDirectory.mkdirs();
 	}
 }

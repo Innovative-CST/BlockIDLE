@@ -18,10 +18,16 @@
 package com.icst.blockidle.repository;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.zip.ZipInputStream;
 
+import com.icst.blockidle.ExtensionZipInputStream;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.listener.SerializationListener;
+import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.util.SerializationUtils;
 
@@ -38,7 +44,8 @@ public class EventRepository {
 
 	private EventRepository(IDLEJavaFile javaFile) {
 		this.javaFile = javaFile;
-		data = new MutableLiveData<ArrayList<Pair<File, EventBean>>>(new ArrayList<Pair<File, EventBean>>());
+		events = new ArrayList<Pair<File, EventBean>>();
+		data = new MutableLiveData<ArrayList<Pair<File, EventBean>>>(events);
 	}
 
 	public static EventRepository getInstance(IDLEJavaFile javaFile) {
@@ -61,6 +68,41 @@ public class EventRepository {
 				Log.e("Serialization failed", "New event serialization failed", exception);
 			}
 		});
+	}
+
+	public ArrayList<EventBean> getExtensionEvents() {
+		ArrayList<EventBean> extensionEvents = new ArrayList<EventBean>();
+
+		for (File file : EnvironmentUtils.extensionsDirectory.listFiles()) {
+			if (file.isDirectory())
+				continue;
+
+			try {
+				FileInputStream fis = new FileInputStream(file);
+				ZipInputStream zis = new ZipInputStream(fis);
+			} catch (IOException e) {
+				continue;
+			}
+
+			ExtensionZipInputStream extensionZipInputStream = new ExtensionZipInputStream(file);
+			extensionEvents.addAll(extensionZipInputStream.getListOf(EventBean.class));
+		}
+
+		return extensionEvents;
+	}
+
+	public ArrayList<EventBean> getAvailableEvents() {
+		ArrayList<EventBean> extensionEvents = getExtensionEvents();
+
+		// Remove EventBeans from extensionEvents if there is any EventBean in events with the same name
+		HashSet<String> existingEventNames = new HashSet<>();
+		for (Pair<File, EventBean> pair : events) {
+			existingEventNames.add(pair.second.getName());
+		}
+
+		extensionEvents.removeIf(event -> existingEventNames.contains(event.getName()));
+
+		return extensionEvents;
 	}
 
 	public void loadEvents() {
