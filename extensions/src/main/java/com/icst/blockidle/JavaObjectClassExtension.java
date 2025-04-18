@@ -35,8 +35,10 @@ public class JavaObjectClassExtension {
 		EventBean event = new EventBean();
 		event.setActionBlockBeans(new ArrayList<ActionBlockBean>());
 		event.setEventDefinationBlockBean(getObjectEqualsEventBlock());
+		event.setName("equals");
 
 		StringBuilder code = new StringBuilder();
+		code.append("@Override\n");
 		code.append("public boolean equals(Object object) {\n\t");
 		code.append(CodeFormatterUtils.getKeySyntaxString("EventCode"));
 		code.append("\n}");
