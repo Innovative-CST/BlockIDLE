@@ -80,12 +80,19 @@ public class EventRepository {
 			try {
 				FileInputStream fis = new FileInputStream(file);
 				ZipInputStream zis = new ZipInputStream(fis);
+				if (fis != null) {
+					fis.close();
+				}
+				if (zis != null) {
+					zis.close();
+				}
 			} catch (IOException e) {
 				continue;
 			}
 
 			ExtensionZipInputStream extensionZipInputStream = new ExtensionZipInputStream(file);
 			extensionEvents.addAll(extensionZipInputStream.getListOf(EventBean.class));
+			extensionZipInputStream.close();
 		}
 
 		return extensionEvents;
