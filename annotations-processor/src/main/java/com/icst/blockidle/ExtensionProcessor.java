@@ -97,7 +97,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 		if (error) {
 			return error;
 		}
-		
+
 		for (Element element : roundEnv.getElementsAnnotatedWith(Extension.class)) {
 
 			TypeElement classElement = (TypeElement) element;
@@ -116,42 +116,43 @@ public class ExtensionProcessor extends AbstractProcessor {
 				error = true;
 			}
 		}
-		
-		if(error) {
+
+		if (error) {
 			return error;
 		}
-		
-		
+
 		try {
-		    JavaFileObject file = filer.createSourceFile("com.icst.blockidle.extension.ExtensionsZipWriter");
-			try (Writer writer = file.openWriter()){ 
-			
-			    StringBuilder generateMethodsCodeBlock = new StringBuilder();
-			    StringBuilder importsCodeBlock = new StringBuilder();
-			    
-			    for (Element element : roundEnv.getElementsAnnotatedWith(Extension.class)) {
-    
+			JavaFileObject file = filer.createSourceFile("com.icst.blockidle.extension.ExtensionsZipWriter");
+			try (Writer writer = file.openWriter()) {
+
+				StringBuilder generateMethodsCodeBlock = new StringBuilder();
+				StringBuilder importsCodeBlock = new StringBuilder();
+
+				for (Element element : roundEnv.getElementsAnnotatedWith(Extension.class)) {
+
 					TypeElement classElement = (TypeElement) element;
 					String className = classElement.getSimpleName().toString();
 					String packageName = elementUtils.getPackageOf(classElement).getQualifiedName().toString();
-				    String generatedClassName = className + "ExtensionOutputStream";
-				    
-				    importsCodeBlock.append("import ".concat(packageName).concat(".").concat(generatedClassName).concat(";\n"));
-				    generateMethodsCodeBlock.append("\t\t".concat(generatedClassName).concat(".generateExtension(outputFolder);\n"));
+					String generatedClassName = className + "ExtensionOutputStream";
+
+					importsCodeBlock
+							.append("import ".concat(packageName).concat(".").concat(generatedClassName).concat(";\n"));
+					generateMethodsCodeBlock
+							.append("\t\t".concat(generatedClassName).concat(".generateExtension(outputFolder);\n"));
 				}
-			    
-			    writer.write("package com.icst.blockidle.extension;\n\n");
-			    writer.write(importsCodeBlock.toString());
-			    writer.write("\n");
-			    writer.write("public class ExtensionsZipWriter {\n");
-			    writer.write("\tpublic static void main(String[] args) {\n");
+
+				writer.write("package com.icst.blockidle.extension;\n\n");
+				writer.write(importsCodeBlock.toString());
+				writer.write("\n");
+				writer.write("public class ExtensionsZipWriter {\n");
+				writer.write("\tpublic static void main(String[] args) {\n");
 				writer.write("java.io.File outputFolder = new java.io.File(args[0]);");
-			    writer.write(generateMethodsCodeBlock.toString());
-			    writer.write("\t}\n\n}\n");
+				writer.write(generateMethodsCodeBlock.toString());
+				writer.write("\t}\n\n}\n");
 			}
-			
-		} catch(IOException e) {
-			
+
+		} catch (IOException e) {
+
 		}
 
 		return true;
@@ -163,7 +164,8 @@ public class ExtensionProcessor extends AbstractProcessor {
 		writer.write("import java.io.File;\n\n");
 		writer.write("public class " + generatedClassName + " {\n");
 		writer.write("\tpublic static void generateExtension(File file) {\n");
-		writer.write("\t\tExtensionZipOutputStream mExtensionZipOutputStream = new ExtensionZipOutputStream(new File(file, ");
+		writer.write(
+				"\t\tExtensionZipOutputStream mExtensionZipOutputStream = new ExtensionZipOutputStream(new File(file, ");
 		writer.write("\"".concat(classElement.getAnnotation(Extension.class).extensionFileName()).concat("\""));
 		writer.write("));\n");
 		for (Element enclosed : classElement.getEnclosedElements()) {
