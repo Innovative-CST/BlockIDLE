@@ -20,7 +20,7 @@ package com.icst.blockidle.activities.project_editor.java_editor.event_manager.a
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.EventBean;
-import com.icst.blockidle.databinding.AdapterEventBinding;
+import com.icst.blockidle.databinding.AdapterAddNewEventBinding;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -42,7 +42,10 @@ public class AddNewEventAdapter extends RecyclerView.Adapter<AddNewEventAdapter.
 
 	@NonNull @Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-		AdapterEventBinding binding = AdapterEventBinding.inflate(LayoutInflater.from(parent.getContext()));
+		AdapterAddNewEventBinding binding = AdapterAddNewEventBinding.inflate(LayoutInflater.from(parent.getContext()));
+		RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
+				RecyclerView.LayoutParams.MATCH_PARENT);
+		binding.getRoot().setLayoutParams(lp);
 		return new ViewHolder(binding);
 	}
 
@@ -67,9 +70,9 @@ public class AddNewEventAdapter extends RecyclerView.Adapter<AddNewEventAdapter.
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder {
-		public AdapterEventBinding binding;
+		public AdapterAddNewEventBinding binding;
 
-		public ViewHolder(@NonNull AdapterEventBinding binding) {
+		public ViewHolder(@NonNull AdapterAddNewEventBinding binding) {
 			super(binding.getRoot());
 			this.binding = binding;
 		}
