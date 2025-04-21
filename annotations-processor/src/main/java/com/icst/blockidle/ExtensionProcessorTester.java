@@ -191,7 +191,7 @@ public class extensionProcessorTester {
                 .contentsAsUtf8String()
                 .contains("package com.icst.blockidle.extension;");
         
-        File zipFile = new File("build/generated/MyClass.extension");
+        File zipFile = new File("BlockIDLE/extensions/build/extensions/MyClass");
         if (!zipFile.exists()) fail();
     }
 }
