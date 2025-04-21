@@ -14,7 +14,6 @@
  *  You should have received a copy of the GNU General Public License
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
-
 plugins {
 	id("java")
 }
@@ -25,7 +24,19 @@ java {
 }
 
 dependencies {
+	// Add your annotation processor module as an implementation dependency
 	implementation project(":annotations")
+
+	// Add Google Compile Testing for testing annotation processors
+	implementation 'com.google.testing.compile:compile-testing:0.19'
+
+	// Add JUnit 5 for running tests
+	implementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+
+	// Optional: Add Mockito if you need to mock objects in tests
+	implementation 'org.mockito:mockito-core:5.2.0'
+
+	implementation 'com.google.truth:truth:1.1.5'
 }
 
 sourceSets {
@@ -37,4 +48,9 @@ sourceSets {
 			srcDirs = ["src/main/resources"]
 		}
 	}
+}
+
+test {
+	// Use JUnit Platform (JUnit 5) for running tests
+	useJUnitPlatform()
 }
