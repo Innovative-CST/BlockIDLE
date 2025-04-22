@@ -30,7 +30,7 @@ import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 @Extension(extensionFileName = "JavaObjectExtension.bidle")
 public class JavaObjectClassExtension {
 
-	@ExtensionItem(extensionItemName = "equalsMethodEvent")
+	@ExtensionItem(extensionItemName = "events/equalsMethodEvent")
 	public static EventBean getEqualsMethodEvent() {
 		EventBean event = new EventBean();
 		event.setActionBlockBeans(new ArrayList<ActionBlockBean>());
