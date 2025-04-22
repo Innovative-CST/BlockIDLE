@@ -56,6 +56,10 @@ public class AddEventSheet extends BottomSheetDialog {
 		binding.eventList.setLayoutManager(new LinearLayoutManager(context));
 		binding.eventList.setAdapter(adapter);
 
+		binding.dismiss.setOnClickListener(v -> {
+			dismiss();
+		});
+
 		show();
 	}
 }

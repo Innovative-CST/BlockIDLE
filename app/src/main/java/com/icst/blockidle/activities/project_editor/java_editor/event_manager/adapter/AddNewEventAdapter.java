@@ -47,7 +47,7 @@ public class AddNewEventAdapter extends RecyclerView.Adapter<AddNewEventAdapter.
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		AdapterAddNewEventBinding binding = AdapterAddNewEventBinding.inflate(LayoutInflater.from(parent.getContext()));
 		RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
-				RecyclerView.LayoutParams.MATCH_PARENT);
+				RecyclerView.LayoutParams.WRAP_CONTENT);
 		binding.getRoot().setLayoutParams(lp);
 		return new ViewHolder(binding);
 	}
