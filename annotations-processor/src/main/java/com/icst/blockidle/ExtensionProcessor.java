@@ -146,7 +146,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 				writer.write("\n");
 				writer.write("public class ExtensionsZipWriter {\n");
 				writer.write("\tpublic static void main(String[] args) {\n");
-				writer.write("java.io.File outputFolder = new java.io.File(args[0]);");
+				writer.write("\t\tjava.io.File outputFolder = new java.io.File(args[0]);\n");
 				writer.write(generateMethodsCodeBlock.toString());
 				writer.write("\t}\n\n}\n");
 			}
