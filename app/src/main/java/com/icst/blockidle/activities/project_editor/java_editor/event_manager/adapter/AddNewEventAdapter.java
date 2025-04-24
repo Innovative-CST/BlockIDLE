@@ -19,6 +19,7 @@ package com.icst.blockidle.activities.project_editor.java_editor.event_manager.a
 
 import java.util.ArrayList;
 
+import com.icst.blockidle.activities.project_editor.java_editor.event_manager.interfaces.OnAddEventListener;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.AdapterAddNewEventBinding;
 
@@ -35,16 +36,18 @@ import androidx.recyclerview.widget.RecyclerView;
 public class AddNewEventAdapter extends RecyclerView.Adapter<AddNewEventAdapter.ViewHolder> {
 
 	private final ArrayList<EventBean> data;
+	private OnAddEventListener listener;
 
-	public AddNewEventAdapter(ArrayList<EventBean> data) {
+	public AddNewEventAdapter(ArrayList<EventBean> data, OnAddEventListener listener) {
 		this.data = data;
+		this.listener = listener;
 	}
 
 	@NonNull @Override
 	public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 		AdapterAddNewEventBinding binding = AdapterAddNewEventBinding.inflate(LayoutInflater.from(parent.getContext()));
 		RecyclerView.LayoutParams lp = new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT,
-				RecyclerView.LayoutParams.MATCH_PARENT);
+				RecyclerView.LayoutParams.WRAP_CONTENT);
 		binding.getRoot().setLayoutParams(lp);
 		return new ViewHolder(binding);
 	}
@@ -62,6 +65,12 @@ public class AddNewEventAdapter extends RecyclerView.Adapter<AddNewEventAdapter.
 					BitmapFactory.decodeByteArray(eventBean.getIcon(), 0, eventBean.getIcon().length));
 			holder.binding.icon.setImageDrawable(icon);
 		}
+
+		holder.binding.getRoot().setOnClickListener(v -> {
+			listener.onEventChoosen(eventBean);
+			data.remove(position);
+			notifyItemRemoved(position);
+		});
 	}
 
 	@Override

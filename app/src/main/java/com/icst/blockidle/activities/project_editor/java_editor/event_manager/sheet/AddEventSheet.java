@@ -19,6 +19,8 @@ package com.icst.blockidle.activities.project_editor.java_editor.event_manager.s
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter.AddNewEventAdapter;
+import com.icst.blockidle.activities.project_editor.java_editor.event_manager.interfaces.OnAddEventListener;
+import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.BottomsheetAddEventBinding;
 import com.icst.blockidle.repository.EventRepository;
 
@@ -39,14 +41,25 @@ public class AddEventSheet extends BottomSheetDialog {
 		LayoutInflater layoutInflator = LayoutInflater.from(context);
 		binding = BottomsheetAddEventBinding.inflate(layoutInflator);
 		this.eventRepo = eventRepo;
-		this.adapter = new AddNewEventAdapter(eventRepo.getAvailableEvents());
+		this.adapter = new AddNewEventAdapter(
+				eventRepo.getAvailableEvents(),
+				new OnAddEventListener() {
+
+					@Override
+					public void onEventChoosen(EventBean event) {
+						eventRepo.addEvent(event);
+					}
+				});
 
 		setContentView(binding.getRoot());
 
 		binding.eventList.setLayoutManager(new LinearLayoutManager(context));
 		binding.eventList.setAdapter(adapter);
 
+		binding.dismiss.setOnClickListener(v -> {
+			dismiss();
+		});
+
 		show();
 	}
-
 }

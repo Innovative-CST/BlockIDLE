@@ -60,7 +60,7 @@ public class EventManagerFragment extends Fragment {
 		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
 		eventRepo = EventRepository.getInstance(javaFile);
 		eventRepo.loadEvents();
-		eventAdapter = new EventAdapter(eventRepo.getMutableLiveEvents().getValue());
+		eventAdapter = new EventAdapter(eventRepo.getMutableLiveEvents());
 		binding.list.setLayoutManager(new LinearLayoutManager(getActivity()));
 		binding.list.setAdapter(eventAdapter);
 		eventRepo.getMutableLiveEvents().observe(this, data -> {
@@ -85,6 +85,8 @@ public class EventManagerFragment extends Fragment {
 		} else {
 			showLayout(EVENTS_LIST);
 		}
+
+		eventAdapter.notifyDataSetChanged();
 	}
 
 }
