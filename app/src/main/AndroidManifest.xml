@@ -26,6 +26,10 @@
             android:name=".activities.project_editor.ProjectEditorActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".activities.logic_editor.LogicEditorActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
