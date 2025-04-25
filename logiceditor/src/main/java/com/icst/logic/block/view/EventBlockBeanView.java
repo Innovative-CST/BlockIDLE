@@ -153,8 +153,8 @@ public class EventBlockBeanView extends BlockBeanView {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int totalHeight = 0;
-		int maxWidth = 0;
-		int maxLayerWidth = getMaxLayerWidth();
+		int maxWidth = UnitUtils.dpToPx(getContext(), 80);
+		int maxLayerWidth = Math.max(getMaxLayerWidth(), maxWidth);
 
 		for (LayerBeanView layer : layers) {
 			if (layer instanceof BlockElementLayerBeanView mBlockElementLayerBeanView) {
@@ -175,7 +175,8 @@ public class EventBlockBeanView extends BlockBeanView {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		int maxLayerWidth = getMaxLayerWidth();
+		int maxWidth = UnitUtils.dpToPx(getContext(), 80);
+		int maxLayerWidth = Math.max(getMaxLayerWidth(), maxWidth);
 		BlockShapesUtils.drawEventBlockHeader(
 				canvas,
 				getContext(),
