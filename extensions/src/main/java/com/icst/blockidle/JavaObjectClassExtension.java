@@ -17,6 +17,7 @@
 
 package com.icst.blockidle;
 
+import com.icst.blockidle.bean.BlockPaletteBean;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.ActionBlockBean;
@@ -27,9 +28,49 @@ import com.icst.blockidle.bean.EventBlockBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
 @Extension(extensionFileName = "JavaObjectExtension.bidle")
 public class JavaObjectClassExtension {
 
+    @ExtensionItem(extensionItemName = "events/hashCodeMethodEvent")
+    public static EventBean getHashCodeMethodEvent() {
+	    EventBean event = new EventBean();
+	    event.setActionBlockBeans(new ArrayList<>());
+	    event.setEventDefinationBlockBean(getObjectHashCodeEventBlock());
+	    event.setName("hashCode");
+	    event.setTitle("hashCode");
+	    event.setDescription("Returns a hash code value for the object.");
+    
+	    StringBuilder code = new StringBuilder();
+	    code.append("@Override\n");
+	    code.append("public int hashCode() {\n\t");
+	    code.append(CodeFormatterUtils.getKeySyntaxString("EventCode"));
+	    code.append("\n}");
+    
+	    event.setCodeSyntax(code.toString());
+	    return event;
+    }
+    
+    public static EventBlockBean getObjectHashCodeEventBlock() {
+	    EventBlockBean block = new EventBlockBean();
+	    block.setColor("#A3C4F3");
+    
+	    ArrayList<BlockElementLayerBean> layers = new ArrayList<>();
+    
+	    BlockElementLayerBean layer = new BlockElementLayerBean();
+	    ArrayList<BlockElementBean> elements = new ArrayList<>();
+	    LabelBlockElementBean label = new LabelBlockElementBean();
+	    label.setLabel("hashCode");
+	    elements.add(label);
+	    layer.setBlockElementBeans(elements);
+    
+	    layers.add(layer);
+	    block.setElementsLayers(layers);
+	    return block;
+    }
+    
 	@ExtensionItem(extensionItemName = "events/equalsMethodEvent")
 	public static EventBean getEqualsMethodEvent() {
 		EventBean event = new EventBean();
@@ -48,7 +89,7 @@ public class JavaObjectClassExtension {
 		event.setCodeSyntax(code.toString());
 		return event;
 	}
-
+	
 	public static EventBlockBean getObjectEqualsEventBlock() {
 		EventBlockBean block = new EventBlockBean();
 		block.setColor("#FCC303");
