@@ -17,25 +17,15 @@
 
 package com.icst.blockidle;
 
-import java.util.ArrayList;
-
-import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockPaletteBean;
-import com.icst.blockidle.blocks.ClassBlocks;
+import com.icst.blockidle.blocks.ControlBlocks;
 
-@Extension(extensionFileName = "JavaClassExtension.bidle")
-public class JavaClassExtension {
+@Extension(extensionFileName = "JavaControlFlowExtension.bidle")
+public class JavaControlExtension {
 
-	@ExtensionItem(extensionItemName = "block_palette/class_block_palette")
+	@ExtensionItem(extensionItemName = "block_palette/control_blocks")
 	public static BlockPaletteBean getClassBlockPalette() {
-		BlockPaletteBean mClassBlockPalette = new BlockPaletteBean();
-		mClassBlockPalette.setColor("#0061FE");
-		mClassBlockPalette.setName("Class");
-		ArrayList<BlockBean> blocks = new ArrayList<>();
-		blocks.add(ClassBlocks.getClassBlock());
-		blocks.add(ClassBlocks.getObjectClassBlock());
-		mClassBlockPalette.setBlocks(blocks);
-		return mClassBlockPalette;
+		return ControlBlocks.getControlBlockPalette();
 	}
 
 }
