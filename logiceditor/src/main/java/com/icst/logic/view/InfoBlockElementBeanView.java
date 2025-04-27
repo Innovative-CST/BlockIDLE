@@ -43,7 +43,7 @@ public class InfoBlockElementBeanView extends View {
 		text.setTextSize(20);
 		text.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
-		setOnClickListener(v -> Toast.makeText(context, infoBlockElementBean.getMarkdown(), Toast.LENGTH_SHORT));
+		setOnClickListener(v -> Toast.makeText(context, infoBlockElementBean.getMarkdown(), Toast.LENGTH_SHORT).show());
 	}
 
 	private int dp(float px) {
@@ -66,11 +66,11 @@ public class InfoBlockElementBeanView extends View {
 		mPaint.setColor(ColorUtils.getColor(getContext(), R.attr.colorPrimary));
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(3));
-		canvas.drawText("?", dp(2), dp(14), text);
 		mPath.lineTo(dp(4) + text.measureText("?"), 0);
-		mPath.lineTo(dp(4) + text.measureText("?"), 20);
-		mPath.lineTo(0, 20);
+		mPath.lineTo(dp(4) + text.measureText("?"), dp(20));
+		mPath.lineTo(0, dp(20));
 		mPath.close();
 		canvas.drawPath(mPath, mPaint);
+		canvas.drawText("?", dp(2), dp(14), text);
 	}
 }
