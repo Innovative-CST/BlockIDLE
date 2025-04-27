@@ -19,24 +19,22 @@ package com.icst.blockidle.bean;
 
 import java.io.Serializable;
 
-import com.icst.blockidle.bean.utils.BlockBeansUIDConstants;
-
 public class InfoBlockElementBean implements BlockElementBean<InfoBlockElementBean>, Serializable {
 
-    private String markdown;
+	private String markdown;
 
-    @Override
-    public InfoBlockElementBean cloneBean() {
+	@Override
+	public InfoBlockElementBean cloneBean() {
 		InfoBlockElementBean clone = new InfoBlockElementBean();
 		clone.setMarkdown(this.markdown == null ? null : new String(markdown));
-        return clone;
-    }
+		return clone;
+	}
 
-    public String getMarkdown() {
-        return this.markdown;
-    }
+	public String getMarkdown() {
+		return this.markdown;
+	}
 
-    public void setMarkdown(String markdown) {
-        this.markdown = markdown;
-    }
+	public void setMarkdown(String markdown) {
+		this.markdown = markdown;
+	}
 }
