@@ -23,6 +23,7 @@ import com.icst.blockidle.bean.BlockElementLayerBean;
 import com.icst.blockidle.bean.BooleanBlockElementBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
 import com.icst.blockidle.bean.GeneralExpressionBlockElementBean;
+import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
@@ -35,6 +36,7 @@ import com.icst.logic.view.ActionBlockLayerView;
 import com.icst.logic.view.BlockElementLayerBeanView;
 import com.icst.logic.view.BooleanBlockElementBeanView;
 import com.icst.logic.view.GeneralBlockElementView;
+import com.icst.logic.view.InfoBlockElementBeanView;
 import com.icst.logic.view.LayerBeanView;
 import com.icst.logic.view.NumericBlockElementBeanView;
 import com.icst.logic.view.StringBlockElementBeanView;
@@ -135,6 +137,9 @@ public final class LayerViewFactory {
 										logicEdtitor,
 										configuration);
 								view.addView(mView);
+							} else if (element instanceof InfoBlockElementBean mInfoBlockElementBean) {
+								View mView = buildInfoView(context, mInfoBlockElementBean);
+								view.addView(mView);
 							}
 						});
 
@@ -157,6 +162,15 @@ public final class LayerViewFactory {
 				LinearLayout.LayoutParams.WRAP_CONTENT);
 		fieldView.setLayoutParams(layerLayoutParams);
 		return fieldView;
+	}
+
+	private static View buildInfoView(Context context, InfoBlockElementBean infoBlockElementBean) {
+		View infoView = new InfoBlockElementBeanView(context, infoBlockElementBean);
+		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.WRAP_CONTENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		infoView.setLayoutParams(layerLayoutParams);
+		return infoView;
 	}
 
 	private static View buildLabelView(
