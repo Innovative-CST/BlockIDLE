@@ -24,6 +24,7 @@ import com.icst.blockidle.bean.BlockElementLayerBean;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.bean.GeneralExpressionBlockBean;
 import com.icst.blockidle.bean.GeneralExpressionBlockElementBean;
+import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
@@ -38,6 +39,16 @@ public class ClassBlocks {
 		BlockElementLayerBean layer1 = new BlockElementLayerBean();
 
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		InfoBlockElementBean info = new InfoBlockElementBean();
+		String getClassDocumentation = "# Information of block\n" +
+				"Returns the runtime class of this **Object**. The returned **Class** object is the\n" +
+				"object that is locked by **synchronized** methods of the represented object.\n\n" +
+				"**return** : The **Class** object that represents the runtime class of this object.\n" +
+				"\n\n" +
+				"**Author of block** : [DevKumar](https://github.com/DevVigilante)";
+		info.setMarkdown(getClassDocumentation);
+		layer1Elements.add(info);
 
 		LabelBlockElementBean getClassLabel = new LabelBlockElementBean();
 		getClassLabel.setLabel("getClass");
