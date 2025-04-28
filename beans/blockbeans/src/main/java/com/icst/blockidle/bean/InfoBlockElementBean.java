@@ -15,43 +15,26 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-plugins {
-	id("com.android.library")
-}
+package com.icst.blockidle.bean;
 
-android {
-	namespace "com.icst.logic.editor"
-	compileSdk 34
+import java.io.Serializable;
 
-	defaultConfig {
-		minSdk 21
-		targetSdk 34
-		versionCode 1
-		vectorDrawables {
-			useSupportLibrary true
-		}
+public class InfoBlockElementBean implements BlockElementBean<InfoBlockElementBean>, Serializable {
+
+	private String markdown;
+
+	@Override
+	public InfoBlockElementBean cloneBean() {
+		InfoBlockElementBean clone = new InfoBlockElementBean();
+		clone.setMarkdown(this.markdown == null ? null : new String(markdown));
+		return clone;
 	}
 
-	buildTypes {
-		release {
-			minifyEnabled true
-			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-		}
+	public String getMarkdown() {
+		return this.markdown;
 	}
 
-	compileOptions {
-		sourceCompatibility JavaVersion.VERSION_17
-		targetCompatibility JavaVersion.VERSION_17
+	public void setMarkdown(String markdown) {
+		this.markdown = markdown;
 	}
-
-	buildFeatures {
-		viewBinding true
-		buildConfig true
-	}
-}
-
-dependencies {
-	api("com.google.android.material:material:$material_design_version")
-	api(project(":beans:blockbeans"))
-	implementation("io.noties.markwon:core:${markwonVersion}")
 }

@@ -72,6 +72,7 @@ public class LogicEditorView extends RelativeLayout {
 	private DraggingBlockDummy draggingView;
 	private NearestTargetHighlighterView highlighter;
 	private Object draggingBean;
+	private LogicEditorFloatingWindow window;
 	private boolean isBlockPallateVisible = false;
 
 	public LogicEditorView(final Context context, final AttributeSet set) {
@@ -480,5 +481,23 @@ public class LogicEditorView extends RelativeLayout {
 
 	public Object getDraggingBean() {
 		return draggingBean;
+	}
+
+	public void showWindow(LogicEditorFloatingWindow window, View attachedView) {
+		if (this.window != null) {
+			if (this.window.getParent() != null) {
+				removeView(this.window);
+			}
+		}
+		this.window = window;
+
+		LogicEditorView.LayoutParams lp = new LogicEditorView.LayoutParams(
+				LogicEditorView.LayoutParams.MATCH_PARENT,
+				LogicEditorView.LayoutParams.WRAP_CONTENT);
+
+		window.setAttachedView(attachedView, lp);
+		addView(window);
+		bringChildToFront(window);
+		window.setLayoutParams(lp);
 	}
 }

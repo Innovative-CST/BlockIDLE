@@ -27,6 +27,7 @@ ext {
 	appcompat_version = "1.7.0"
 	constraintlayout = "2.2.1"
 	coordinatorlayout = "1.3.0"
+	markwonVersion = "4.6.2"
 	material_design_version = "1.12.0"
 	core_splashscreen = "1.0.1"
 	blankj_utilcodex_version = "1.31.1"
