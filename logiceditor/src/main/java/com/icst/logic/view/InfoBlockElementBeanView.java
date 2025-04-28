@@ -17,33 +17,42 @@
 
 package com.icst.logic.view;
 
-import com.google.android.material.R;
+import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.InfoBlockElementBean;
+import com.icst.logic.editor.view.LogicEditorFloatingWindow;
+import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ColorUtils;
 import com.icst.logic.utils.UnitUtils;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Typeface;
 import android.view.View;
-import android.widget.Toast;
 
 public class InfoBlockElementBeanView extends View {
 
 	private Paint text;
+	private int backgroundColor;
 
-	public InfoBlockElementBeanView(Context context, InfoBlockElementBean infoBlockElementBean) {
+	public InfoBlockElementBeanView(Context context, InfoBlockElementBean infoBlockElementBean, BlockBean block,
+			LogicEditorView logicEditor) {
 		super(context);
+		backgroundColor = ColorUtils.getTextColorForColor(Color.parseColor(block.getColor()));
 
 		text = new Paint();
-		text.setColor(ColorUtils.getTextColorForColor(ColorUtils.getColor(getContext(), R.attr.colorOnPrimary)));
+		text.setColor(ColorUtils.getTextColorForColor(backgroundColor));
 		text.setTextSize(20);
 		text.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
-		setOnClickListener(v -> Toast.makeText(context, infoBlockElementBean.getMarkdown(), Toast.LENGTH_SHORT).show());
+		setOnClickListener(v -> {
+			LogicEditorFloatingWindow window = new LogicEditorFloatingWindow(context,
+					infoBlockElementBean.getMarkdown(), logicEditor);
+			logicEditor.showWindow(window, this);
+		});
 	}
 
 	private int dp(float px) {
@@ -63,7 +72,7 @@ public class InfoBlockElementBeanView extends View {
 		Path mPath = new Path();
 		Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setStrokeWidth(5);
-		mPaint.setColor(ColorUtils.getColor(getContext(), R.attr.colorPrimary));
+		mPaint.setColor(backgroundColor);
 		mPaint.setStyle(Paint.Style.FILL);
 		mPaint.setPathEffect(new CornerPathEffect(3));
 		mPath.lineTo(dp(4) + text.measureText("?"), 0);

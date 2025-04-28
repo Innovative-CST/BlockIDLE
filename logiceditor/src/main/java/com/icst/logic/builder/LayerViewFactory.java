@@ -138,7 +138,7 @@ public final class LayerViewFactory {
 										configuration);
 								view.addView(mView);
 							} else if (element instanceof InfoBlockElementBean mInfoBlockElementBean) {
-								View mView = buildInfoView(context, mInfoBlockElementBean);
+								View mView = buildInfoView(context, mInfoBlockElementBean, blockBean, logicEdtitor);
 								view.addView(mView);
 							}
 						});
@@ -164,8 +164,9 @@ public final class LayerViewFactory {
 		return fieldView;
 	}
 
-	private static View buildInfoView(Context context, InfoBlockElementBean infoBlockElementBean) {
-		View infoView = new InfoBlockElementBeanView(context, infoBlockElementBean);
+	private static View buildInfoView(Context context, InfoBlockElementBean infoBlockElementBean,
+			BlockBean block, LogicEditorView logicEditor) {
+		View infoView = new InfoBlockElementBeanView(context, infoBlockElementBean, block, logicEditor);
 		LinearLayout.LayoutParams layerLayoutParams = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT,
 				LinearLayout.LayoutParams.WRAP_CONTENT);

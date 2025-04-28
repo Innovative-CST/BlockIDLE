@@ -173,4 +173,5 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 	public LogicEditorConfiguration getLogicEditorConfiguration() {
 		return this.logicEditorConfiguration;
 	}
+
 }
