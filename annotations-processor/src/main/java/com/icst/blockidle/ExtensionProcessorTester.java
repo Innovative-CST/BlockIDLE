@@ -157,41 +157,62 @@ public class extensionProcessorTester {
         assertThat(compilationNotStatic).failed();
     }
 
-    @Test
-    public void testValidAnnotationUsage() {
-        // Valid annotated class and method
-        String sourceCode = """
-                package com.icst.blockidle.extension;
+@Test
+public void testValidAnnotationUsage() {
+    // Valid annotated class and method
+    String sourceCode = """
+            package com.icst.blockidle.extension;
 
-                import com.icst.blockidle.Extension;
-                import com.icst.blockidle.ExtensionItem;
+            import com.icst.blockidle.Extension;
+            import com.icst.blockidle.ExtensionItem;
 
-                @Extension(extensionFileName = "MyClass") // The class is annotated with @Extension
-                public class MyClass {
+            @Extension(extensionFileName = "MyClass") // The class is annotated with @Extension
+            public class MyClass {
 
-                    // A valid method annotated with @ExtensionItem
-                    @ExtensionItem(extensionItemName = "exampleItem")
-                    public static String myMethod() { // The method is static, has no parameters, and returns a valid type
-                        return "Hello, world!";
-                    }
+                // A valid method annotated with @ExtensionItem
+                @ExtensionItem(extensionItemName = "exampleItem")
+                public static String myMethod() { // The method is static, has no parameters, and returns a valid type
+                    return "Hello, world!";
                 }
-                """;
+            }
+            """;
 
-        Compilation compilation = Compiler.javac()
-                .withProcessors(new ExtensionProcessor()) // Pass a new instance of your processor
-                .compile(JavaFileObjects.forSourceString(
-                        "com.icst.blockidle.extension.MyClass", sourceCode));
+    Compilation compilation = Compiler.javac()
+            .withProcessors(new ExtensionProcessor()) // Pass a new instance of your processor
+            .compile(JavaFileObjects.forSourceString(
+                    "com.icst.blockidle.extension.MyClass", sourceCode));
 
-        // Assert that the compilation succeeds
-        assertThat(compilation).succeeded();
+    // Assert that the compilation succeeds
+    assertThat(compilation).succeeded();
 
-        // Optionally, check the generated source file
-        assertThat(compilation)
-                .generatedSourceFile("com.icst.blockidle.extension.MyClassExtensionOutputStream")
-                .contentsAsUtf8String()
-                .contains("package com.icst.blockidle.extension;");
-        
-        File zipFile = new File("BlockIDLE/extensions/build/extensions/MyClass");
-        if (!zipFile.exists()) fail();
+    // Optionally, check the generated source file
+    assertThat(compilation)
+            .generatedSourceFile("com.icst.blockidle.extension.MyClassExtensionOutputStream")
+            .contentsAsUtf8String()
+            .contains("package com.icst.blockidle.extension;");
+}
+
+@Test
+public void testZipFileGeneration() throws IOException {
+    //verify if the file itself exists
+    File zipFile = new File("build/generated/MyClass.extension");
+    
+    //read and validate contents
+    try (ZipFile zip = new ZipFile(zipFile)) {
+        while (true) {
+            ZipEntry entry = zip.entries().nextElement();
+            if (entry == null) break;
+            
+            assertTrue("Serialized object not found in ZIP!", entry.isDirectory());
+            try (InputStream is = zip.getInputStream(entry);
+                 ObjectInputStream ois = new ObjectInputStream(is)) {
+                
+                Object deserialized = ois.readObject();
+                assertTrue("Deserialized object is not a string!", deserialized instanceof String);
+                assertEquals("Example", deserialized);
+            } catch (ClassNotFoundException e) {
+                fail("Fail to deserialize object!");
+            }
+        }
     }
 }
