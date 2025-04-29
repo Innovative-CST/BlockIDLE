@@ -29,13 +29,16 @@ import com.icst.blockidle.R;
 import com.icst.blockidle.bean.BlockPaletteBean;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.ActivityLogicEditorBinding;
+import com.icst.blockidle.listener.SerializationListener;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.util.SerializationUtils;
 import com.icst.logic.config.LogicEditorConfiguration;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -49,10 +52,13 @@ public class LogicEditorActivity extends AppCompatActivity {
 	private File eventFile;
 	private EventBean event;
 
+	private OnBackPressedCallback backCallback;
+
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		EdgeToEdge.enable(this);
 
 		binding = ActivityLogicEditorBinding.inflate(getLayoutInflater());
@@ -66,6 +72,28 @@ public class LogicEditorActivity extends AppCompatActivity {
 			v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 			return insets;
 		});
+
+		backCallback = new OnBackPressedCallback(true /* enabled by default */) {
+			@Override
+			public void handleOnBackPressed() {
+				SerializationUtils.serialize(binding.logicEditor.getPreparedEventBean(), eventFile,
+						new SerializationListener() {
+
+							@Override
+							public void onSerializationFailed(Exception exception) {
+								Toast.makeText(LogicEditorActivity.this, exception.getMessage(), Toast.LENGTH_LONG)
+										.show();
+							}
+
+							@Override
+							public void onSerializationSucess() {
+								Toast.makeText(LogicEditorActivity.this, "Event saved", Toast.LENGTH_LONG).show();
+							}
+						});
+				finish();
+			}
+		};
+		getOnBackPressedDispatcher().addCallback(this, backCallback);
 
 		// Toolbar
 		setSupportActionBar(binding.toolbar);
