@@ -25,6 +25,7 @@ import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
 import com.icst.blockidle.bean.BlockPaletteBean;
 import com.icst.blockidle.bean.BooleanBlockElementBean;
+import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.RegularBlockBean;
@@ -52,6 +53,17 @@ public final class ControlBlocks {
 		BlockElementLayerBean layer1 = new BlockElementLayerBean();
 
 		ArrayList<BlockElementBean> layer1Elements = new ArrayList<BlockElementBean>();
+
+		InfoBlockElementBean info = new InfoBlockElementBean();
+		String getIfBlockDoc = "# If block\n" +
+				"Executes a block of code only if the specified condition is **true**. This block allows conditional control of program flow.\n\n"
+				+
+				"![If Block Illustration](https://dl.dropbox.com/scl/fi/9qml0cs2rv91a7xkunqr1/20250501_172537.png?rlkey=94iulvrr4dv668smlfr21joot&dl=0)\n\n"
+				+
+				"**return** : Executes the nested blocks only when the condition is true. No return value.\n\n" +
+				"**Author of block** : [DevKumar](https://github.com/DevVigilante)";
+		info.setMarkdown(getIfBlockDoc);
+		layer1Elements.add(info);
 
 		LabelBlockElementBean ifLabel = new LabelBlockElementBean();
 		ifLabel.setLabel("if");
