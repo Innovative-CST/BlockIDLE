@@ -54,4 +54,5 @@ dependencies {
 	api("com.google.android.material:material:$material_design_version")
 	api(project(":beans:blockbeans"))
 	implementation("io.noties.markwon:core:${markwonVersion}")
+	implementation("io.noties.markwon:image-glide:${markwonVersion}")
 }

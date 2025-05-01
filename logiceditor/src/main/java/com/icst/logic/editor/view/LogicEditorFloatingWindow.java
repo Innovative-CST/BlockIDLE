@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import io.noties.markwon.Markwon;
+import io.noties.markwon.image.glide.GlideImagesPlugin;
 
 public class LogicEditorFloatingWindow extends MaterialCardView {
 
@@ -31,7 +32,9 @@ public class LogicEditorFloatingWindow extends MaterialCardView {
 
 		TextView content = new TextView(context);
 
-		final Markwon markwon = Markwon.create(context);
+		final Markwon.Builder builder = Markwon.builder(context);
+		builder.usePlugin(GlideImagesPlugin.create(context));
+		final Markwon markwon = builder.build();
 		final Node node = markwon.parse(data);
 		final Spanned markdown = markwon.render(node);
 		markwon.setParsedMarkdown(content, markdown);
