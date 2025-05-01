@@ -46,7 +46,8 @@ public class ClassBlocks {
 				"object that is locked by **synchronized** methods of the represented object.\n\n" +
 				"**return** : The **Class** object that represents the runtime class of this object.\n" +
 				"\n\n" +
-				"**Author of block** : [DevKumar](https://github.com/DevVigilante)";
+				"**Author**: Dev Kumar\n\n" +
+				"**Author Contact** : [Github](https://github.com/DevVigilante)";
 		info.setMarkdown(getClassDocumentation);
 		layer1Elements.add(info);
 

@@ -61,7 +61,8 @@ public final class ControlBlocks {
 				"![If Block Illustration](https://dl.dropbox.com/scl/fi/9qml0cs2rv91a7xkunqr1/20250501_172537.png?rlkey=94iulvrr4dv668smlfr21joot&dl=0)\n\n"
 				+
 				"**return** : Executes the nested blocks only when the condition is true. No return value.\n\n" +
-				"**Author of block** : [DevKumar](https://github.com/DevVigilante)";
+				"**Author**: Dev Kumar\n\n" +
+				"**Author Contact** : [Github](https://github.com/DevVigilante)";
 		info.setMarkdown(getIfBlockDoc);
 		layer1Elements.add(info);
 
