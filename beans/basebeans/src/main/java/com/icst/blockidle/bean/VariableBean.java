@@ -18,6 +18,7 @@
 package com.icst.blockidle.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,10 +37,10 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 
 	private int accessModifier;
 	private String variableTitle;
-	private String variableType;
 	private String variableName;
 	private String nonFixedVariableName;
 	private String variableInitializerCode;
+	private DatatypeBean variableDataType;
 	private boolean mustBeGloballyIntialized;
 	private boolean isInitializedGlobally;
 	private boolean canInitializedGlobally;
@@ -51,13 +52,27 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 	private HashMap<String, String> variableTitles;
 	private HashMap<String, String> variableValues;
 	private HashMap<String, Integer> inputType;
+	private BeanManifest beanManifest;
+
+	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
+		ArrayList<T> blocksMetadata = new ArrayList<T>();
+		for (int i = 0; i < requiredVariables.length; ++i) {
+			blocksMetadata.addAll(requiredVariables[i].getAllMetadata(classType));
+		}
+		if (beanManifest != null) {
+			if (beanManifest.getMetadata() != null) {
+				blocksMetadata.addAll(beanManifest.get(classType));
+			}
+		}
+		return blocksMetadata;
+	}
 
 	@Override
 	public VariableBean cloneBean() {
 		VariableBean variable = new VariableBean();
 		variable.accessModifier = new Integer(this.accessModifier);
 		variable.variableTitle = this.variableTitle == null ? null : new String(this.variableTitle);
-		variable.variableType = this.variableType == null ? null : new String(this.variableType);
+		variable.variableDataType = this.variableDataType == null ? null : variableDataType.cloneBean();
 		variable.variableName = this.variableName == null ? null : new String(this.variableName);
 		variable.mustBeGloballyIntialized = new Boolean(this.mustBeGloballyIntialized);
 		variable.isInitializedGlobally = new Boolean(this.isInitializedGlobally);
@@ -65,6 +80,8 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 		variable.isStaticVariable = new Boolean(this.isStaticVariable);
 		variable.isFinalVariable = new Boolean(this.isFinalVariable);
 		variable.applyColorFilter = new Boolean(this.applyColorFilter);
+		// TODO: Deep clone BeanManifest
+		variable.beanManifest = this.beanManifest == null ? null : this.beanManifest;
 		variable.nonFixedVariableName = this.nonFixedVariableName == null ? null
 				: new String(this.nonFixedVariableName);
 		variable.variableInitializerCode = this.variableInitializerCode == null ? null
@@ -125,7 +142,7 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 				code.append("\n");
 			}
 
-			if (variableType == null) {
+			if (variableDataType == null) {
 				return code.toString();
 			}
 		}
@@ -150,7 +167,7 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 			code.append(" ");
 		}
 
-		code.append(variableType);
+		code.append(variableDataType.getClassName());
 		code.append(" ");
 		if (getNonFixedVariableName() == null) {
 			code.append(variableName);
@@ -208,7 +225,7 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 			code.append(" ");
 		}
 
-		code.append(variableType);
+		code.append(variableDataType.getClassName());
 		code.append(" ");
 		if (getNonFixedVariableName() == null) {
 			code.append(variableName);
@@ -258,12 +275,12 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 		this.variableTitle = variableTitle;
 	}
 
-	public String getVariableType() {
-		return this.variableType;
+	public DatatypeBean getVariableDataType() {
+		return this.variableDataType;
 	}
 
-	public void setVariableType(String variableType) {
-		this.variableType = variableType;
+	public void setVariableDataType(DatatypeBean variableDataType) {
+		this.variableDataType = variableDataType;
 	}
 
 	public String getVariableName() {
@@ -376,5 +393,13 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 
 	public void setApplyColorFilter(boolean applyColorFilter) {
 		this.applyColorFilter = applyColorFilter;
+	}
+
+	public BeanManifest getBeanManifest() {
+		return this.beanManifest;
+	}
+
+	public void setBeanManifest(BeanManifest beanManifest) {
+		this.beanManifest = beanManifest;
 	}
 }
