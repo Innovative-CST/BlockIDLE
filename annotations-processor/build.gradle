@@ -28,12 +28,12 @@ dependencies {
 	implementation project(":annotations")
 
 	// Add Google Compile Testing for testing annotation processors
-	implementation 'com.google.testing.compile:compile-testing:0.19'
+	implementation "com.google.testing.compile:compile-testing:0.19"
 
 	// Add JUnit 5 for running tests
-	implementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+	implementation "org.junit.jupiter:junit-jupiter:5.9.3"
 
-	implementation 'com.google.truth:truth:1.1.5'
+	implementation "com.google.truth:truth:1.1.5"
 }
 
 sourceSets {
