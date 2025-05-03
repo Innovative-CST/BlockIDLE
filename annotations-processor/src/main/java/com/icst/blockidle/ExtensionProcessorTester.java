@@ -15,204 +15,203 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 package com.icst.blockidle;
+
+import static com.google.testing.compile.CompilationSubject.assertThat;
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+
+import org.junit.Test;
 
 import com.google.testing.compile.*;
 import com.google.testing.compile.Compiler;
-import org.junit.Test;
 
-import java.io.File;
+public class ExtensionProcessorTester {
 
-import static com.google.testing.compile.CompilationSubject.assertThat;
-import static org.junit.Assert.fail;
+	@Test
+	public void testInvalidAnnotationUsage() {
+		//the class doesn't have the @Extension annotation
+		String sourceCode1 = """
+				    package test;
 
-public class extensionProcessorTester {
+				    import com.icst.blockidle.Extension;
+				    import com.icst.blockidle.ExtensionItem;
+				    import java.io.Serializable;
 
+				    public class MyTestClass {
+				       @ExtensionItem(extensionItemName = "")
+				       public static String myValidMethod() {
+				           return "TestValue";
+				    }
+				}
+				""";
 
+		//the method has parameters
+		String sourceCode2 = """
+				    package test;
 
-    @Test
-    public void testInvalidAnnotationUsage() {
-        //the class doesn't have the @Extension annotation
-        String sourceCode1 = """
-            package test;
+				    import com.icst.blockidle.Extension;
+				    import com.icst.blockidle.ExtensionItem;
+				    import java.io.Serializable;
 
-            import com.icst.blockidle.Extension;
-            import com.icst.blockidle.ExtensionItem;
-            import java.io.Serializable;
+				    @Extension(extensionFileName = "")
+				    public class MyTestClass {
+				       @ExtensionItem(extensionItemName = "")
+				       public static String myValidMethod(String param) {
+				           System.out.println(param);
+				           return "TestValue";
+				    }
+				}
+				""";
 
-            public class MyTestClass {
-               @ExtensionItem(extensionItemName = "")
-               public static String myValidMethod() {
-                   return "TestValue";
-            }
-        }
-        """;
+		//the method is not public
+		String sourceCode3 = """
+				    package test;
 
-        //the method has parameters
-        String sourceCode2 = """
-            package test;
+				    import com.icst.blockidle.Extension;
+				    import com.icst.blockidle.ExtensionItem;
+				    import java.io.Serializable;
 
-            import com.icst.blockidle.Extension;
-            import com.icst.blockidle.ExtensionItem;
-            import java.io.Serializable;
+				    @Extension(extensionFileName = "")
+				    private class MyTestClass {
+				       @ExtensionItem(extensionItemName = "")
+				       public static String myValidMethod() {
+				           return "TestValue";
+				    }
+				}
+				""";
 
-            @Extension(extensionFileName = "")
-            public class MyTestClass {
-               @ExtensionItem(extensionItemName = "")
-               public static String myValidMethod(String param) {
-                   System.out.println(param);
-                   return "TestValue";
-            }
-        }
-        """;
+		//the method has bad return type/doesn't return anything
+		String sourceCode4 = """
+				    package test;
 
-        //the method is not public
-        String sourceCode3 = """
-            package test;
+				    import com.icst.blockidle.Extension;
+				    import com.icst.blockidle.ExtensionItem;
+				    import java.io.Serializable;
 
-            import com.icst.blockidle.Extension;
-            import com.icst.blockidle.ExtensionItem;
-            import java.io.Serializable;
+				    @Extension(extensionFileName = "")
+				    public class MyTestClass {
+				       @ExtensionItem(extensionItemName = "")
+				       public static void myValidMethod() {
+				       System.out.println("something");
+				    }
+				}
+				""";
 
-            @Extension(extensionFileName = "")
-            private class MyTestClass {
-               @ExtensionItem(extensionItemName = "")
-               public static String myValidMethod() {
-                   return "TestValue";
-            }
-        }
-        """;
+		//the method is not static
+		String sourceCode5 = """
+				    package test;
 
-        //the method has bad return type/doesn't return anything
-        String sourceCode4 = """
-            package test;
+				    import com.icst.blockidle.Extension;
+				    import com.icst.blockidle.ExtensionItem;
+				    import java.io.Serializable;
 
-            import com.icst.blockidle.Extension;
-            import com.icst.blockidle.ExtensionItem;
-            import java.io.Serializable;
+				    @Extension(extensionFileName = "")
+				    public class MyTestClass {
+				       @ExtensionItem(extensionItemName = "")
+				       public String myValidMethod() {
+				           return "TestValue";
+				    }
+				}
+				""";
 
-            @Extension(extensionFileName = "")
-            public class MyTestClass {
-               @ExtensionItem(extensionItemName = "")
-               public static void myValidMethod() {
-               System.out.println("something");
-            }
-        }
-        """;
+		Compilation compilationNoAnnotation = Compiler.javac()
+				.withProcessors(new ExtensionProcessor())
+				.compile(JavaFileObjects.forSourceString(
+						"test.MyTestClass", sourceCode1));
 
-        //the method is not static
-        String sourceCode5 = """
-            package test;
+		Compilation compilationHasParameters = Compiler.javac()
+				.withProcessors(new ExtensionProcessor())
+				.compile(JavaFileObjects.forSourceString(
+						"test.MyTestClass", sourceCode2));
 
-            import com.icst.blockidle.Extension;
-            import com.icst.blockidle.ExtensionItem;
-            import java.io.Serializable;
+		Compilation compilationNotPublic = Compiler.javac()
+				.withProcessors(new ExtensionProcessor())
+				.compile(JavaFileObjects.forSourceString(
+						"test.MyTestClass", sourceCode3));
 
-            @Extension(extensionFileName = "")
-            public class MyTestClass {
-               @ExtensionItem(extensionItemName = "")
-               public String myValidMethod() {
-                   return "TestValue";
-            }
-        }
-        """;
+		Compilation compilationBadReturnType = Compiler.javac()
+				.withProcessors(new ExtensionProcessor())
+				.compile(JavaFileObjects.forSourceString(
+						"test.MyTestClass", sourceCode4));
 
+		Compilation compilationNotStatic = Compiler.javac()
+				.withProcessors(new ExtensionProcessor())
+				.compile(JavaFileObjects.forSourceString(
+						"test.MyTestClass", sourceCode5));
 
-        Compilation compilationNoAnnotation = Compiler.javac()
-                .withProcessors(new ExtensionProcessor())
-                .compile(JavaFileObjects.forSourceString(
-                        "test.MyTestClass", sourceCode1
-                ));
+		// Asserting the compilations
+		assertThat(compilationNoAnnotation).failed();
+		assertThat(compilationHasParameters).failed();
+		assertThat(compilationNotPublic).failed();
+		assertThat(compilationBadReturnType).failed();
+		assertThat(compilationNotStatic).failed();
+	}
 
-        Compilation compilationHasParameters = Compiler.javac()
-                .withProcessors(new ExtensionProcessor())
-                        .compile(JavaFileObjects.forSourceString(
-                                "test.MyTestClass", sourceCode2
-                        ));
+	@Test
+	public void testValidAnnotationUsage() {
+		// Valid annotated class and method
+		String sourceCode = """
+				package com.icst.blockidle.extension;
 
-        Compilation compilationNotPublic = Compiler.javac()
-                .withProcessors(new ExtensionProcessor())
-                        .compile(JavaFileObjects.forSourceString(
-                            "test.MyTestClass", sourceCode3
-                        ));
+				import com.icst.blockidle.Extension;
+				import com.icst.blockidle.ExtensionItem;
 
-        Compilation compilationBadReturnType = Compiler.javac()
-                .withProcessors(new ExtensionProcessor())
-                        .compile(JavaFileObjects.forSourceString(
-                                "test.MyTestClass", sourceCode4
-                        ));
+				@Extension(extensionFileName = "MyClass") // The class is annotated with @Extension
+				public class MyClass {
 
-        Compilation compilationNotStatic = Compiler.javac()
-                .withProcessors(new ExtensionProcessor())
-                        .compile(JavaFileObjects.forSourceString(
-                                "test.MyTestClass", sourceCode5
-                        ));
+				    // A valid method annotated with @ExtensionItem
+				    @ExtensionItem(extensionItemName = "exampleItem")
+				    public static String myMethod() { // The method is static, has no parameters, and returns a valid type
+				        return "Hello, world!";
+				    }
+				}
+				""";
 
-        // Asserting the compilations
-        assertThat(compilationNoAnnotation).failed();
-        assertThat(compilationHasParameters).failed();
-        assertThat(compilationNotPublic).failed();
-        assertThat(compilationBadReturnType).failed();
-        assertThat(compilationNotStatic).failed();
-    }
+		Compilation compilation = Compiler.javac()
+				.withProcessors(new ExtensionProcessor()) // Pass a new instance of your processor
+				.compile(JavaFileObjects.forSourceString(
+						"com.icst.blockidle.extension.MyClass", sourceCode));
 
-@Test
-public void testValidAnnotationUsage() {
-    // Valid annotated class and method
-    String sourceCode = """
-            package com.icst.blockidle.extension;
+		// Assert that the compilation succeeds
+		assertThat(compilation).succeeded();
 
-            import com.icst.blockidle.Extension;
-            import com.icst.blockidle.ExtensionItem;
+		// Optionally, check the generated source file
+		assertThat(compilation)
+				.generatedSourceFile("com.icst.blockidle.extension.MyClassExtensionOutputStream")
+				.contentsAsUtf8String()
+				.contains("package com.icst.blockidle.extension;");
+	}
 
-            @Extension(extensionFileName = "MyClass") // The class is annotated with @Extension
-            public class MyClass {
+	@Test
+	public void testZipFileGeneration() throws IOException {
+		//verify if the file itself exists
+		File zipFile = new File("build/generated/MyClass.extension");
 
-                // A valid method annotated with @ExtensionItem
-                @ExtensionItem(extensionItemName = "exampleItem")
-                public static String myMethod() { // The method is static, has no parameters, and returns a valid type
-                    return "Hello, world!";
-                }
-            }
-            """;
+		//read and validate contents
+		try (ZipFile zip = new ZipFile(zipFile)) {
+			while (true) {
+				ZipEntry entry = zip.entries().nextElement();
+				if (entry == null)
+					break;
 
-    Compilation compilation = Compiler.javac()
-            .withProcessors(new ExtensionProcessor()) // Pass a new instance of your processor
-            .compile(JavaFileObjects.forSourceString(
-                    "com.icst.blockidle.extension.MyClass", sourceCode));
+				assertTrue("Serialized object not found in ZIP!", entry.isDirectory());
+				try (InputStream is = zip.getInputStream(entry);
+						ObjectInputStream ois = new ObjectInputStream(is)) {
 
-    // Assert that the compilation succeeds
-    assertThat(compilation).succeeded();
-
-    // Optionally, check the generated source file
-    assertThat(compilation)
-            .generatedSourceFile("com.icst.blockidle.extension.MyClassExtensionOutputStream")
-            .contentsAsUtf8String()
-            .contains("package com.icst.blockidle.extension;");
-}
-
-@Test
-public void testZipFileGeneration() throws IOException {
-    //verify if the file itself exists
-    File zipFile = new File("build/generated/MyClass.extension");
-    
-    //read and validate contents
-    try (ZipFile zip = new ZipFile(zipFile)) {
-        while (true) {
-            ZipEntry entry = zip.entries().nextElement();
-            if (entry == null) break;
-            
-            assertTrue("Serialized object not found in ZIP!", entry.isDirectory());
-            try (InputStream is = zip.getInputStream(entry);
-                 ObjectInputStream ois = new ObjectInputStream(is)) {
-                
-                Object deserialized = ois.readObject();
-                assertTrue("Deserialized object is not a string!", deserialized instanceof String);
-                assertEquals("Example", deserialized);
-            } catch (ClassNotFoundException e) {
-                fail("Fail to deserialize object!");
-            }
-        }
-    }
+					Object deserialized = ois.readObject();
+					assertTrue("Deserialized object is not a string!", deserialized instanceof String);
+					assertEquals("Example", deserialized);
+				} catch (ClassNotFoundException e) {
+					fail("Fail to deserialize object!");
+				}
+			}
+		}
+	}
 }
