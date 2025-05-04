@@ -51,7 +51,6 @@ include(":beans:xmlbeans")
 
 // Logic Editor
 include(":logiceditor")
-include(":javablocks")
 
 // View Editor
 include(":vieweditor")

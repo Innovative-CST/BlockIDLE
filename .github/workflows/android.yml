@@ -3,6 +3,7 @@ name: Android CI
 on:
   workflow_dispatch:
   push:
+  pull_request:
 
 jobs:
   buildDebug:
@@ -32,7 +33,7 @@ jobs:
       - name: Upload output metadata
         uses: actions/upload-artifact@v4
         with:
-          name: output-metadata-armeabi-v7a
+          name: output-metadata
           path: app/build/outputs/apk/debug/output-metadata.json
   test:
     name: Run JUnit Tests
