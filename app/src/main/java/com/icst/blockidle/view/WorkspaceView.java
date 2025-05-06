@@ -70,8 +70,8 @@ public class WorkspaceView extends LinearLayout {
 
 		pane.getView().setLayoutParams(lp);
 
-		if (paneHolderView.getChildAt(1) != null) {
-			paneHolderView.removeViewAt(1);
+		if (paneHolderView.getChildAt(0) != null) {
+			paneHolderView.removeViewAt(0);
 		}
 		paneHolderView.addView(pane.getView());
 		showLayout(PANE_LAYOUT);
