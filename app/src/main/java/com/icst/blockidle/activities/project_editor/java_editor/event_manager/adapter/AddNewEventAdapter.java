@@ -68,8 +68,8 @@ public class AddNewEventAdapter extends RecyclerView.Adapter<AddNewEventAdapter.
 
 		holder.binding.getRoot().setOnClickListener(v -> {
 			listener.onEventChoosen(eventBean);
-			data.remove(position);
-			notifyItemRemoved(position);
+			data.remove(holder.getAdapterPosition());
+			notifyItemRemoved(holder.getAdapterPosition());
 		});
 	}
 
