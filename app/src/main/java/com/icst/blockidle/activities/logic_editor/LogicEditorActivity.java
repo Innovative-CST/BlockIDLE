@@ -99,6 +99,9 @@ public class LogicEditorActivity extends AppCompatActivity {
 		setSupportActionBar(binding.toolbar);
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> {
+			getOnBackPressedDispatcher().onBackPressed();
+		});
 		binding.toolbar.setTitle(R.string.app_name);
 
 		if (event != null) {
