@@ -20,6 +20,7 @@ package com.icst.blockidle.activities.project_editor.java_editor.adapter;
 import java.util.ArrayList;
 
 import com.icst.blockidle.activities.project_editor.java_editor.event_manager.EventManagerFragment;
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.VariableManagerFragment;
 import com.icst.blockidle.util.IDLEJavaFile;
 
 import android.os.Bundle;
@@ -36,12 +37,14 @@ public class JavaFileEditorViewPager extends FragmentStateAdapter {
 		super(activity);
 
 		fragments = new ArrayList<Fragment>();
+		VariableManagerFragment variableMananger = new VariableManagerFragment();
 		EventManagerFragment eventManager = new EventManagerFragment();
 
 		Bundle args = new Bundle();
 		args.putParcelable(EventManagerFragment.IDLEJavaFileArgument, javaFile);
 		eventManager.setArguments(args);
 
+		fragments.add(variableMananger);
 		fragments.add(eventManager);
 	}
 

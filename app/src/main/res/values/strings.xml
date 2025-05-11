@@ -6,12 +6,14 @@
 	<string name="create">Create</string>
     <string name="create_a_new_project">Create a new project</string>
 	<string name="dismiss">Dismiss</string>
+	<string name="instance_variables">Instance Variables</string>
 	<string name="new_java_class">New Java Class</string>
     <string name="package_name">Package Name</string>
     <string name="package_name_example">Example \: com.example.pkg</string>
     <string name="project_configuration">Project Configuration</string>
     <string name="project_name">Project Name</string>
     <string name="project_name_example">Example \: MyProject</string>
+	<string name="static_variables">Static Variables</string>
     <string name="version_name">Version Name</string>
     <string name="more_options">More Options</string>
 </resources>
