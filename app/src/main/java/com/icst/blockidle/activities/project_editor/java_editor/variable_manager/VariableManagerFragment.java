@@ -34,6 +34,7 @@ public class VariableManagerFragment extends Fragment {
 
 	private FragmentVariableManagerBinding binding;
 	private StaticVariableFragment staticVariableFragment;
+	private InstanceVariableFragment instanceVariableFragment;
 
 	@Override
 	@MainThread
@@ -41,8 +42,26 @@ public class VariableManagerFragment extends Fragment {
 		binding = FragmentVariableManagerBinding.inflate(inflator);
 
 		staticVariableFragment = new StaticVariableFragment();
+		instanceVariableFragment = new InstanceVariableFragment();
 
-		FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+		binding.navigationRailView.setOnItemSelectedListener(menuItem -> {
+			if (menuItem.getItemId() == R.id.action_instance_variable) {
+				staticVariableFragment.saveData();
+				FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+				transaction.replace(R.id.frameLayout, instanceVariableFragment);
+				transaction.addToBackStack(null);
+				transaction.commit();
+			} else if (menuItem.getItemId() == R.id.action_static_variable) {
+				instanceVariableFragment.saveData();
+				FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+				transaction.replace(R.id.frameLayout, staticVariableFragment);
+				transaction.addToBackStack(null);
+				transaction.commit();
+			}
+
+			return true;
+		});
+		FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 		transaction.replace(R.id.frameLayout, staticVariableFragment);
 		transaction.addToBackStack(null);
 		transaction.commit();

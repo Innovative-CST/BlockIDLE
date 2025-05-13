@@ -17,7 +17,7 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
-import com.icst.blockidle.databinding.FragmentStaticVariableBinding;
+import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -28,14 +28,14 @@ import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class StaticVariableFragment extends Fragment {
+public class InstanceVariableFragment extends Fragment {
 
-	private FragmentStaticVariableBinding binding;
+	private FragmentInstanceVariableBinding binding;
 
 	@Override
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-		binding = FragmentStaticVariableBinding.inflate(inflator);
+		binding = FragmentInstanceVariableBinding.inflate(inflator);
 		return binding.getRoot();
 	}
 
