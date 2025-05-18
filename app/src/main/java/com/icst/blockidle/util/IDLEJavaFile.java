@@ -19,13 +19,25 @@ package com.icst.blockidle.util;
 
 import java.io.File;
 
+import com.icst.blockidle.repository.VariableRepository;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class IDLEJavaFile extends IDLEFile implements Parcelable {
 
+	private VariableRepository instanceVariableRepository;
+
 	public IDLEJavaFile(File file) {
 		super(file);
+	}
+
+	public VariableRepository getInstanceVariableRepository() {
+		if (instanceVariableRepository == null) {
+			File instanceVariableFile = new File(file, EnvironmentUtils.INSTANCE_VARIABLE_FILE);
+			instanceVariableRepository = new VariableRepository(instanceVariableFile);
+		}
+		return instanceVariableRepository;
 	}
 
 	@SuppressWarnings("deprecation")

@@ -19,6 +19,7 @@ package com.icst.blockidle.activities.project_editor.java_editor.variable_manage
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.databinding.FragmentVariableManagerBinding;
+import com.icst.blockidle.util.IDLEJavaFile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,16 +34,24 @@ import androidx.fragment.app.FragmentTransaction;
 public class VariableManagerFragment extends Fragment {
 
 	private FragmentVariableManagerBinding binding;
+	private IDLEJavaFile javaFile;
 	private StaticVariableFragment staticVariableFragment;
 	private InstanceVariableFragment instanceVariableFragment;
 
+	public static final String IDLEJavaFileArgument = "IDLEJavaFile";
+
 	@Override
 	@MainThread
+	@SuppressWarnings("deprecation")
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
 		binding = FragmentVariableManagerBinding.inflate(inflator);
-
+		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
 		staticVariableFragment = new StaticVariableFragment();
 		instanceVariableFragment = new InstanceVariableFragment();
+
+		Bundle staticVariableManangerArgs = new Bundle();
+		staticVariableManangerArgs.putParcelable(InstanceVariableFragment.IDLEJavaFileArgument, javaFile);
+		instanceVariableFragment.setArguments(staticVariableManangerArgs);
 
 		binding.navigationRailView.setOnItemSelectedListener(menuItem -> {
 			if (menuItem.getItemId() == R.id.action_instance_variable) {

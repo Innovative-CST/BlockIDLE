@@ -17,7 +17,9 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
 import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
+import com.icst.blockidle.util.IDLEJavaFile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,15 +29,25 @@ import android.view.ViewGroup;
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class InstanceVariableFragment extends Fragment {
 
 	private FragmentInstanceVariableBinding binding;
+	private IDLEJavaFile javaFile;
+	private VariableAdapter adapter;
+
+	public static final String IDLEJavaFileArgument = "IDLEJavaFile";
 
 	@Override
+	@SuppressWarnings("deprecation")
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
 		binding = FragmentInstanceVariableBinding.inflate(inflator);
+		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
+		adapter = new VariableAdapter(javaFile);
+		binding.instanceVariableList.setLayoutManager(new LinearLayoutManager(parent.getContext()));
+		binding.instanceVariableList.setAdapter(adapter);
 		return binding.getRoot();
 	}
 
