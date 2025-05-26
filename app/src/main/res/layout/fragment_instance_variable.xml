@@ -29,6 +29,6 @@
         android:id="@+id/fab"
         android:layout_margin="16dp"
         android:layout_gravity="end|bottom"
-        app:icon="@drawable/ic_add" />
+        android:src="@drawable/ic_add" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

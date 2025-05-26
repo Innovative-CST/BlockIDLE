@@ -55,6 +55,22 @@ public final class BuiltInDatatypes {
 		return new DatatypeBean("int", "int");
 	}
 
+	public static DatatypeBean getPrimitiveDatatype(String primitiveName) {
+		switch (primitiveName) {
+			case "boolean":
+			case "byte":
+			case "short":
+			case "int":
+			case "long":
+			case "char":
+			case "float":
+			case "double":
+				return new DatatypeBean(primitiveName, primitiveName);
+			default:
+				throw new IllegalArgumentException("Unknown primitive type: " + primitiveName);
+		}
+	}
+
 	public static DatatypeBean getIntegerDatatype() {
 		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
 		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");

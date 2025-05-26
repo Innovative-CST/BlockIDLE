@@ -33,6 +33,7 @@ import com.icst.logic.editor.view.LogicEditorView;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,8 +67,8 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 	@Override
 	public void onBindViewHolder(ViewHolder arg0, int position) {
 		HorizontalScrollView hScrollView = (HorizontalScrollView) arg0.itemView;
+		hScrollView.removeAllViews();
 		BlockBeanView blockBeanView = null;
-
 		if (blocks.get(position) instanceof RegularBlockBean regularBlock) {
 			blockBeanView = new RegularBlockBeanView(
 					arg0.itemView.getContext(), regularBlock, config, logicEditor);
@@ -78,8 +79,12 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 			blockBeanView = ExpressionBlockViewFactory.generateView(expressionBlockBean, arg0.itemView.getContext(),
 					config, logicEditor);
 		}
-		hScrollView.setPadding(8, 8, 0, 0);
-		hScrollView.addView(blockBeanView);
+
+		if (blockBeanView != null) {
+			hScrollView.addView(blockBeanView);
+		} else {
+			hScrollView.addView(new Button(arg0.itemView.getContext()));
+		}
 	}
 
 	@Override
@@ -95,6 +100,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.View
 				RecyclerView.LayoutParams.MATCH_PARENT,
 				RecyclerView.LayoutParams.WRAP_CONTENT);
 		view.setLayoutParams(layoutParams);
+		view.setPadding(8, 8, 0, 0);
 		return new ViewHolder(view);
 	}
 }

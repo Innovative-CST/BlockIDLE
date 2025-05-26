@@ -140,6 +140,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 					generateMethodsCodeBlock
 							.append("\t\t".concat(generatedClassName).concat(".generateExtension(outputFolder);\n"));
 				}
+				importsCodeBlock.append("import com.icst.blockidle.ClassBlocksGenerator;\n");
 
 				writer.write("package com.icst.blockidle.extension;\n\n");
 				writer.write(importsCodeBlock.toString());
@@ -148,6 +149,7 @@ public class ExtensionProcessor extends AbstractProcessor {
 				writer.write("\tpublic static void main(String[] args) {\n");
 				writer.write("\t\tjava.io.File outputFolder = new java.io.File(args[0]);\n");
 				writer.write(generateMethodsCodeBlock.toString());
+				writer.write("\t\tClassBlocksGenerator.execute(outputFolder, args);\n");
 				writer.write("\t}\n\n}\n");
 			}
 

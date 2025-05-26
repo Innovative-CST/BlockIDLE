@@ -110,4 +110,27 @@ public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 		ArrayList<DatatypeBean> clonedSuperTypes = BeanArrayCloneUtils.clone(superTypes);
 		return new DatatypeBean(mFullClassName, mClassName, clonedSuperTypes);
 	}
+
+	private String getInheritanceAsString(DatatypeBean datatype, int level, Set<DatatypeBean> visited,
+			StringBuilder strBuilder) {
+		if (datatype == null) {
+			return "";
+		}
+		visited.add(datatype);
+		for (int i = 0; i < level; i++) {
+			strBuilder.append("\t");
+		}
+		strBuilder.append(datatype.getFullClassName());
+		strBuilder.append("\n");
+		for (DatatypeBean superType : datatype.getSuperTypes()) {
+			getInheritanceAsString(superType, level + 1, visited, strBuilder);
+		}
+		return "```return type\n" + strBuilder.toString() + "```";
+	}
+
+	@Override
+	public String toString() {
+		return getInheritanceAsString(this, 0, new HashSet<>(), new StringBuilder());
+	}
+
 }

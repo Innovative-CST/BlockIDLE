@@ -17,14 +17,45 @@
 
 plugins {
 	id("application")
+	id("de.undercouch.download")
 }
 
 application {
 	mainClassName = "com.icst.blockidle.extension.ExtensionsZipWriter"
 }
 
+def downloadOpenJDK17() {
+	println "Downloading openjdk-17-source..."
+	if (file("src/main/resources/openjdk-17-source.zip").exists()) {
+		println "Downloading openjdk-17-source will be ignored as it already exists."
+	}
+	download.run {
+		src "https://github.com/Innovative-CST/jdk17/releases/download/jdk17/src.zip"
+		dest file("src/main/resources/openjdk-17-source.zip")
+		overwrite false
+		quiet true
+	}
+}
+
+task downloadOpenJDK17 {
+	doLast {
+		downloadOpenJDK17()
+	}
+}
+
+task unzipFile(type: Copy) {
+	downloadOpenJDK17()
+	println "Unzipping openjdk-17-source"
+
+	def zipFile = file("src/main/resources/openjdk-17-source.zip")
+	def outputDir = file("$buildDir/unzipped/openjdk-17")
+
+	from zipTree(zipFile)
+	into outputDir
+}
+
 task generateExtensions(type: JavaExec) {
-	dependsOn("assemble")
+	dependsOn("assemble", "downloadOpenJDK17", "unzipFile")
 	File outputDir = new File("${buildDir}/extensions")
 	outputDir.mkdirs()
 
@@ -32,6 +63,7 @@ task generateExtensions(type: JavaExec) {
 	main = "com.icst.blockidle.extension.ExtensionsZipWriter"
 	args = [
 		outputDir.getAbsolutePath(),
+		"$buildDir/unzipped/openjdk-17"
 	]
 }
 
@@ -45,7 +77,6 @@ dependencies {
 	implementation project(":annotations")
 	implementation project(":extension-core")
 	annotationProcessor project(":annotations-processor")
-
 	implementation project(":beans:basebeans")
 	implementation project(":beans:blockbeans")
 	implementation project(":beans:javabeans")

@@ -24,6 +24,14 @@ java {
 	targetCompatibility = JavaVersion.VERSION_17
 }
 
+dependencies {
+	implementation("com.github.javaparser:javaparser-core:3.26.4")
+	implementation("com.github.javaparser:javaparser-symbol-solver-core:3.25.8")
+	implementation project(":beans:basebeans")
+	implementation project(":beans:blockbeans")
+	implementation project(":beans:javabeans")
+}
+
 sourceSets {
 	main {
 		java {
