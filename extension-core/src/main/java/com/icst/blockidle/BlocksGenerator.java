@@ -94,6 +94,21 @@ public class BlocksGenerator {
 										+ " - block not created (private or protected method)");
 							}
 						});
+						
+						clazz.getConstructors().forEach(constructor -> {
+							if (constructor.isPublic() || constructor.isProtected()) {
+								BlockBean block = ConstructorBlockGenerator.generateBlockForConstructor(constructor, color);
+
+								if (block != null) {
+									blocks.add(block);
+								} else {
+									System.err.println(constructor.getNameAsString() + " - block failed to create");
+								}
+							} else {
+								System.err.println(constructor.getNameAsString() + " " + constructor.getParameters().toString()
+										+ " - block not created (private or protected constructor)");
+							}
+						});
 					});
 				});
 			} catch (Exception e) {
@@ -104,6 +119,7 @@ public class BlocksGenerator {
 			mPalette.setName(paletteName);
 			mPalette.setBlocks(blocks);
 			os.writeObjectToZipEntry(entryName, mPalette);
+			blocks.clear();
 		}
 		os.close();
 	}
