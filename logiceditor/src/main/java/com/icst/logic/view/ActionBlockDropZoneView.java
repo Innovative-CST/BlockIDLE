@@ -17,6 +17,10 @@
 
 package com.icst.logic.view;
 
+import com.icst.blockidle.bean.ActionBlockNode;
+import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.RegularBlockNode;
+import com.icst.blockidle.bean.TerminatorBlockNode;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -41,48 +45,49 @@ import android.widget.LinearLayout;
 
 public class ActionBlockDropZoneView extends BlockDropZoneView {
 	private Context context;
-	private ArrayList<ActionBlockBean> blockBeans;
+	private ActionBlockNode actionBlockNode;
 	private ActionBlockDropZone actionBlockDropZone;
 
 	public ActionBlockDropZoneView(
 			Context context,
-			ArrayList<ActionBlockBean> blockBeans,
+			ActionBlockNode actionBlockNode,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
 		super(context, logicEditorConfiguration, logicEditor);
 		this.context = context;
-		this.blockBeans = blockBeans == null ? new ArrayList<ActionBlockBean>() : blockBeans;
+		this.actionBlockNode = actionBlockNode;
 		setOrientation(VERTICAL);
 		addBlockView();
 		actionBlockDropZone = new ActionBlockDropZone() {
 
 			@Override
 			public boolean isTerminated() {
-				if (ActionBlockDropZoneView.this.blockBeans == null)
-					return false;
-				if (ActionBlockDropZoneView.this.blockBeans.size() == 0)
-					return false;
-				return ActionBlockDropZoneView.this.blockBeans
-						.get(ActionBlockDropZoneView.this.blockBeans.size() - 1) instanceof TerminatorBlockBean;
+				if (actionBlockNode == null) return false;
+				ActionBlockNode curr = actionBlockNode;
+				while(curr.hasNext()) {
+					curr = curr.next();
+					if(curr instanceof TerminatorBlockNode) {
+						return true;
+					}
+				}
+				return false;
 			}
 		};
 	}
 
 	public void dereferenceActionBlocks(int index) {
-		int numberOfBlocks = blockBeans.size();
-		for (int i = index; i < numberOfBlocks; ++i) {
-			blockBeans.remove(index);
-		}
+		ActionBlockNode iNode = actionBlockNode.get(index);
+        if (iNode == null) return;
+        if (iNode.getPrevious() == null) return;
+		iNode.getPrevious().setNextNode(null);
 	}
 
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view) {
-		if (view instanceof LinearLayout) {
-			super.addView(view);
-		} else if (view instanceof ActionBlockBeanView) {
-			super.addView(view);
-		} else {
+        if (view instanceof LinearLayout || view instanceof ActionBlockBeanView) {
+            super.addView(view);
+        } else {
 			throw new UnexpectedViewAddedException(this, view);
 		}
 	}
@@ -90,9 +95,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	// Always throw this error to make sure no unexpected view is added.
 	@Override
 	public void addView(View view, int index) {
-		if (view instanceof LinearLayout) {
-			super.addView(view, index);
-		} else if (view instanceof ActionBlockBeanView) {
+		if (view instanceof LinearLayout || view instanceof ActionBlockBeanView) {
 			super.addView(view, index);
 		} else {
 			throw new UnexpectedViewAddedException(this, view);
@@ -102,9 +105,17 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	@Override
 	public void highlightNearestTargetIfAllowed(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
-			actionBlocks.add(mActionBlockBean);
-			highlightNearestTargetIfAllowed(actionBlocks, x, y);
+			ActionBlockNode node = null;
+			if(block instanceof RegularBlockBean regularBlock) {
+				RegularBlockNode regularNode = new RegularBlockNode();
+				regularNode.setRegularBlock(regularBlock);
+				node = regularNode;
+			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				terminalNode.setTerminatorBlock(terminatorBlock);
+				node = terminalNode;
+			}
+			highlightNearestTargetIfAllowed(node, x, y);
 		} else {
 			int index = 0;
 			for (int i = 0; i < getChildCount(); i++) {
@@ -124,9 +135,17 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	@Override
 	public void dropBlockIfAllowed(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
-			blocks.add(mActionBlockBean);
-			dropBlockIfAllowed(blocks, x, y);
+			ActionBlockNode node = null;
+			if(block instanceof RegularBlockBean regularBlock) {
+				RegularBlockNode regularNode = new RegularBlockNode();
+				regularNode.setRegularBlock(regularBlock);
+				node = regularNode;
+			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				terminalNode.setTerminatorBlock(terminatorBlock);
+				node = terminalNode;
+			}
+			dropBlockIfAllowed(node, x, y);
 		} else {
 			int index = 0;
 			for (int i = 0; i < getChildCount(); i++) {
@@ -146,9 +165,17 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	@Override
 	public boolean canDrop(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> actionBlocks = new ArrayList<ActionBlockBean>();
-			actionBlocks.add(mActionBlockBean);
-			return canDrop(actionBlocks, x, y);
+			ActionBlockNode node = null;
+			if(block instanceof RegularBlockBean regularBlock) {
+				RegularBlockNode regularNode = new RegularBlockNode();
+				regularNode.setRegularBlock(regularBlock);
+				node = regularNode;
+			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				terminalNode.setTerminatorBlock(terminatorBlock);
+				node = terminalNode;
+			}
+			return canDrop(node, x, y);
 		} else {
 			int index = 0;
 			for (int i = 0; i < getChildCount(); i++) {
@@ -167,7 +194,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void highlightNearestTargetIfAllowed(
-			ArrayList<ActionBlockBean> blocks, float x, float y) {
+			ActionBlockNode node, float x, float y) {
 		int index = 0;
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
@@ -178,14 +205,14 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			}
 		}
 		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
-			if (blockBeanView.canDrop(blocks, x, y)) {
-				blockBeanView.highlightNearestTarget(blocks, x, y);
+			if (blockBeanView.canDrop(node, x, y)) {
+				blockBeanView.highlightNearestTarget(node, x, y);
 				return;
 			}
 		}
 
 		index = getIndex(x, y);
-		if (canDrop(blocks, index)) {
+		if (canDrop(node, index)) {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			highlighterLp.setMargins(0, BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN, 0, 0);
@@ -197,7 +224,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		}
 	}
 
-	public void dropBlockIfAllowed(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	public void dropBlockIfAllowed(ActionBlockNode node, float x, float y) {
 		int index = 0;
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
@@ -208,18 +235,18 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			}
 		}
 		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
-			if (blockBeanView.canDrop(blocks, x, y)) {
-				blockBeanView.drop(blocks, x, y);
+			if (blockBeanView.canDrop(node, x, y)) {
+				blockBeanView.drop(node, x, y);
 				return;
 			}
 		}
 		index = getIndex(x, y);
-		if (canDrop(blocks, index)) {
-			addBlockBeans(blocks, index);
+		if (canDrop(node, index)) {
+			addBlockBeans(node, index);
 		}
 	}
 
-	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	public boolean canDrop(ActionBlockNode node, float x, float y) {
 		int index = 0;
 		for (int i = 0; i < getChildCount(); i++) {
 			View child = getChildAt(i);
@@ -230,36 +257,51 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			}
 		}
 		if (getChildAt(index) instanceof ActionBlockBeanView blockBeanView) {
-			if (blockBeanView.canDrop(blocks, x, y)) {
+			if (blockBeanView.canDrop(node, x, y)) {
 				return true;
 			}
 		}
-		return canDrop(blocks, getIndex(x, y));
+		return canDrop(node, getIndex(x, y));
 	}
 
-	public void addActionBlocksBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
-		if (blockBeans == null) {
-			blockBeans = new ArrayList<ActionBlockBean>();
-		}
-		if (actionBlocks == null) {
+	public void addActionBlocksBeans(ActionBlockNode node, int index) {
+		if (node == null) {
 			return;
 		}
-		if (index <= blockBeans.size()) {
-			if (blockBeans.size() == index) {
-				if (isTerminated())
-					throw new TerminatedDropZoneException();
-				else
-					addBlockBeans(actionBlocks, index);
+		
+		if (actionBlockNode == null) {
+			if(index == 0) {
+				addBlockBeans(node, index);
+				return;
 			} else {
-				if (actionBlocks.size() == 0)
-					return;
-				if (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean))
-					addBlockBeans(actionBlocks, index);
-				else
-					throw new UnexpectedTerminatedException();
+				throw new IndexOutOfBoundsException(index);
 			}
-		} else
+			return;
+		}
+		
+		int actionBlockNodeSize = actionBlockNode.getSize();
+
+		if(actionBlockNodeSize < index) {
 			throw new IndexOutOfBoundsException(index);
+		}
+		
+		// Trying to add blocks node at last position, so make sure drop zone is not terminated
+        if (actionBlockNodeSize == index) {
+			
+            if (isTerminated()) {
+                throw new TerminatedDropZoneException();
+            }
+			
+            addBlockBeans(node, index);
+        } else {
+            if (node.getSize() == 0) return;
+			
+			if(node.isTerminated()) {
+				throw new UnexpectedTerminatedException();
+			}
+			
+            addBlockBeans(node, index);
+        }
 	}
 
 	private int getIndex(float x, float y) {
@@ -279,36 +321,56 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	private boolean canDrop(ActionBlockBean actionBlock, int index) {
-		ArrayList<ActionBlockBean> singleBlockList = new ArrayList<>(Collections.singletonList(actionBlock));
+		ActionBlockNode node = null;
+        if (actionBlock instanceof RegularBlockBean regularBlock) {
+            RegularBlockNode regularNode = new RegularBlockNode();
+            regularNode.setRegularBlock(regularBlock);
+            node = regularNode;
+        } else if (actionBlock instanceof TerminatorBlockBean terminatorBlock) {
+            TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+            terminalNode.setTerminatorBlock(terminatorBlock);
+            node = terminalNode;
+        }
 
-		return canDrop(singleBlockList, index);
+		return canDrop(node, index);
 	}
 
-	private boolean canDrop(ArrayList<ActionBlockBean> actionBlocks, int index) {
-		if (index >= blockBeans.size()) {
-			if (blockBeans.size() == index) {
-				if (isTerminated())
-					return false;
-				else {
-					return true;
-				}
-			} else {
-				if (actionBlocks.size() == 0)
-					return true;
-				return !isTerminated();
-			}
-		} else {
-			if (actionBlocks.size() == 0) {
-				return true;
-			}
-
-			return (!(actionBlocks.get(actionBlocks.size() - 1) instanceof TerminatorBlockBean));
+	private boolean canDrop(ActionBlockNode node, int index) {
+		if (node == null) {
+			return false;
 		}
+		
+		if (node.getSize() == 0) return false;
+		
+		if (actionBlockNode == null) {
+			if(index == 0) {
+				return true;
+			} else return false;
+		}
+		
+		int actionBlockNodeSize = actionBlockNode.getSize();
+		
+	    if(index > actionBlockNodeSize) {
+	    	return false;
+	    }
+		
+		if(index == actionBlockNodeSize) {
+			return !isTerminated();
+		}
+		
+		if(node.isTerminated()) {
+			return false;
+		}
+		
+		return true;
+		
 	}
 
 	private void addBlockView() {
-		for (int i = 0; i < blockBeans.size(); ++i) {
-			ActionBlockBean actionBlock = blockBeans.get(i);
+		int i = 0;
+		for(ActionBlockNode node : actionBlockNode) {
+		
+			ActionBlockBean actionBlock = node.getActionBlock();
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
 					context, actionBlock, getConfiguration(), getLogicEditor());
 
@@ -318,70 +380,120 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			actionBlockBeanView.setInsideCanva(true);
 			super.addView(actionBlockBeanView, i);
 
-			if (i == 0) {
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.WRAP_CONTENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT);
-
-				lp.setMargins(0, 0, 0, 0);
+            LinearLayout.LayoutParams lp =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(
+                    0,
+                    i == 0
+                            ? 0
+                            : UnitUtils.dpToPx(
+                                    getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+                    0,
+                    0);
 				actionBlockBeanView.setLayoutParams(lp);
-			} else {
-
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.WRAP_CONTENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT);
-
-				lp.setMargins(
-						0,
-						UnitUtils.dpToPx(
-								getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
-						0,
-						0);
-				actionBlockBeanView.setLayoutParams(lp);
-			}
+			i++;
 		}
 	}
 
-	private void addBlockBeans(ArrayList<ActionBlockBean> actionBlocks, int index) {
-		this.blockBeans.addAll(index, actionBlocks);
+	private void addBlockBeans(ActionBlockNode node, int index) {
+		if(node == null) {
+			return;
+		}
+		
+		if(actionBlockNode == null) {
+			if(index == 0) {
+				actionBlockNode = node;
+				addBlockView();
+				return;
+			} else return;
+		}
+		
+		
+		int actionBlockNodeSize = actionBlockNode.getSize();
+		
+		if(index > actionBlockNodeSize) {
+			throw new IndexOutOfBoundsException(index);
+		}
+		
+		if(index == actionBlockNodeSize) {
+			if(actionBlockNode.isTerminated()) {
+				throw new TerminatedDropZoneException();
+			}
+		}
+		
+		
+		if(index < actionBlockNodeSize) {
+			if(node.isTerminated()) {
+				throw new UnexpectedTerminatedException();
+			}
+		}
+		
+		if(index == 0) {
+			ActionBlockNode tempHead = actionBlockNode;
+			actionBlockNode = node;
+			tempHead.setPrevious((RegularBlockNode)node);
+			ActionBlockNode lastNode = node;
+			for(ActionBlockNode curr : node) {
+				lastNode = curr;
+			}
+			((RegularBlockNode)lastNode).setNextNode(tempHead);
+		} else {
+            ActionBlockNode current = actionBlockNode;
+            int count = 0;
+    
+            while (current != null && count < index - 1) {
+                current = current.next();
+                count++;
+            }
 
-		for (int i = 0; i < actionBlocks.size(); ++i) {
-			ActionBlockBean actionBlock = actionBlocks.get(i);
+            if (current == null) {
+                throw new IndexOutOfBoundsException("Index: " + index);
+            }
+			
+			ActionBlockNode newNodeLast = node;
+            for(ActionBlockNode newNodeLastNode : node) {
+            	newNodeLast = newNodeLastNode;
+            }
+
+            ((RegularBlockNode)newNodeLast).setNextNode(current.next());
+			((RegularBlockNode)current).setNextNode(node);
+		}
+		
+		int i = 0;
+		for(ActionBlockNode actionBlockNode : node) {
+			ActionBlockBean actionBlock = actionBlockNode.getActionBlock();
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
 					context, actionBlock, getConfiguration(), getLogicEditor());
 
 			if (actionBlockBeanView == null)
 				continue;
-
+			
 			actionBlockBeanView.setInsideCanva(true);
 			super.addView(actionBlockBeanView, i + index);
 
-			if (i == 0 && index == 0) {
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.WRAP_CONTENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT);
-
-				lp.setMargins(0, 0, 0, 0);
+			LinearLayout.LayoutParams lp =
+                    new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.WRAP_CONTENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+            lp.setMargins(
+                    0,
+                    i == 0 && index == 0
+                            ? 0
+                            : UnitUtils.dpToPx(
+                                    getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+                    0,
+                    0);
 				actionBlockBeanView.setLayoutParams(lp);
-			} else {
+		
 
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.WRAP_CONTENT,
-						LinearLayout.LayoutParams.WRAP_CONTENT);
-
-				lp.setMargins(
-						0,
-						UnitUtils.dpToPx(
-								getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
-						0,
-						0);
-				actionBlockBeanView.setLayoutParams(lp);
-			}
-		}
+            i++;
+        }
 	}
 
 	public int getBlocksSize() {
-		return blockBeans.size();
+		return actionBlockNode.getSize();
 	}
 
 	public boolean isTerminated() {
@@ -392,7 +504,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		return this.actionBlockDropZone;
 	}
 
-	public ArrayList<ActionBlockBean> getBlockBeans() {
-		return this.blockBeans;
+	public ActionBlockNode getBlockBeans() {
+		return this.actionBlockNode;
 	}
 }

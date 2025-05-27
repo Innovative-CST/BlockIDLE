@@ -27,6 +27,11 @@ public class TerminatorBlockNode extends ActionBlockNode implements Serializable
 
 	private RegularBlockNode previous;
 	private TerminatorBlockBean terminatorBlock;
+	
+	@Override
+	public boolean isTerminated() {
+		return true;
+	}
 
 	@Override
 	public ActionBlockNode get(int position) {
@@ -46,6 +51,11 @@ public class TerminatorBlockNode extends ActionBlockNode implements Serializable
 	@Override
 	public void setPrevious(RegularBlockNode previous) {
 		this.previous = previous;
+	}
+	
+	@Override
+	public ActionBlockBean getActionBlock() {
+		return this.terminatorBlock;
 	}
 
 	public TerminatorBlockBean getTerminatorBlock() {
@@ -83,4 +93,9 @@ public class TerminatorBlockNode extends ActionBlockNode implements Serializable
 	public ActionBlockNode next() {
 		return null;
 	}
+
+    @Override
+    public int getSize() {
+        return 1;
+    }
 }

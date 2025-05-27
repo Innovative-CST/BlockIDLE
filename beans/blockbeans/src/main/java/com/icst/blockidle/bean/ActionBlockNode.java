@@ -29,5 +29,10 @@ public abstract class ActionBlockNode implements Serializable, Iterable<ActionBl
 	public abstract boolean hasPrevious();
 
 	public abstract ActionBlockNode get(int position);
+	
+	public abstract int getSize();
 
+    public abstract boolean isTerminated();
+
+    public abstract ActionBlockBean getActionBlock();
 }

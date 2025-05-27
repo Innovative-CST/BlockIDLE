@@ -64,6 +64,11 @@ public class RegularBlockNode extends ActionBlockNode implements Serializable {
 	public void setPrevious(RegularBlockNode previous) {
 		this.previous = previous;
 	}
+	
+	@Override
+	public ActionBlockBean getActionBlock() {
+		return this.regularBlock;
+	}
 
 	public RegularBlockBean getRegularBlock() {
 		return this.regularBlock;
@@ -75,6 +80,14 @@ public class RegularBlockNode extends ActionBlockNode implements Serializable {
 
 	public void setNextNode(ActionBlockNode next) {
 		this.next = next;
+	}
+	
+	@Override
+	public boolean isTerminated() {
+		if(hasNext()) {
+			return next.isTerminated();
+		}
+		return false;
 	}
 
 	@Override
@@ -104,4 +117,12 @@ public class RegularBlockNode extends ActionBlockNode implements Serializable {
 	public ActionBlockNode next() {
 		return getNext();
 	}
+
+    @Override
+    public int getSize() {
+        if(hasNext()) {
+        	return 1 + next.getSize();
+        }
+		return 1;
+    }
 }
