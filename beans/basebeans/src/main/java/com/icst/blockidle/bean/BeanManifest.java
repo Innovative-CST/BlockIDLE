@@ -19,16 +19,18 @@ package com.icst.blockidle.bean;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BeanManifest implements Serializable {
 	private ArrayList<BeanMetadata> metadata;
 
-	public ArrayList<BeanMetadata> getMetadata() {
-		return this.metadata;
+	public List<BeanMetadata> getMetadata() {
+		return (List<BeanMetadata>) Collections.unmodifiableCollection(this.metadata);
 	}
 
 	public void setMetadata(ArrayList<BeanMetadata> metadata) {
-		this.metadata = metadata;
+		this.metadata = (metadata != null) ? new ArrayList<>(metadata) : new ArrayList<>();
 	}
 
 	public <T extends BeanMetadata> ArrayList<T> get(Class<T> classType) {

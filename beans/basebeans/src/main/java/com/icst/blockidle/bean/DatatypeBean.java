@@ -90,10 +90,8 @@ public class DatatypeBean implements CloneableBean<DatatypeBean>, Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 		DatatypeBean datatype = (DatatypeBean) o;
 		return fullClassName.equals(datatype.fullClassName);
 	}

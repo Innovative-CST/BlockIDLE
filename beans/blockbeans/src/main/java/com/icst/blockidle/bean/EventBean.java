@@ -132,8 +132,8 @@ public class EventBean implements CodeProcessorBean, Serializable {
 
 		String key = "EventCode";
 		String replacingCode = CodeFormatterUtils.getKeySyntaxString(key);
-		int intendation = CodeFormatterUtils.getIntendation(code, replacingCode);
-		String blocksIntendedCode = CodeFormatterUtils.addIntendation(blocksCode.toString(), intendation);
+		int intendation = CodeFormatterUtils.getIndentation(code, replacingCode);
+		String blocksIntendedCode = CodeFormatterUtils.addIndentation(blocksCode.toString(), intendation);
 		code = code.replace(replacingCode, blocksIntendedCode);
 
 		return code;

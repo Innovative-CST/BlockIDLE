@@ -18,27 +18,29 @@
 package com.icst.blockidle.bean.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.icst.blockidle.bean.CloneableBean;
 import com.icst.blockidle.bean.DatatypeBean;
 
 public final class BeanArrayCloneUtils {
-	public static <T extends CloneableBean> ArrayList<T> clone(ArrayList<T> beans) {
-		if (beans == null)
-			return null;
+	public static <T extends CloneableBean> List<T> clone(List<T> beans) {
+		if (beans == null) return null;
+
 		ArrayList<T> clone = new ArrayList<>();
-		for (int i = 0; i < beans.size(); ++i) {
-			clone.add((T) beans.get(i).cloneBean());
+		for (T bean : beans) {
+			clone.add(bean == null ? null : (T) bean.cloneBean());
 		}
 		return clone;
 	}
 
 	public static DatatypeBean[] cloneDatatypeBeanArray(DatatypeBean[] datatypeBean) {
-		if (datatypeBean == null)
-			return null;
+		if (datatypeBean == null) return null;
+
 		DatatypeBean[] clonedBeans = new DatatypeBean[datatypeBean.length];
-		for (int i = 0; i < datatypeBean.length; ++i) {
-			clonedBeans[i] = datatypeBean[i].cloneBean();
+		int i = 0;
+		for (DatatypeBean bean : datatypeBean) {
+			clonedBeans[i] = (bean == null) ? null : bean.cloneBean();
 		}
 		return clonedBeans;
 	}
