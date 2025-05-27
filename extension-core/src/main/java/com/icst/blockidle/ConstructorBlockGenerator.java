@@ -17,20 +17,17 @@
 
 package com.icst.blockidle;
 
-import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclaration;
 import java.io.*;
 import java.util.ArrayList;
 
 import com.github.javaparser.ast.body.*;
-import com.github.javaparser.resolution.declarations.ResolvedMethodDeclaration;
+import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.types.ResolvedType;
-import com.icst.blockidle.bean.ActionBlockBean;
 import com.icst.blockidle.bean.BaseBlockBean;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
-import com.icst.blockidle.bean.BooleanBlockBean;
 import com.icst.blockidle.bean.BooleanBlockElementBean;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
@@ -39,7 +36,6 @@ import com.icst.blockidle.bean.GeneralExpressionBlockElementBean;
 import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
-import com.icst.blockidle.bean.NumericBlockBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
@@ -47,10 +43,10 @@ import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 
 public class ConstructorBlockGenerator {
 
-    public static BlockBean generateBlockForConstructor(ConstructorDeclaration contructor, String color) {
+	public static BlockBean generateBlockForConstructor(ConstructorDeclaration contructor, String color) {
 		ResolvedReferenceTypeDeclaration returnType = contructor.resolve().declaringType().asReferenceType();
 		BlockBean block = null;
-        if (returnType.isReferenceType()) {
+		if (returnType.isReferenceType()) {
 			DatatypeBean dataType = DatatypeBeanResolver.getDatatypeBean(returnType.asReferenceType());
 			return generateExpressionBlockForMethod(contructor, returnType, dataType, color);
 		}
@@ -131,7 +127,8 @@ public class ConstructorBlockGenerator {
 		});
 	}
 
-	private static void buildBaseBlockLayer(ConstructorDeclaration contructor, DatatypeBean returnType, BaseBlockBean mBlock) {
+	private static void buildBaseBlockLayer(ConstructorDeclaration contructor, DatatypeBean returnType,
+			BaseBlockBean mBlock) {
 		ArrayList<LayerBean> layers = new ArrayList<LayerBean>();
 		BlockElementLayerBean layer1 = new BlockElementLayerBean();
 
@@ -153,7 +150,7 @@ public class ConstructorBlockGenerator {
 			layer1Elements.add(info);
 		});
 
-        ResolvedConstructorDeclaration resolvedConstructorDeclaration = contructor.resolve();
+		ResolvedConstructorDeclaration resolvedConstructorDeclaration = contructor.resolve();
 		ResolvedReferenceTypeDeclaration resolvedDecRef = resolvedConstructorDeclaration.declaringType();
 		DatatypeBean dType = DatatypeBeanResolver.getDatatypeBean(resolvedDecRef.asReferenceType());
 		LabelBlockElementBean label = new LabelBlockElementBean();
@@ -173,7 +170,7 @@ public class ConstructorBlockGenerator {
 		ResolvedConstructorDeclaration resolvedConstructorDeclaration = contructor.resolve();
 		ResolvedReferenceTypeDeclaration resolvedDecRef = resolvedConstructorDeclaration.declaringType();
 		DatatypeBean dType = DatatypeBeanResolver.getDatatypeBean(resolvedDecRef.asReferenceType());
-		
+
 		StringBuilder code = new StringBuilder();
 		code.append("new " + dType.getClassName());
 		code.append("(");
