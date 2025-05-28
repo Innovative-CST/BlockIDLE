@@ -504,7 +504,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		return this.actionBlockDropZone;
 	}
 
-	public ActionBlockNode getBlockBeans() {
+	public ActionBlockNode getBlockNode() {
 		return this.actionBlockNode;
 	}
 }
