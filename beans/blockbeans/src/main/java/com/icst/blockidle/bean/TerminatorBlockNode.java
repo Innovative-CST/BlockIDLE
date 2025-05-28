@@ -23,7 +23,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 
-public class TerminatorBlockNode extends ActionBlockNode implements Serializable {
+public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode> implements Serializable {
 
 	private RegularBlockNode previous;
 	private TerminatorBlockBean terminatorBlock;
@@ -97,5 +97,18 @@ public class TerminatorBlockNode extends ActionBlockNode implements Serializable
     @Override
     public int getSize() {
         return 1;
+    }
+	
+	@Override
+    public TerminatorBlockNode deepClone() {
+        return deepCloneInternal(null);
+    }
+
+    @Override
+    protected TerminatorBlockNode deepCloneInternal(RegularBlockNode previousClone) {
+        TerminatorBlockNode currentClone = new TerminatorBlockNode();
+        currentClone.setTerminatorBlock(terminatorBlock.cloneBean());
+        currentClone.setPrevious(previousClone);
+        return currentClone;
     }
 }

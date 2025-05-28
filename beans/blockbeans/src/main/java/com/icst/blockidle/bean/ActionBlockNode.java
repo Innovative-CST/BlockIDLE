@@ -20,7 +20,7 @@ package com.icst.blockidle.bean;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public abstract class ActionBlockNode implements Serializable, Iterable<ActionBlockNode>, Iterator<ActionBlockNode> {
+public abstract class ActionBlockNode<T extends ActionBlockNode> implements Serializable, Iterable<ActionBlockNode>, Iterator<ActionBlockNode> {
 
 	public abstract void setPrevious(RegularBlockNode node);
 
@@ -35,4 +35,8 @@ public abstract class ActionBlockNode implements Serializable, Iterable<ActionBl
     public abstract boolean isTerminated();
 
     public abstract ActionBlockBean getActionBlock();
+
+    public abstract T deepClone();
+
+    protected abstract T deepCloneInternal(RegularBlockNode previous);
 }

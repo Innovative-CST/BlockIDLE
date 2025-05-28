@@ -31,15 +31,15 @@ public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implem
 
 	public static final long serialVersionUID = BlockBeansUIDConstants.ACTION_ELEMENT_LAYER_BEAN;
 
-	private ArrayList<ActionBlockBean> actionBlockBeans;
+	private ActionBlockNode actionBlockNode;
 	private String key;
 
-	public ArrayList<ActionBlockBean> getActionBlockBeans() {
-		return this.actionBlockBeans;
+	public ActionBlockNode getActionBlockNode() {
+		return this.actionBlockNode;
 	}
 
-	public void setActionBlockBeans(ArrayList<ActionBlockBean> actionBlockBeans) {
-		this.actionBlockBeans = actionBlockBeans;
+	public void setActionBlockNode(ActionBlockNode actionBlockNode) {
+		this.actionBlockNode = actionBlockNode;
 	}
 
 	public String getKey() {
@@ -52,31 +52,29 @@ public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implem
 
 	public String getProcessedCode() {
 		StringBuilder code = new StringBuilder();
-		if (actionBlockBeans == null) {
+		if (actionBlockNode == null) {
 			return "";
 		}
-		actionBlockBeans.forEach(actionBlockBean -> {
-			code.append(actionBlockBean.getProcessedCode());
-			code.append("\n");
-		});
+		for(Object node : actionBlockNode) {
+			code.append(((ActionBlockNode)node).getActionBlock().getProcessedCode());
+            code.append("\n");
+		}
 		return code.toString();
 	}
 
+    @SuppressWarnings("unchecked")
 	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
-
 		ArrayList<T> blocksMetadata = new ArrayList<T>();
-
-		for (int i = 0; i < getActionBlockBeans().size(); ++i) {
-			blocksMetadata.addAll(getActionBlockBeans().get(i).getAllMetadata(classType));
+		for(Object node : actionBlockNode) {
+			blocksMetadata.addAll(((ActionBlockNode)node).getActionBlock().getAllMetadata(classType));
 		}
-
 		return blocksMetadata;
 	}
 
 	@Override
 	public ActionBlockLayerBean cloneBean() {
 		ActionBlockLayerBean clone = new ActionBlockLayerBean();
-		clone.setActionBlockBeans(BeanArrayCloneUtils.clone(getActionBlockBeans()));
+		clone.setActionBlockNode(actionBlockNode.deepClone());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
 	}
