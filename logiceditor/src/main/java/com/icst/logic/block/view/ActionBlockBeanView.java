@@ -17,6 +17,11 @@
 
 package com.icst.logic.block.view;
 
+import com.icst.blockidle.bean.ActionBlockNode;
+import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.RegularBlockNode;
+import com.icst.blockidle.bean.TerminatorBlockBean;
+import com.icst.blockidle.bean.TerminatorBlockNode;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.ActionBlockBean;
@@ -65,14 +70,14 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 		return false;
 	}
 
-	public boolean canDrop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	public boolean canDrop(ActionBlockNode actionBlockNode, float x, float y) {
 		for (int i = 0; i < getLayers().size(); ++i) {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
 					getLayers().get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
 			}
 			if (getLayers().get(i) instanceof ActionBlockLayerView layerView) {
-				return layerView.canDrop(blocks, x, y);
+				return layerView.canDrop(actionBlockNode, x, y);
 			}
 		}
 		return false;
@@ -81,9 +86,17 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 	@Override
 	public void highlightNearestTarget(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-			blocks.add(mActionBlockBean);
-			highlightNearestTarget(blocks, x, y);
+			ActionBlockNode node = null;
+			if(block instanceof RegularBlockBean regularBlock) {
+				RegularBlockNode regularNode = new RegularBlockNode();
+				regularNode.setRegularBlock(regularBlock);
+				node = regularNode;
+			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				terminalNode.setTerminatorBlock(terminatorBlock);
+				node = terminalNode;
+			}
+			highlightNearestTarget(node, x, y);
 		} else {
 			for (int i = 0; i < getLayers().size(); ++i) {
 				if (!CanvaMathUtils.isCoordinatesInsideTargetView(
@@ -100,14 +113,14 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 		}
 	}
 
-	public void highlightNearestTarget(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	public void highlightNearestTarget(ActionBlockNode actionBlockNode, float x, float y) {
 		for (int i = 0; i < getLayers().size(); ++i) {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
 					getLayers().get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
 			}
 			if (getLayers().get(i) instanceof ActionBlockLayerView layerView) {
-				layerView.highlightNearestTargetIfAllowed(blocks, x, y);
+				layerView.highlightNearestTargetIfAllowed(actionBlockNode, x, y);
 			}
 		}
 	}
@@ -115,9 +128,17 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 	@Override
 	public void drop(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-			blocks.add(mActionBlockBean);
-			drop(blocks, x, y);
+			ActionBlockNode node = null;
+			if(block instanceof RegularBlockBean regularBlock) {
+				RegularBlockNode regularNode = new RegularBlockNode();
+				regularNode.setRegularBlock(regularBlock);
+				node = regularNode;
+			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				terminalNode.setTerminatorBlock(terminatorBlock);
+				node = terminalNode;
+			}
+			drop(node, x, y);
 		} else {
 			for (int i = 0; i < getLayers().size(); ++i) {
 				if (!CanvaMathUtils.isCoordinatesInsideTargetView(
@@ -134,14 +155,14 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 		}
 	}
 
-	public void drop(ArrayList<ActionBlockBean> blocks, float x, float y) {
+	public void drop(ActionBlockNode actionBlockNode, float x, float y) {
 		for (int i = 0; i < getLayers().size(); ++i) {
 			if (!CanvaMathUtils.isCoordinatesInsideTargetView(
 					getLayers().get(i).getView(), getLogicEditor().getEditorSectionView(), x, y)) {
 				continue;
 			}
 			if (getLayers().get(i) instanceof ActionBlockLayerView layerView) {
-				layerView.dropBlockIfAllowed(blocks, x, y);
+				layerView.dropBlockIfAllowed(actionBlockNode, x, y);
 			}
 		}
 	}
