@@ -228,7 +228,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			highlighterLp.setMargins(0, BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN, 0, 0);
-			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), blocks.get(0));
+			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(), node.getActionBlock());
 			getLogicEditor().setDummyHighlighter(highlighter);
 			addView(highlighter, index);
 			highlighter.setLayoutParams(highlighterLp);
