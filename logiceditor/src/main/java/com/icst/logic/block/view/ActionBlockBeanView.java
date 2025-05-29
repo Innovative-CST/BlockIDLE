@@ -51,9 +51,17 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 	@Override
 	public boolean canDrop(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
-			ArrayList<ActionBlockBean> blocks = new ArrayList<>();
-			blocks.add(mActionBlockBean);
-			return canDrop(blocks, x, y);
+			ActionBlockNode node = null;
+			if(block instanceof RegularBlockBean regularBlock) {
+				RegularBlockNode regularNode = new RegularBlockNode();
+				regularNode.setRegularBlock(regularBlock);
+				node = regularNode;
+			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				terminalNode.setTerminatorBlock(terminatorBlock);
+				node = terminalNode;
+			}
+			return canDrop(node, x, y);
 		} else {
 			for (int i = 0; i < getLayers().size(); ++i) {
 				if (CanvaMathUtils.isCoordinatesInsideTargetView(
