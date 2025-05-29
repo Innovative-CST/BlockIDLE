@@ -20,9 +20,11 @@ package com.icst.blockidle.bean;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public abstract class ActionBlockNode<T extends ActionBlockNode> implements Serializable, Iterable<ActionBlockNode>, Iterator<ActionBlockNode> {
+public abstract class ActionBlockNode<T extends ActionBlockNode, K extends ActionBlockBean> implements Serializable, Iterable<ActionBlockNode>, Iterator<ActionBlockNode> {
 
 	public abstract void setPrevious(RegularBlockNode node);
+	
+	public abstract void setActionBlock(K block);
 
 	public abstract RegularBlockNode getPrevious();
 

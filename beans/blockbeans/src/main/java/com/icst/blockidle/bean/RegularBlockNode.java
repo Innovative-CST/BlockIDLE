@@ -23,7 +23,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 
-public class RegularBlockNode extends ActionBlockNode<RegularBlockNode> implements Serializable {
+public class RegularBlockNode extends ActionBlockNode<RegularBlockNode, RegularBlockBean> implements Serializable {
 
     private ActionBlockNode next;
     private RegularBlockNode previous;
@@ -64,6 +64,11 @@ public class RegularBlockNode extends ActionBlockNode<RegularBlockNode> implemen
     public void setPrevious(RegularBlockNode previous) {
         this.previous = previous;
     }
+	
+	@Override
+	public void setActionBlock(RegularBlockBean regularBlock) {
+		setRegularBlock(regularBlock);
+	}
 
     @Override
     public ActionBlockBean getActionBlock() {

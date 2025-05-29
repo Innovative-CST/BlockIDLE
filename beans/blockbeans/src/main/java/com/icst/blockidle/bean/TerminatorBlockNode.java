@@ -23,7 +23,7 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.Consumer;
 
-public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode> implements Serializable {
+public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode, TerminatorBlockBean> implements Serializable {
 
 	private RegularBlockNode previous;
 	private TerminatorBlockBean terminatorBlock;
@@ -56,6 +56,11 @@ public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode> im
 	@Override
 	public ActionBlockBean getActionBlock() {
 		return this.terminatorBlock;
+	}
+	
+	@Override
+	public void setActionBlock(TerminatorBlockBean terminatorBlock) {
+		setTerminatorBlock(terminatorBlock);
 	}
 
 	public TerminatorBlockBean getTerminatorBlock() {

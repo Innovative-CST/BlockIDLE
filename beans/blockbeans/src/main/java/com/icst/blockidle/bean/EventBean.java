@@ -33,7 +33,7 @@ public class EventBean implements CodeProcessorBean, Serializable {
 	private String description;
 	private String codeSyntax;
 	private EventBlockBean eventDefinationBlockBean;
-	private ArrayList<ActionBlockBean> actionBlockBeans;
+	private ActionBlockNode actionBlockNode;
 	private String holderName;
 	private byte[] icon;
 	private BeanManifest beanManifest;
@@ -86,12 +86,12 @@ public class EventBean implements CodeProcessorBean, Serializable {
 		this.icon = icon;
 	}
 
-	public ArrayList<ActionBlockBean> getActionBlockBeans() {
-		return this.actionBlockBeans;
+	public ActionBlockNode getActionBlockNode() {
+		return this.actionBlockNode;
 	}
 
-	public void setActionBlockBeans(ArrayList<ActionBlockBean> actionBlockBeans) {
-		this.actionBlockBeans = actionBlockBeans;
+	public void setActionBlockNode(ActionBlockNode actionBlockNode) {
+		this.actionBlockNode = actionBlockNode;
 	}
 
 	public void setCodeSyntax(String codeSyntax) {
@@ -124,9 +124,11 @@ public class EventBean implements CodeProcessorBean, Serializable {
 		String code = getCodeSyntax();
 
 		StringBuilder blocksCode = new StringBuilder();
-		actionBlockBeans.forEach(
-				actionBlockBean -> {
-					blocksCode.append(actionBlockBean.getProcessedCode());
+		
+		actionBlockNode.forEach(
+				actionBlockNodeObj -> {
+					ActionBlockNode actionBlockNode = (ActionBlockNode) actionBlockNodeObj;
+					blocksCode.append(actionBlockNode.getActionBlock().getProcessedCode());
 					blocksCode.append("\n");
 				});
 
@@ -149,9 +151,12 @@ public class EventBean implements CodeProcessorBean, Serializable {
 
 	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
 		ArrayList<T> blocksMetadata = new ArrayList<T>();
-		for (int i = 0; i < getActionBlockBeans().size(); ++i) {
-			blocksMetadata.addAll(getActionBlockBeans().get(i).getAllMetadata(classType));
-		}
+        actionBlockNode.forEach(
+                actionBlockNodeObj -> {
+                    ActionBlockNode actionBlockNode = (ActionBlockNode) actionBlockNodeObj;
+                    blocksMetadata.addAll(actionBlockNode.getActionBlock().getAllMetadata(classType));
+					
+                });
 		if (beanManifest != null) {
 			if (beanManifest.getMetadata() != null) {
 				blocksMetadata.addAll(beanManifest.get(classType));
