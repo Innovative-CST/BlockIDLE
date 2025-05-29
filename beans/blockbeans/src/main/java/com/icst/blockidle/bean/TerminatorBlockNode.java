@@ -18,16 +18,13 @@
 package com.icst.blockidle.bean;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.Consumer;
 
-public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode, TerminatorBlockBean> implements Serializable {
+public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode, TerminatorBlockBean>
+		implements Serializable {
 
 	private RegularBlockNode previous;
 	private TerminatorBlockBean terminatorBlock;
-	
+
 	@Override
 	public boolean isTerminated() {
 		return true;
@@ -52,12 +49,12 @@ public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode, Te
 	public void setPrevious(RegularBlockNode previous) {
 		this.previous = previous;
 	}
-	
+
 	@Override
 	public ActionBlockBean getActionBlock() {
 		return this.terminatorBlock;
 	}
-	
+
 	@Override
 	public void setActionBlock(TerminatorBlockBean terminatorBlock) {
 		setTerminatorBlock(terminatorBlock);
@@ -77,43 +74,25 @@ public class TerminatorBlockNode extends ActionBlockNode<TerminatorBlockNode, Te
 	}
 
 	@Override
-	public void forEach(Consumer<? super ActionBlockNode> action) {
-		for (ActionBlockNode node = this; node != null; node = (node instanceof RegularBlockNode rb) ? rb.getNext()
-				: null) {
-			action.accept(node);
-		}
-	}
-
-	@Override
-	public Iterator<ActionBlockNode> iterator() {
-		return this;
-	}
-
-	@Override
-	public Spliterator<ActionBlockNode> spliterator() {
-		return Spliterators.spliteratorUnknownSize(this.iterator(), Spliterator.ORDERED);
-	}
-
-	@Override
 	public ActionBlockNode next() {
 		return null;
 	}
 
-    @Override
-    public int getSize() {
-        return 1;
-    }
-	
 	@Override
-    public TerminatorBlockNode deepClone() {
-        return deepCloneInternal(null);
-    }
+	public int getSize() {
+		return 1;
+	}
 
-    @Override
-    protected TerminatorBlockNode deepCloneInternal(RegularBlockNode previousClone) {
-        TerminatorBlockNode currentClone = new TerminatorBlockNode();
-        currentClone.setTerminatorBlock(terminatorBlock.cloneBean());
-        currentClone.setPrevious(previousClone);
-        return currentClone;
-    }
+	@Override
+	public TerminatorBlockNode deepClone() {
+		return deepCloneInternal(null);
+	}
+
+	@Override
+	protected TerminatorBlockNode deepCloneInternal(RegularBlockNode previousClone) {
+		TerminatorBlockNode currentClone = new TerminatorBlockNode();
+		currentClone.setTerminatorBlock(terminatorBlock.cloneBean());
+		currentClone.setPrevious(previousClone);
+		return currentClone;
+	}
 }

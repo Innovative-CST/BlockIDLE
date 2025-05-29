@@ -124,14 +124,13 @@ public class EventBean implements CodeProcessorBean, Serializable {
 		String code = getCodeSyntax();
 
 		StringBuilder blocksCode = new StringBuilder();
-		
-		actionBlockNode.forEach(
-				actionBlockNodeObj -> {
-					ActionBlockNode actionBlockNode = (ActionBlockNode) actionBlockNodeObj;
-					blocksCode.append(actionBlockNode.getActionBlock().getProcessedCode());
-					blocksCode.append("\n");
-				});
 
+		ActionBlockNode node = actionBlockNode;
+		while (node != null) {
+			blocksCode.append(node.getActionBlock().getProcessedCode());
+			blocksCode.append("\n");
+			node = node.next();
+		}
 		String key = "EventCode";
 		String replacingCode = CodeFormatterUtils.getKeySyntaxString(key);
 		int intendation = CodeFormatterUtils.getIntendation(code, replacingCode);
@@ -151,12 +150,11 @@ public class EventBean implements CodeProcessorBean, Serializable {
 
 	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
 		ArrayList<T> blocksMetadata = new ArrayList<T>();
-        actionBlockNode.forEach(
-                actionBlockNodeObj -> {
-                    ActionBlockNode actionBlockNode = (ActionBlockNode) actionBlockNodeObj;
-                    blocksMetadata.addAll(actionBlockNode.getActionBlock().getAllMetadata(classType));
-					
-                });
+		ActionBlockNode node = actionBlockNode;
+		while (node != null) {
+			blocksMetadata.addAll(node.getActionBlock().getAllMetadata(classType));
+			node = node.next();
+		}
 		if (beanManifest != null) {
 			if (beanManifest.getMetadata() != null) {
 				blocksMetadata.addAll(beanManifest.get(classType));

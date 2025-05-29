@@ -20,7 +20,6 @@ package com.icst.blockidle.bean;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.icst.blockidle.bean.utils.BeanArrayCloneUtils;
 import com.icst.blockidle.bean.utils.BlockBeansUIDConstants;
 
 /**
@@ -55,18 +54,23 @@ public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implem
 		if (actionBlockNode == null) {
 			return "";
 		}
-		for(Object node : actionBlockNode) {
-			code.append(((ActionBlockNode)node).getActionBlock().getProcessedCode());
-            code.append("\n");
+		ActionBlockNode node = actionBlockNode;
+		while (node != null) {
+			code.append(node.getActionBlock().getProcessedCode());
+			code.append("\n");
+			node = node.next();
 		}
+
 		return code.toString();
 	}
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public <T extends BeanMetadata> ArrayList<T> getAllMetadata(Class<T> classType) {
 		ArrayList<T> blocksMetadata = new ArrayList<T>();
-		for(Object node : actionBlockNode) {
-			blocksMetadata.addAll(((ActionBlockNode)node).getActionBlock().getAllMetadata(classType));
+		ActionBlockNode node = actionBlockNode;
+		while (node != null) {
+			blocksMetadata.addAll(node.getActionBlock().getAllMetadata(classType));
+			node = node.next();
 		}
 		return blocksMetadata;
 	}
@@ -74,7 +78,7 @@ public class ActionBlockLayerBean extends LayerBean<ActionBlockLayerBean> implem
 	@Override
 	public ActionBlockLayerBean cloneBean() {
 		ActionBlockLayerBean clone = new ActionBlockLayerBean();
-		clone.setActionBlockNode(actionBlockNode.deepClone());
+		clone.setActionBlockNode(actionBlockNode == null ? null : actionBlockNode.deepClone());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
 		return clone;
 	}
