@@ -81,11 +81,11 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 				if (actionBlockNode == null)
 					return false;
 				ActionBlockNode curr = actionBlockNode;
-				while (curr.hasNext()) {
-					curr = (ActionBlockNode) curr.next();
+				while (curr != null) {
 					if (curr instanceof TerminatorBlockNode) {
 						return true;
 					}
+					curr = curr.next();
 				}
 				return false;
 			}
@@ -351,15 +351,13 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	private void addBlockView() {
-		int i = 0;
 		ActionBlockNode node = actionBlockNode;
-		while (node != null) {
+		for (int i = 0; node != null; ++i, node = node.next()) {
 			ActionBlockBean actionBlock = node.getActionBlock();
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
 					context, actionBlock, getConfiguration(), getLogicEditor());
 			actionBlockBeanView.setInsideCanva(true);
 			if (actionBlockBeanView == null) {
-				node = (ActionBlockNode) node.next();
 				continue;
 			}
 			super.addView(actionBlockBeanView, i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
@@ -376,8 +374,6 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);
-			i++;
-			node = (ActionBlockNode) node.next();
 		}
 	}
 
@@ -418,8 +414,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			actionBlockNode = node;
 			tempHead.setPrevious((RegularBlockNode) node);
 			ActionBlockNode lastNode = node;
-			while (lastNode.next() != null) {
-				lastNode = (ActionBlockNode) lastNode.next();
+			while (lastNode.hasNext()) {
+				lastNode = lastNode.next();
 			}
 			((RegularBlockNode) lastNode).setNextNode(tempHead);
 		} else {
@@ -427,7 +423,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			int count = 0;
 
 			while (current != null && count < index - 1) {
-				current = (ActionBlockNode) current.next();
+				current = current.next();
 				count++;
 			}
 
@@ -436,23 +432,21 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			}
 
 			ActionBlockNode lastNode = node;
-			while (lastNode.next() != null) {
-				lastNode = (ActionBlockNode) lastNode.next();
+			while (lastNode.hasNext()) {
+				lastNode = lastNode.next();
 			}
 
-			((RegularBlockNode) lastNode).setNextNode((ActionBlockNode) current.next());
+			((RegularBlockNode) lastNode).setNextNode(current.next());
 			((RegularBlockNode) current).setNextNode(node);
 		}
 
-		int i = 0;
 		ActionBlockNode curr = node;
-		while (curr != null) {
+		for (int i = 0; curr != null; ++i, curr = curr.next()) {
 			ActionBlockBean actionBlock = curr.getActionBlock();
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
 					context, actionBlock, getConfiguration(), getLogicEditor());
 
 			if (actionBlockBeanView == null) {
-				curr = (ActionBlockNode) curr.next();
 				continue;
 			}
 
@@ -471,11 +465,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);
-
-			i++;
-			curr = (ActionBlockNode) curr.next();
 		}
-
 	}
 
 	public int getBlocksSize() {

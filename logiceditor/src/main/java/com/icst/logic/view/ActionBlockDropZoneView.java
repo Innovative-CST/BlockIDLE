@@ -62,11 +62,11 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 				if (actionBlockNode == null)
 					return false;
 				ActionBlockNode curr = actionBlockNode;
-				while (curr.hasNext()) {
-					curr = (ActionBlockNode) curr.next();
+				while (curr != null) {
 					if (curr instanceof TerminatorBlockNode) {
 						return true;
 					}
+					curr = curr.next();
 				}
 				return false;
 			}
