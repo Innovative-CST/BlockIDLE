@@ -17,6 +17,11 @@
 
 package com.icst.logic.editor.view;
 
+import com.icst.blockidle.bean.ActionBlockNode;
+import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.RegularBlockNode;
+import com.icst.blockidle.bean.TerminatorBlockBean;
+import com.icst.blockidle.bean.TerminatorBlockNode;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.ActionBlockBean;
@@ -147,11 +152,10 @@ public class LogicEditorView extends RelativeLayout {
 
 			if (blockDropZones.get(i) instanceof MainActionBlockDropZoneView dropZone) {
 
-				if (draggingBean instanceof ArrayList blockArr) {
-					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
-					if (dropZone.canDrop(blocks, x, y)) {
+				if (draggingBean instanceof ActionBlockNode actionBlocks) {
+					if (dropZone.canDrop(actionBlocks, x, y)) {
 						hasNearbyTarget = true;
-						dropZone.highlightNearestTargetIfAllowed(blocks, x, y);
+						dropZone.highlightNearestTargetIfAllowed(actionBlocks, x, y);
 					}
 				} else if (draggingBean instanceof BlockBean block) {
 					if (dropZone.canDrop(block, x, y)) {
@@ -162,11 +166,10 @@ public class LogicEditorView extends RelativeLayout {
 
 			} else if (blockDropZones.get(i) instanceof ActionBlockDropZoneView actionBlockDropZoneView) {
 
-				if (draggingBean instanceof ArrayList blockArr) {
-					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
-					if (actionBlockDropZoneView.canDrop(blocks, x, y)) {
+				if (draggingBean instanceof ActionBlockNode actionBlocks) {
+					if (actionBlockDropZoneView.canDrop(actionBlocks, x, y)) {
 						hasNearbyTarget = true;
-						actionBlockDropZoneView.highlightNearestTargetIfAllowed(blocks, x, y);
+						actionBlockDropZoneView.highlightNearestTargetIfAllowed(actionBlocks, x, y);
 					}
 				} else if (draggingBean instanceof BlockBean block) {
 					if (actionBlockDropZoneView.canDrop(block, x, y)) {
@@ -202,11 +205,10 @@ public class LogicEditorView extends RelativeLayout {
 
 			if (blockDropZones.get(i) instanceof MainActionBlockDropZoneView dropZone) {
 
-				if (draggingBean instanceof ArrayList blockArr) {
-					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
-					if (dropZone.canDrop(blocks, x, y)) {
+				if (draggingBean instanceof ActionBlockNode actionBlocks) {
+					if (dropZone.canDrop(actionBlocks, x, y)) {
 						hasNearbyTarget = true;
-						dropZone.dropBlockIfAllowed(blocks, x, y);
+						dropZone.dropBlockIfAllowed(actionBlocks, x, y);
 					}
 				} else if (draggingBean instanceof BlockBean block) {
 					if (dropZone.canDrop(block, x, y)) {
@@ -217,11 +219,10 @@ public class LogicEditorView extends RelativeLayout {
 
 			} else if (blockDropZones.get(i) instanceof ActionBlockDropZoneView actionBlockDropZoneView) {
 
-				if (draggingBean instanceof ArrayList blockArr) {
-					ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
-					if (actionBlockDropZoneView.canDrop(blocks, x, y)) {
+				if (draggingBean instanceof ActionBlockNode actionBlocks) {
+					if (actionBlockDropZoneView.canDrop(actionBlocks, x, y)) {
 						hasNearbyTarget = true;
-						actionBlockDropZoneView.dropBlockIfAllowed(blocks, x, y);
+						actionBlockDropZoneView.dropBlockIfAllowed(actionBlocks, x, y);
 					}
 				} else if (draggingBean instanceof BlockBean block) {
 					if (actionBlockDropZoneView.canDrop(block, x, y)) {
@@ -243,11 +244,9 @@ public class LogicEditorView extends RelativeLayout {
 
 		if (!hasNearbyTarget) {
 
-			if (draggingBean instanceof ArrayList blockArr) {
-				ArrayList<ActionBlockBean> blocks = (ArrayList<ActionBlockBean>) blockArr;
-
+			if (draggingBean instanceof ActionBlockNode actionBlocks) {
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
-						getContext(), blocks, new LogicEditorConfiguration(), this);
+						getContext(), actionBlocks, new LogicEditorConfiguration(), this);
 
 				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
@@ -261,11 +260,20 @@ public class LogicEditorView extends RelativeLayout {
 
 			} else if (draggingBean instanceof ActionBlockBean block) {
 
-				ArrayList<ActionBlockBean> blocks = new ArrayList<ActionBlockBean>();
-				blocks.add(block);
+				ActionBlockNode actionBlocks = null;
+				
+				if(draggingBean instanceof RegularBlockBean regularBlock) {
+				    RegularBlockNode regularNode = new RegularBlockNode();
+				    regularNode.setRegularBlock(regularBlock);
+				    actionBlocks = regularNode;
+			    } else if(draggingBean instanceof TerminatorBlockBean terminatorBlock) {
+				    TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+				    terminalNode.setTerminatorBlock(terminatorBlock);
+				    actionBlocks = terminalNode;
+			    }
 
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
-						getContext(), blocks, new LogicEditorConfiguration(), this);
+						getContext(), actionBlocks, new LogicEditorConfiguration(), this);
 
 				LogicEditorCanvaView.LayoutParams lp = new LogicEditorCanvaView.LayoutParams(
 						LogicEditorCanvaView.LayoutParams.WRAP_CONTENT,
@@ -475,7 +483,7 @@ public class LogicEditorView extends RelativeLayout {
 	}
 
 	public EventBean getPreparedEventBean() {
-		event.setActionBlockBeans(binding.logicEditorCanvaView.mainChainDropZone.getBlockBeans());
+		event.setActionBlockNode(binding.logicEditorCanvaView.mainChainDropZone.getActionBlockNode());
 		return event;
 	}
 
