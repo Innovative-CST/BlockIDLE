@@ -17,9 +17,7 @@
 
 package com.icst.logic.listener;
 
-import java.util.ArrayList;
-
-import com.icst.blockidle.bean.ActionBlockBean;
+import com.icst.blockidle.bean.ActionBlockNode;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.ExpressionBlockBeanView;
@@ -63,15 +61,15 @@ public class DraggableTouchListener implements View.OnTouchListener {
 							return;
 						if (actionBlockBeanView.getParent() instanceof ViewGroup actionBlockDropZone) {
 
-							ArrayList<ActionBlockBean> draggingBlocks = new ArrayList<ActionBlockBean>();
+							ActionBlockNode draggingBlocks = null;
 
-							ArrayList<ActionBlockBean> blocksList = null;
+							ActionBlockNode blocksList = null;
 
 							if (actionBlockBeanView.getParent() instanceof MainActionBlockDropZoneView mainChain) {
-								blocksList = mainChain.getBlockBeans();
 								int index = mainChain.indexOfChild(actionBlockBeanView) - 1;
+								blocksList = mainChain.getActionBlockNode();
+								draggingBlocks = mainChain.getActionBlockNode().get(index);
 								for (int i = index; i < mainChain.getBlocksSize(); ++i) {
-									draggingBlocks.add(blocksList.get(i));
 									actionBlockDropZone
 											.getChildAt(i + 1)
 											.setVisibility(View.GONE);
@@ -79,13 +77,12 @@ public class DraggableTouchListener implements View.OnTouchListener {
 							} else if (actionBlockBeanView
 									.getParent() instanceof ActionBlockDropZoneView regularChain) {
 								int index = regularChain.indexOfChild(actionBlockBeanView);
-								blocksList = regularChain.getBlockBeans();
-
+								blocksList = regularChain.getBlockNode();
+								draggingBlocks = regularChain.getBlockNode().get(index);
 								for (int i = index; i < actionBlockDropZone.getChildCount(); ++i) {
 									actionBlockDropZone
 											.getChildAt(i)
 											.setVisibility(View.GONE);
-									draggingBlocks.add(blocksList.get(i));
 								}
 							}
 
@@ -93,7 +90,7 @@ public class DraggableTouchListener implements View.OnTouchListener {
 
 							DraggingBlockDummy draggingView = new DraggingBlockDummy(
 									getLogicEditor().getContext(),
-									draggingBlocks.get(0),
+									draggingBlocks.getActionBlock(),
 									getLogicEditor().canDropDraggingView(x, y));
 							draggingView.setDraggedFromCanva(
 									actionBlockBeanView.isInsideCanva());

@@ -14,8 +14,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class ActionBlockLayerView extends ActionBlockDropZoneView
-		implements LayerBeanView<ActionBlockLayerView> {
+public class ActionBlockLayerView extends ActionBlockDropZoneView implements LayerBeanView<ActionBlockLayerView> {
 
 	private final int LAYER_PADDING = 10;
 
@@ -32,11 +31,11 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView
 			ActionBlockLayerBean layer,
 			LogicEditorConfiguration logicEditorConfiguration,
 			LogicEditorView logicEditor) {
-		super(context, layer.getActionBlockBeans(), logicEditorConfiguration, logicEditor);
+		super(context, layer.getActionBlockNode(), logicEditorConfiguration, logicEditor);
 		this.layer = layer;
 		setWillNotDraw(false);
-		if (layer.getActionBlockBeans() == null) {
-			layer.setActionBlockBeans(getBlockBeans());
+		if (layer.getActionBlockNode() == null) {
+			layer.setActionBlockNode(getBlockNode());
 		}
 	}
 

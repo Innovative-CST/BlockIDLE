@@ -71,7 +71,7 @@ public class LogicEditorCanvaView extends LogicEditorScrollView {
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT,
 				LogicEditorScrollView.LayoutParams.WRAP_CONTENT);
 
-		mainChainDropZone.addActionBlocksBeans(eventBean.getActionBlockBeans(), 0);
+		mainChainDropZone.addBlockBeans(eventBean.getActionBlockNode(), 0);
 
 		addView(mainChainDropZone);
 		mainChainDropZone.setLayoutParams(lp);

@@ -17,18 +17,18 @@
 
 package com.icst.logic.editor.view;
 
-import com.icst.blockidle.bean.ActionBlockNode;
-import com.icst.blockidle.bean.RegularBlockBean;
-import com.icst.blockidle.bean.RegularBlockNode;
-import com.icst.blockidle.bean.TerminatorBlockBean;
-import com.icst.blockidle.bean.TerminatorBlockNode;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.ActionBlockBean;
+import com.icst.blockidle.bean.ActionBlockNode;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockPaletteBean;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
+import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.RegularBlockNode;
+import com.icst.blockidle.bean.TerminatorBlockBean;
+import com.icst.blockidle.bean.TerminatorBlockNode;
 import com.icst.logic.adapter.BlockPaletteAdapter;
 import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.BlockBeanView;
@@ -261,16 +261,16 @@ public class LogicEditorView extends RelativeLayout {
 			} else if (draggingBean instanceof ActionBlockBean block) {
 
 				ActionBlockNode actionBlocks = null;
-				
-				if(draggingBean instanceof RegularBlockBean regularBlock) {
-				    RegularBlockNode regularNode = new RegularBlockNode();
-				    regularNode.setRegularBlock(regularBlock);
-				    actionBlocks = regularNode;
-			    } else if(draggingBean instanceof TerminatorBlockBean terminatorBlock) {
-				    TerminatorBlockNode terminalNode = new TerminatorBlockNode();
-				    terminalNode.setTerminatorBlock(terminatorBlock);
-				    actionBlocks = terminalNode;
-			    }
+
+				if (draggingBean instanceof RegularBlockBean regularBlock) {
+					RegularBlockNode regularNode = new RegularBlockNode();
+					regularNode.setRegularBlock(regularBlock);
+					actionBlocks = regularNode;
+				} else if (draggingBean instanceof TerminatorBlockBean terminatorBlock) {
+					TerminatorBlockNode terminalNode = new TerminatorBlockNode();
+					terminalNode.setTerminatorBlock(terminatorBlock);
+					actionBlocks = terminalNode;
+				}
 
 				ActionBlockDropZoneView newZone = new ActionBlockDropZoneView(
 						getContext(), actionBlocks, new LogicEditorConfiguration(), this);

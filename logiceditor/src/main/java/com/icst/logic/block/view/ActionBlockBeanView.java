@@ -17,15 +17,15 @@
 
 package com.icst.logic.block.view;
 
+import java.util.ArrayList;
+
+import com.icst.blockidle.bean.ActionBlockBean;
 import com.icst.blockidle.bean.ActionBlockNode;
+import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.RegularBlockBean;
 import com.icst.blockidle.bean.RegularBlockNode;
 import com.icst.blockidle.bean.TerminatorBlockBean;
 import com.icst.blockidle.bean.TerminatorBlockNode;
-import java.util.ArrayList;
-
-import com.icst.blockidle.bean.ActionBlockBean;
-import com.icst.blockidle.bean.BlockBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.CanvaMathUtils;
@@ -52,11 +52,11 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 	public boolean canDrop(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
 			ActionBlockNode node = null;
-			if(block instanceof RegularBlockBean regularBlock) {
+			if (block instanceof RegularBlockBean regularBlock) {
 				RegularBlockNode regularNode = new RegularBlockNode();
 				regularNode.setRegularBlock(regularBlock);
 				node = regularNode;
-			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+			} else if (block instanceof TerminatorBlockBean terminatorBlock) {
 				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
 				terminalNode.setTerminatorBlock(terminatorBlock);
 				node = terminalNode;
@@ -95,11 +95,11 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 	public void highlightNearestTarget(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
 			ActionBlockNode node = null;
-			if(block instanceof RegularBlockBean regularBlock) {
+			if (block instanceof RegularBlockBean regularBlock) {
 				RegularBlockNode regularNode = new RegularBlockNode();
 				regularNode.setRegularBlock(regularBlock);
 				node = regularNode;
-			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+			} else if (block instanceof TerminatorBlockBean terminatorBlock) {
 				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
 				terminalNode.setTerminatorBlock(terminatorBlock);
 				node = terminalNode;
@@ -137,11 +137,11 @@ public abstract class ActionBlockBeanView extends BlockBeanView {
 	public void drop(BlockBean block, float x, float y) {
 		if (block instanceof ActionBlockBean mActionBlockBean) {
 			ActionBlockNode node = null;
-			if(block instanceof RegularBlockBean regularBlock) {
+			if (block instanceof RegularBlockBean regularBlock) {
 				RegularBlockNode regularNode = new RegularBlockNode();
 				regularNode.setRegularBlock(regularBlock);
 				node = regularNode;
-			} else if(block instanceof TerminatorBlockBean terminatorBlock) {
+			} else if (block instanceof TerminatorBlockBean terminatorBlock) {
 				TerminatorBlockNode terminalNode = new TerminatorBlockNode();
 				terminalNode.setTerminatorBlock(terminatorBlock);
 				node = terminalNode;
