@@ -94,7 +94,7 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView implements Lay
 
 			child.layout(left, top, right, bottom);
 
-			currentTop += child.getMeasuredHeight();
+			currentTop += child.getMeasuredHeight() + lp.topMargin;
 		}
 	}
 

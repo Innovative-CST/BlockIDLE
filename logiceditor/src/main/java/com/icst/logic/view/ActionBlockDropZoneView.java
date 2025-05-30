@@ -220,7 +220,11 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		if (canDrop(node, index)) {
 			getLogicEditor().removeDummyHighlighter();
 			LayoutParams highlighterLp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			highlighterLp.setMargins(0, BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN, 0, 0);
+			highlighterLp.setMargins(
+					0,
+					UnitUtils.dpToPx(getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+					0,
+					0);
 			NearestTargetHighlighterView highlighter = new NearestTargetHighlighterView(getContext(),
 					node.getActionBlock());
 			getLogicEditor().setDummyHighlighter(highlighter);
@@ -384,20 +388,19 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 				continue;
 			}
 			actionBlockBeanView.setInsideCanva(true);
-			super.addView(actionBlockBeanView, i + index);
-
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 			lp.setMargins(
 					0,
-					i == 0 && index == 0
+					(i == 0 && index == 0)
 							? 0
 							: UnitUtils.dpToPx(
 									getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
 					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);
+			super.addView(actionBlockBeanView, i + index);
 		}
 	}
 

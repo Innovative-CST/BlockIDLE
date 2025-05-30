@@ -263,8 +263,6 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			index -= 1;
 		}
 		if (canDrop(node, index)) {
-			LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			lp.setMargins(0, BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN, 0, 0);
 			addBlockBeans(node, index);
 		}
 	}
@@ -371,10 +369,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 			lp.setMargins(
 					0,
-					i == 0 && index == 0
-							? 0
-							: UnitUtils.dpToPx(
-									getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
+					UnitUtils.dpToPx(
+							getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
 					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);
