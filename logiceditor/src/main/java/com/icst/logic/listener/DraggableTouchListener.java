@@ -63,11 +63,8 @@ public class DraggableTouchListener implements View.OnTouchListener {
 
 							ActionBlockNode draggingBlocks = null;
 
-							ActionBlockNode blocksList = null;
-
 							if (actionBlockBeanView.getParent() instanceof MainActionBlockDropZoneView mainChain) {
 								int index = mainChain.indexOfChild(actionBlockBeanView) - 1;
-								blocksList = mainChain.getActionBlockNode();
 								draggingBlocks = mainChain.getActionBlockNode().get(index);
 								for (int i = index; i < mainChain.getBlocksSize(); ++i) {
 									actionBlockDropZone
@@ -77,7 +74,6 @@ public class DraggableTouchListener implements View.OnTouchListener {
 							} else if (actionBlockBeanView
 									.getParent() instanceof ActionBlockDropZoneView regularChain) {
 								int index = regularChain.indexOfChild(actionBlockBeanView);
-								blocksList = regularChain.getBlockNode();
 								draggingBlocks = regularChain.getBlockNode().get(index);
 								for (int i = index; i < actionBlockDropZone.getChildCount(); ++i) {
 									actionBlockDropZone

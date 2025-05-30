@@ -93,6 +93,10 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void dereferenceActionBlocks(int index) {
+		if (index == 0) {
+			actionBlockNode = null;
+			return;
+		}
 		ActionBlockNode iNode = actionBlockNode.get(index);
 		if (iNode == null)
 			return;
@@ -350,8 +354,8 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 		return true;
 	}
 
-	private void addBlockView() {
-		ActionBlockNode node = actionBlockNode;
+	private void addBlockView(ActionBlockNode blocks, int index) {
+		ActionBlockNode node = blocks;
 		for (int i = 0; node != null; ++i, node = node.next()) {
 			ActionBlockBean actionBlock = node.getActionBlock();
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
@@ -360,14 +364,14 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			if (actionBlockBeanView == null) {
 				continue;
 			}
-			super.addView(actionBlockBeanView, i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
+			super.addView(actionBlockBeanView, index + i + (eventDefinationBlockView.getParent() == null ? 0 : 1));
 
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 			lp.setMargins(
 					0,
-					i == 0
+					i == 0 && index == 0
 							? 0
 							: UnitUtils.dpToPx(
 									getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
@@ -385,7 +389,7 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 		if (actionBlockNode == null) {
 			if (index == 0) {
 				actionBlockNode = node;
-				addBlockView();
+				addBlockView(actionBlockNode, 0);
 				return;
 			} else
 				return;
@@ -409,62 +413,40 @@ public class MainActionBlockDropZoneView extends BlockDropZoneView {
 			}
 		}
 
+		addBlockView(node, index);
+
 		if (index == 0) {
 			ActionBlockNode tempHead = actionBlockNode;
-			actionBlockNode = node;
-			tempHead.setPrevious((RegularBlockNode) node);
+
 			ActionBlockNode lastNode = node;
 			while (lastNode.hasNext()) {
 				lastNode = lastNode.next();
 			}
+			tempHead.setPrevious((RegularBlockNode) lastNode);
 			((RegularBlockNode) lastNode).setNextNode(tempHead);
+			actionBlockNode = node;
+		} else if (index == actionBlockNodeSize) {
+
+			ActionBlockNode lastNode = actionBlockNode;
+			while (lastNode.hasNext()) {
+				lastNode = lastNode.next();
+			}
+			((RegularBlockNode) lastNode).setNextNode(node);
+			node.setPrevious((RegularBlockNode) lastNode);
+
 		} else {
-			ActionBlockNode current = actionBlockNode;
-			int count = 0;
+			ActionBlockNode iNode = actionBlockNode.get(index);
 
-			while (current != null && count < index - 1) {
-				current = current.next();
-				count++;
-			}
-
-			if (current == null) {
-				throw new IndexOutOfBoundsException("Index: " + index);
-			}
+			iNode.getPrevious().setNextNode(node);
+			node.setPrevious(iNode.getPrevious());
 
 			ActionBlockNode lastNode = node;
 			while (lastNode.hasNext()) {
 				lastNode = lastNode.next();
 			}
 
-			((RegularBlockNode) lastNode).setNextNode(current.next());
-			((RegularBlockNode) current).setNextNode(node);
-		}
-
-		ActionBlockNode curr = node;
-		for (int i = 0; curr != null; ++i, curr = curr.next()) {
-			ActionBlockBean actionBlock = curr.getActionBlock();
-			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
-					context, actionBlock, getConfiguration(), getLogicEditor());
-
-			if (actionBlockBeanView == null) {
-				continue;
-			}
-
-			actionBlockBeanView.setInsideCanva(true);
-			super.addView(actionBlockBeanView, i + index + (eventDefinationBlockView.getParent() == null ? 0 : 1));
-
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-			lp.setMargins(
-					0,
-					eventDefinationBlockView.getParent() == null
-							? 0
-							: UnitUtils.dpToPx(
-									getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
-					0,
-					0);
-			actionBlockBeanView.setLayoutParams(lp);
+			((RegularBlockNode) lastNode).setNextNode(iNode);
+			iNode.setPrevious((RegularBlockNode) lastNode);
 		}
 	}
 

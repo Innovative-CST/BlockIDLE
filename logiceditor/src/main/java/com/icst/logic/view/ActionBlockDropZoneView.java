@@ -54,7 +54,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		this.context = context;
 		this.actionBlockNode = actionBlockNode;
 		setOrientation(VERTICAL);
-		addBlockView();
+		addBlockView(actionBlockNode, 0);
 		actionBlockDropZone = new ActionBlockDropZone() {
 
 			@Override
@@ -74,12 +74,17 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void dereferenceActionBlocks(int index) {
+		if (index == 0) {
+			actionBlockNode = null;
+			return;
+		}
 		ActionBlockNode iNode = actionBlockNode.get(index);
 		if (iNode == null)
 			return;
 		if (iNode.getPrevious() == null)
 			return;
 		iNode.getPrevious().setNextNode(null);
+		iNode.setPrevious(null);
 	}
 
 	// Always throw this error to make sure no unexpected view is added.
@@ -266,10 +271,6 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 	}
 
 	public void addActionBlocksBeans(ActionBlockNode node, int index) {
-		if (node == null) {
-			return;
-		}
-
 		if (actionBlockNode == null) {
 			if (index == 0) {
 				addBlockBeans(node, index);
@@ -369,36 +370,34 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 
 	}
 
-	private void addBlockView() {
-		if (actionBlockNode == null) {
+	private void addBlockView(ActionBlockNode blocks, int index) {
+		if (blocks == null) {
 			return;
 		}
-		ActionBlockNode node = actionBlockNode;
-		for (int i = 0; node != null; ++i) {
+		ActionBlockNode node = blocks;
+		for (int i = 0; node != null; ++i, node = node.next()) {
 			ActionBlockBean actionBlock = node.getActionBlock();
 			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
 					context, actionBlock, getConfiguration(), getLogicEditor());
 
 			if (actionBlockBeanView == null) {
-				node = node.next();
 				continue;
 			}
 			actionBlockBeanView.setInsideCanva(true);
-			super.addView(actionBlockBeanView, i);
+			super.addView(actionBlockBeanView, i + index);
 
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 			lp.setMargins(
 					0,
-					i == 0
+					i == 0 && index == 0
 							? 0
 							: UnitUtils.dpToPx(
 									getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
 					0,
 					0);
 			actionBlockBeanView.setLayoutParams(lp);
-			node = node.next();
 		}
 	}
 
@@ -410,10 +409,10 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 		if (actionBlockNode == null) {
 			if (index == 0) {
 				actionBlockNode = node;
-				addBlockView();
+				addBlockView(actionBlockNode, 0);
 				return;
 			} else
-				return;
+				throw new IndexOutOfBoundsException(index);
 		}
 
 		int actionBlockNodeSize = actionBlockNode.getSize();
@@ -434,61 +433,40 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			}
 		}
 
+		addBlockView(node, index);
+
 		if (index == 0) {
 			ActionBlockNode tempHead = actionBlockNode;
-			actionBlockNode = node;
-			tempHead.setPrevious((RegularBlockNode) node);
+
 			ActionBlockNode lastNode = node;
 			while (lastNode.hasNext()) {
 				lastNode = lastNode.next();
 			}
+			tempHead.setPrevious((RegularBlockNode) lastNode);
 			((RegularBlockNode) lastNode).setNextNode(tempHead);
+			actionBlockNode = node;
+		} else if (index == actionBlockNodeSize) {
+
+			ActionBlockNode lastNode = actionBlockNode;
+			while (lastNode.hasNext()) {
+				lastNode = lastNode.next();
+			}
+			((RegularBlockNode) lastNode).setNextNode(node);
+			node.setPrevious((RegularBlockNode) lastNode);
+
 		} else {
-			ActionBlockNode current = actionBlockNode;
-			int count = 0;
+			ActionBlockNode iNode = actionBlockNode.get(index);
 
-			while (current != null && count < index - 1) {
-				current = current.next();
-				count++;
-			}
-
-			if (current == null) {
-				throw new IndexOutOfBoundsException("Index: " + index);
-			}
+			iNode.getPrevious().setNextNode(node);
+			node.setPrevious(iNode.getPrevious());
 
 			ActionBlockNode lastNode = node;
 			while (lastNode.hasNext()) {
 				lastNode = lastNode.next();
 			}
 
-			((RegularBlockNode) lastNode).setNextNode(current.next());
-			((RegularBlockNode) current).setNextNode(node);
-		}
-
-		ActionBlockNode curr = node;
-		for (int i = 0; curr != null; ++i, curr = curr.next()) {
-			ActionBlockBean actionBlock = actionBlockNode.getActionBlock();
-			ActionBlockBeanView actionBlockBeanView = ActionBlockUtils.getBlockView(
-					context, actionBlock, getConfiguration(), getLogicEditor());
-
-			if (actionBlockBeanView == null)
-				continue;
-
-			actionBlockBeanView.setInsideCanva(true);
-			super.addView(actionBlockBeanView, i + index);
-
-			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-			lp.setMargins(
-					0,
-					i == 0 && index == 0
-							? 0
-							: UnitUtils.dpToPx(
-									getContext(), BlockMarginConstants.ACTION_BLOCK_TOP_MARGIN),
-					0,
-					0);
-			actionBlockBeanView.setLayoutParams(lp);
+			((RegularBlockNode) lastNode).setNextNode(iNode);
+			iNode.setPrevious((RegularBlockNode) lastNode);
 		}
 	}
 

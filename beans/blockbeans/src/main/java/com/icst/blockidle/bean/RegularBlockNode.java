@@ -27,6 +27,9 @@ public class RegularBlockNode extends ActionBlockNode<RegularBlockNode, RegularB
 
 	@Override
 	public ActionBlockNode get(int position) {
+		if (position < 0) {
+			return null;
+		}
 		ActionBlockNode curr = this;
 		int index = 0;
 		while (curr.hasNext() && position > index) {
