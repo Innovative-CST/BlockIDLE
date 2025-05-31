@@ -70,16 +70,17 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 	@Override
 	public VariableBean cloneBean() {
 		VariableBean variable = new VariableBean();
-		variable.accessModifier = new Integer(this.accessModifier);
-		variable.variableTitle = this.variableTitle == null ? null : new String(this.variableTitle);
+		variable.accessModifier = Integer.valueOf(this.accessModifier);
+		variable.variableTitle = this.variableTitle == null ? null : this.variableTitle;
 		variable.variableDataType = this.variableDataType == null ? null : variableDataType.cloneBean();
-		variable.variableName = this.variableName == null ? null : new String(this.variableName);
-		variable.mustBeGloballyIntialized = new Boolean(this.mustBeGloballyIntialized);
-		variable.isInitializedGlobally = new Boolean(this.isInitializedGlobally);
-		variable.canInitializedGlobally = new Boolean(this.canInitializedGlobally);
-		variable.isStaticVariable = new Boolean(this.isStaticVariable);
-		variable.isFinalVariable = new Boolean(this.isFinalVariable);
-		variable.applyColorFilter = new Boolean(this.applyColorFilter);
+		variable.variableName = this.variableName == null ? null : this.variableName;
+		variable.mustBeGloballyIntialized = Boolean.valueOf(this.mustBeGloballyIntialized);
+		variable.isInitializedGlobally = Boolean.valueOf(this.isInitializedGlobally);
+		variable.canInitializedGlobally = Boolean.valueOf(this.canInitializedGlobally);
+		variable.isStaticVariable = Boolean.valueOf(this.isStaticVariable);
+		variable.isFinalVariable = Boolean.valueOf(this.isFinalVariable);
+		variable.applyColorFilter = Boolean.valueOf(this.applyColorFilter);
+
 		// TODO: Deep clone BeanManifest
 		variable.beanManifest = this.beanManifest == null ? null : this.beanManifest;
 		variable.nonFixedVariableName = this.nonFixedVariableName == null ? null
