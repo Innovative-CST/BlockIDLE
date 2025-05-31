@@ -53,7 +53,7 @@ dependencies {
 
 	def editorGroupId = "io.github.Rosemoe.sora-editor"
 	implementation platform("$editorGroupId:bom:$sora_editor_version")
-	implementation("$editorGroupId:editor")
-	implementation("$editorGroupId:language-textmate")
-	implementation("$editorGroupId:language-java")
+	api("$editorGroupId:editor")
+	api("$editorGroupId:language-textmate")
+	api("$editorGroupId:language-java")
 }

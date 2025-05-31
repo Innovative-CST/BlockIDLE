@@ -26,6 +26,7 @@ import java.util.zip.ZipInputStream;
 
 import com.icst.blockidle.ExtensionZipInputStream;
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.logic_editor.dialog.EventCodeViewer;
 import com.icst.blockidle.bean.BlockPaletteBean;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.ActivityLogicEditorBinding;
@@ -35,6 +36,8 @@ import com.icst.blockidle.util.SerializationUtils;
 import com.icst.logic.config.LogicEditorConfiguration;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -152,6 +155,20 @@ public class LogicEditorActivity extends AppCompatActivity {
 		}
 
 		return blockPalettes;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.logic_editor_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		if (R.id.show_source == menuItem.getItemId()) {
+			new EventCodeViewer(this, binding.logicEditor.getPreparedEventBean()).create().show();
+		}
+		return true;
 	}
 
 	@Override
