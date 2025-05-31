@@ -15,6 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 package com.icst.blockidle.bean.utils;
 
 import java.util.ArrayList;
