@@ -14,8 +14,12 @@
  *  You should have received a copy of the GNU General Public License
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.icst.blockidle;
 
+import com.icst.blockidle.bean.BeanManifest;
+import com.icst.blockidle.bean.BeanMetadata;
+import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -48,6 +52,8 @@ public class MethodBlocksGenerator {
 	public static BlockBean generateBlockForMethod(MethodDeclaration method, String color) {
 		ResolvedType returnType = method.getType().resolve();
 		BlockBean block = null;
+		ImportsHelper.init();
+		ArtifactHelper.init();
 
 		if (returnType.isVoid()) {
 			return generateRegularBlockForMethod(method, returnType, color);
@@ -238,9 +244,30 @@ public class MethodBlocksGenerator {
 
 	private static void buildMethodCode(MethodDeclaration method, BlockBean mBlock) {
 		StringBuilder code = new StringBuilder();
+		if (method.isStatic()) {
+            ResolvedReferenceTypeDeclaration clazz = method.findAncestor(ClassOrInterfaceDeclaration.class).get().resolve();
+			code.append(clazz.getName());
+			code.append(".");
+			ImportsHelper.insertImport(clazz.getQualifiedName());
+		} else {
+			code.append(CodeFormatterUtils.getKeySyntaxString("mObject"));
+			code.append(".");
+		}
 		code.append(method.getNameAsString());
 		code.append("(");
+		int numberOfParam = method.getParameters().size();
+		for(int i = 0; i < numberOfParam; ++i) {
+			Parameter paramter = method.getParameters().get(i);
+			String paramName = paramter.getNameAsString();
+			code.append(CodeFormatterUtils.getKeySyntaxString(paramName));
+			if(i < numberOfParam - 1) {
+				code.append(", ");
+			}
+		}
 		code.append(")");
+		if(method.getType().resolve().isVoid()) {
+			code.append(";");
+		}
 		if (mBlock instanceof ExpressionBlockBean block) {
 			block.setCodeSyntax(code.toString());
 		} else if (mBlock instanceof RegularBlockBean block) {
@@ -286,6 +313,15 @@ public class MethodBlocksGenerator {
 		mBlock.setColor(color);
 		buildBaseBlockLayer(method, dtype, mBlock);
 		buildMethodCode(method, mBlock);
+		
+		BeanManifest beanManifest = new BeanManifest();
+		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
+		
+		metaData.addAll(ImportsHelper.getImports());
+		metaData.addAll(ArtifactHelper.getArtifacts());
+		
+		beanManifest.setMetadata(metaData);
+		mBlock.setBeanManifest(beanManifest);
 		return mBlock;
 	}
 
@@ -295,6 +331,15 @@ public class MethodBlocksGenerator {
 		mBlock.setColor(color);
 		buildActionBlockLayer(method, returnType, mBlock);
 		buildMethodCode(method, mBlock);
+		
+		BeanManifest beanManifest = new BeanManifest();
+		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
+		
+		metaData.addAll(ImportsHelper.getImports());
+		metaData.addAll(ArtifactHelper.getArtifacts());
+		
+		beanManifest.setMetadata(metaData);
+		mBlock.setBeanManifest(beanManifest);
 		return mBlock;
 	}
 

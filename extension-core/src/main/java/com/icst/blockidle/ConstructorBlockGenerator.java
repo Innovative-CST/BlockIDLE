@@ -17,6 +17,9 @@
 
 package com.icst.blockidle;
 
+import com.icst.blockidle.bean.BeanManifest;
+import com.icst.blockidle.bean.BeanMetadata;
+import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -46,6 +49,8 @@ public class ConstructorBlockGenerator {
 	public static BlockBean generateBlockForConstructor(ConstructorDeclaration contructor, String color) {
 		ResolvedReferenceTypeDeclaration returnType = contructor.resolve().declaringType().asReferenceType();
 		BlockBean block = null;
+		ImportsHelper.init();
+		ArtifactHelper.init();
 		if (returnType.isReferenceType()) {
 			DatatypeBean dataType = DatatypeBeanResolver.getDatatypeBean(returnType.asReferenceType());
 			return generateExpressionBlockForMethod(contructor, returnType, dataType, color);
@@ -162,6 +167,9 @@ public class ConstructorBlockGenerator {
 		generateParamters(contructor, layer1);
 
 		layers.add(layer1);
+		
+		ResolvedReferenceTypeDeclaration clazz = contructor.findAncestor(ClassOrInterfaceDeclaration.class).get().resolve();
+        ImportsHelper.insertImport(clazz.getQualifiedName());
 
 		mBlock.setElementsLayers(layers);
 	}
@@ -174,6 +182,15 @@ public class ConstructorBlockGenerator {
 		StringBuilder code = new StringBuilder();
 		code.append("new " + dType.getClassName());
 		code.append("(");
+		int numberOfParam = contructor.getParameters().size();
+		for(int i = 0; i < numberOfParam; ++i) {
+			Parameter paramter = contructor.getParameters().get(i);
+			String paramName = paramter.getNameAsString();
+			code.append(CodeFormatterUtils.getKeySyntaxString(paramName));
+			if(i < numberOfParam - 1) {
+				code.append(", ");
+			}
+		}
 		code.append(")");
 		if (mBlock instanceof ExpressionBlockBean block) {
 			block.setCodeSyntax(code.toString());
@@ -189,6 +206,15 @@ public class ConstructorBlockGenerator {
 		block.setColor(color);
 		buildBaseBlockLayer(contructor, dtype, block);
 		buildMethodCode(contructor, block);
+		
+		BeanManifest beanManifest = new BeanManifest();
+		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
+		
+		metaData.addAll(ImportsHelper.getImports());
+		metaData.addAll(ArtifactHelper.getArtifacts());
+		
+		beanManifest.setMetadata(metaData);
+		block.setBeanManifest(beanManifest);
 		return block;
 	}
 }

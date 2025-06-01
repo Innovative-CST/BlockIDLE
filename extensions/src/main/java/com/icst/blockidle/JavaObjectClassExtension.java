@@ -33,7 +33,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/toStringMethodEvent")
 	public static EventBean getToStringMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectToStringEventBlock());
 		event.setName("toString");
 		event.setTitle("toString");
@@ -70,7 +70,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/cloneMethodEvent")
 	public static EventBean getCloneMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectCloneEventBlock());
 		event.setName("clone");
 		event.setTitle("clone");
@@ -107,7 +107,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/getClassMethodEvent")
 	public static EventBean getGetClassMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectGetClassEventBlock());
 		event.setName("getClass");
 		event.setTitle("getClass");
@@ -141,7 +141,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/notifyMethodEvent")
 	public static EventBean getNotifyMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectNotifyEventBlock());
 		event.setName("notify");
 		event.setTitle("notify");
@@ -175,7 +175,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/notifyAllMethodEvent")
 	public static EventBean getNotifyAllMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectNotifyAllEventBlock());
 		event.setName("notifyAll");
 		event.setTitle("notifyAll");
@@ -209,7 +209,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/waitMethodEvent")
 	public static EventBean getWaitMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectWaitEventBlock());
 		event.setName("wait");
 		event.setTitle("wait");
@@ -243,7 +243,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/hashCodeMethodEvent")
 	public static EventBean getHashCodeMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectHashCodeEventBlock());
 		event.setName("hashCode");
 		event.setTitle("hashCode");
@@ -280,7 +280,7 @@ public class JavaObjectClassExtension {
 	@ExtensionItem(extensionItemName = "events/equalsMethodEvent")
 	public static EventBean getEqualsMethodEvent() {
 		EventBean event = new EventBean();
-		event.setActionBlockBeans(new ArrayList<ActionBlockBean>());
+		event.setActionBlockNode(null);
 		event.setEventDefinationBlockBean(getObjectEqualsEventBlock());
 		event.setName("equals");
 		event.setTitle("equals");
