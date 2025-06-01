@@ -40,6 +40,7 @@ import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.StringBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
@@ -202,8 +203,17 @@ public class ConstructorBlockGenerator {
 
 	private static ExpressionBlockBean generateExpressionBlockForMethod(ConstructorDeclaration contructor,
 			ResolvedReferenceTypeDeclaration returnType, DatatypeBean dtype, String color) {
-		GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
-		block.setReturnDatatype(dtype);
+
+		ExpressionBlockBean block = null;
+		if (contructor.resolve().declaringType().getQualifiedName().equals("java.lang.String")) {
+			StringBlockBean mBlock = new StringBlockBean();
+			block = mBlock;
+		} else {
+			GeneralExpressionBlockBean mBlock = new GeneralExpressionBlockBean();
+			mBlock.setReturnDatatype(dtype);
+			block = mBlock;
+		}
+
 		block.setColor(color);
 		buildBaseBlockLayer(contructor, dtype, block);
 		buildMethodCode(contructor, block);

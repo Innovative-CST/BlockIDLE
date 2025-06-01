@@ -43,6 +43,7 @@ import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.StringBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
@@ -305,6 +306,9 @@ public class MethodBlocksGenerator {
 					throw new IllegalArgumentException(
 							"Unknown primitive type: " + returnType.asPrimitive().describe());
 			}
+		} else if (returnType.describe().equals("java.lang.String")) {
+			StringBlockBean block = new StringBlockBean();
+			mBlock = block;
 		} else {
 			GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
 			block.setReturnDatatype(dtype);
