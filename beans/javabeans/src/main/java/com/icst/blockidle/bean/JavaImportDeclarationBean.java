@@ -71,4 +71,16 @@ public class JavaImportDeclarationBean extends BeanMetadata
     public void setIsStaticImport(boolean isStaticImport) {
         this.isStaticImport = isStaticImport;
     }
+
+    public String getCode() {
+        if (className == null || className.isEmpty()) {
+            return "";
+        }
+        StringBuilder builder = new StringBuilder("import ");
+        if (isStaticImport) {
+            builder.append("static ");
+        }
+        builder.append(className).append(";");
+        return builder.toString();
+    }
 }
