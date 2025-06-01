@@ -22,7 +22,7 @@ import java.io.Serializable;
 import com.icst.blockidle.bean.utils.BeansUIDConstants;
 
 /** Represents an artifact in a repository. */
-public class ArtifactBean implements Serializable {
+public class ArtifactBean extends BeanMetadata implements Serializable {
 
 	public static final long serialVersionUID = BeansUIDConstants.ARTIFACT_BEAN;
 
