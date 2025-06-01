@@ -67,10 +67,10 @@ public abstract class ActionBlockBean<T> extends BlockBean<T>
 
 		String key = actionBlockLayerBean.getKey();
 		String replacingCode = CodeFormatterUtils.getKeySyntaxString(key);
-		int intendation = CodeFormatterUtils.getIntendation(code, replacingCode);
+		int intendation = CodeFormatterUtils.getIndentation(code, replacingCode);
 
 		String layerCode = actionBlockLayerBean.getProcessedCode();
-		String layerIntendedCode = CodeFormatterUtils.addIntendation(layerCode, intendation);
+		String layerIntendedCode = CodeFormatterUtils.addIndentation(layerCode, intendation);
 
 		code = code.replace(replacingCode, layerIntendedCode);
 
