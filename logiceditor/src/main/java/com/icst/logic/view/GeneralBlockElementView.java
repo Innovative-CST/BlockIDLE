@@ -202,6 +202,7 @@ public class GeneralBlockElementView extends LinearLayout {
 
 	private void showSpinner() {
 		spinner.setVisibility(VISIBLE);
+		layout.setBackgroundColor(Color.TRANSPARENT);
 	}
 
 	private void refreshSpinner() {
@@ -295,6 +296,7 @@ public class GeneralBlockElementView extends LinearLayout {
 
 	private void showExpressionBlock() {
 		expressionBlockView.setVisibility(VISIBLE);
+		layout.setBackgroundColor(Color.BLACK);
 	}
 
 	private void showExpressionBlockIfInvisible() {
