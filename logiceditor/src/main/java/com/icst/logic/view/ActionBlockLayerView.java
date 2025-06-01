@@ -18,6 +18,7 @@
 package com.icst.logic.view;
 
 import com.icst.blockidle.bean.ActionBlockLayerBean;
+import com.icst.blockidle.bean.ActionBlockNode;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -51,9 +52,13 @@ public class ActionBlockLayerView extends ActionBlockDropZoneView implements Lay
 		super(context, layer.getActionBlockNode(), logicEditorConfiguration, logicEditor);
 		this.layer = layer;
 		setWillNotDraw(false);
-		if (layer.getActionBlockNode() == null) {
-			layer.setActionBlockNode(getBlockNode());
-		}
+		setActionBlockNode(layer.getActionBlockNode());
+	}
+
+	@Override
+	protected void setActionBlockNode(ActionBlockNode head) {
+		super.setActionBlockNode(head);
+		layer.setActionBlockNode(head);
 	}
 
 	@Override

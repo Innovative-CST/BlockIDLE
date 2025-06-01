@@ -89,9 +89,6 @@ public class BlocksGenerator {
 								} else {
 									System.err.println(method.getNameAsString() + " - block failed to create");
 								}
-							} else {
-								System.err.println(method.getNameAsString() + " " + method.getParameters().toString()
-										+ " - block not created (private or protected method)");
 							}
 						});
 
@@ -105,10 +102,6 @@ public class BlocksGenerator {
 								} else {
 									System.err.println(constructor.getNameAsString() + " - block failed to create");
 								}
-							} else {
-								System.err.println(
-										constructor.getNameAsString() + " " + constructor.getParameters().toString()
-												+ " - block not created (private or protected constructor)");
 							}
 						});
 					});

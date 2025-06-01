@@ -25,6 +25,8 @@ import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclarat
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.types.ResolvedType;
 import com.icst.blockidle.bean.BaseBlockBean;
+import com.icst.blockidle.bean.BeanManifest;
+import com.icst.blockidle.bean.BeanMetadata;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
@@ -38,14 +40,18 @@ import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.StringBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
+import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
 public class ConstructorBlockGenerator {
 
 	public static BlockBean generateBlockForConstructor(ConstructorDeclaration contructor, String color) {
 		ResolvedReferenceTypeDeclaration returnType = contructor.resolve().declaringType().asReferenceType();
 		BlockBean block = null;
+		ImportsHelper.init();
+		ArtifactHelper.init();
 		if (returnType.isReferenceType()) {
 			DatatypeBean dataType = DatatypeBeanResolver.getDatatypeBean(returnType.asReferenceType());
 			return generateExpressionBlockForMethod(contructor, returnType, dataType, color);
@@ -163,6 +169,10 @@ public class ConstructorBlockGenerator {
 
 		layers.add(layer1);
 
+		ResolvedReferenceTypeDeclaration clazz = contructor.findAncestor(ClassOrInterfaceDeclaration.class).get()
+				.resolve();
+		ImportsHelper.insertImport(clazz.getQualifiedName());
+
 		mBlock.setElementsLayers(layers);
 	}
 
@@ -174,6 +184,15 @@ public class ConstructorBlockGenerator {
 		StringBuilder code = new StringBuilder();
 		code.append("new " + dType.getClassName());
 		code.append("(");
+		int numberOfParam = contructor.getParameters().size();
+		for (int i = 0; i < numberOfParam; ++i) {
+			Parameter paramter = contructor.getParameters().get(i);
+			String paramName = paramter.getNameAsString();
+			code.append(CodeFormatterUtils.getKeySyntaxString(paramName));
+			if (i < numberOfParam - 1) {
+				code.append(", ");
+			}
+		}
 		code.append(")");
 		if (mBlock instanceof ExpressionBlockBean block) {
 			block.setCodeSyntax(code.toString());
@@ -184,11 +203,29 @@ public class ConstructorBlockGenerator {
 
 	private static ExpressionBlockBean generateExpressionBlockForMethod(ConstructorDeclaration contructor,
 			ResolvedReferenceTypeDeclaration returnType, DatatypeBean dtype, String color) {
-		GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
-		block.setReturnDatatype(dtype);
+
+		ExpressionBlockBean block = null;
+		if (contructor.resolve().declaringType().getQualifiedName().equals("java.lang.String")) {
+			StringBlockBean mBlock = new StringBlockBean();
+			block = mBlock;
+		} else {
+			GeneralExpressionBlockBean mBlock = new GeneralExpressionBlockBean();
+			mBlock.setReturnDatatype(dtype);
+			block = mBlock;
+		}
+
 		block.setColor(color);
 		buildBaseBlockLayer(contructor, dtype, block);
 		buildMethodCode(contructor, block);
+
+		BeanManifest beanManifest = new BeanManifest();
+		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
+
+		metaData.addAll(ImportsHelper.getImports());
+		metaData.addAll(ArtifactHelper.getArtifacts());
+
+		beanManifest.setMetadata(metaData);
+		block.setBeanManifest(beanManifest);
 		return block;
 	}
 }

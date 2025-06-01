@@ -18,6 +18,7 @@
 package com.icst.blockidle.bean;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.icst.blockidle.bean.utils.JavaBeansUIDConstants;
 
@@ -27,13 +28,15 @@ public class JavaImportDeclarationBean extends BeanMetadata
 	public static final long serialVersionUID = JavaBeansUIDConstants.JAVA_IMPORT_DECLARATION_BEAN;
 
 	private String className;
+	private boolean isStaticImport;
 
 	// For non-parameterized contructor, do not removr
 	public JavaImportDeclarationBean() {
 	}
 
-	public JavaImportDeclarationBean(String className) {
+	public JavaImportDeclarationBean(String className, boolean isStatic) {
 		this.className = className;
+		this.isStaticImport = isStatic;
 	}
 
 	public String getClassName() {
@@ -45,25 +48,43 @@ public class JavaImportDeclarationBean extends BeanMetadata
 	}
 
 	@Override
-	public int hashCode() {
-		if (className == null) {
-			return 0;
-		}
-		return className.hashCode();
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null || getClass() != obj.getClass())
 			return false;
-		JavaImportDeclarationBean mJavaImportDeclarationBean = (JavaImportDeclarationBean) obj;
-		return hashCode() == mJavaImportDeclarationBean.hashCode();
+		JavaImportDeclarationBean other = (JavaImportDeclarationBean) obj;
+		return isStaticImport == other.isStaticImport &&
+				Objects.equals(className, other.className);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(className, isStaticImport);
 	}
 
 	@Override
 	public JavaImportDeclarationBean cloneBean() {
-		return new JavaImportDeclarationBean(className);
+		return new JavaImportDeclarationBean(new String(className), Boolean.valueOf(isStaticImport));
+	}
+
+	public boolean getIsStaticImport() {
+		return this.isStaticImport;
+	}
+
+	public void setIsStaticImport(boolean isStaticImport) {
+		this.isStaticImport = isStaticImport;
+	}
+
+	public String getCode() {
+		if (className == null || className.isEmpty()) {
+			return "";
+		}
+		StringBuilder builder = new StringBuilder("import ");
+		if (isStaticImport) {
+			builder.append("static ");
+		}
+		builder.append(className).append(";");
+		return builder.toString();
 	}
 }

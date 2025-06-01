@@ -86,6 +86,8 @@ dependencies {
 	// Material Design
 	implementation("com.google.android.material:material:$material_design_version")
 
+	implementation project(":editor")
+
 	// Extension Core
 	implementation project(":extension-core")
 

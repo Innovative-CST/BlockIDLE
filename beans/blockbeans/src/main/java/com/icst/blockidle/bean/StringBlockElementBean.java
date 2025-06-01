@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.utils.BlockBeansUIDConstants;
+import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 
 public class StringBlockElementBean
 		implements ValueInputBlockElementBean<StringBlockElementBean>, Serializable {
@@ -99,10 +100,7 @@ public class StringBlockElementBean
 
 	@Override
 	public DatatypeBean getAcceptedReturnType() {
-		DatatypeBean obj = new DatatypeBean("java.lang.Object", "Object");
-		DatatypeBean string = new DatatypeBean("java.lang.String", "String");
-		string.addSuperType(obj);
-		return string;
+		return BuiltInDatatypes.getStringDatatype();
 	}
 
 	@Override

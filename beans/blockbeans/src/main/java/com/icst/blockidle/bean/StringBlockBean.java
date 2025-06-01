@@ -20,15 +20,13 @@ package com.icst.blockidle.bean;
 import java.io.Serializable;
 
 import com.icst.blockidle.bean.utils.BeanArrayCloneUtils;
+import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 
 public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implements Serializable {
 
 	@Override
 	public DatatypeBean getReturnDatatype() {
-		DatatypeBean obj = new DatatypeBean("java.lang.Object", "Object");
-		DatatypeBean string = new DatatypeBean("java.lang.String", "String");
-		string.addSuperType(obj);
-		return string;
+		return BuiltInDatatypes.getStringDatatype();
 	}
 
 	@Override

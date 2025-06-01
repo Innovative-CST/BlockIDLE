@@ -14,6 +14,7 @@
  *  You should have received a copy of the GNU General Public License
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
+
 package com.icst.blockidle;
 
 import java.io.*;
@@ -25,6 +26,8 @@ import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclar
 import com.github.javaparser.resolution.types.ResolvedType;
 import com.icst.blockidle.bean.ActionBlockBean;
 import com.icst.blockidle.bean.BaseBlockBean;
+import com.icst.blockidle.bean.BeanManifest;
+import com.icst.blockidle.bean.BeanMetadata;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
@@ -40,14 +43,18 @@ import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
+import com.icst.blockidle.bean.StringBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
+import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
 public class MethodBlocksGenerator {
 
 	public static BlockBean generateBlockForMethod(MethodDeclaration method, String color) {
 		ResolvedType returnType = method.getType().resolve();
 		BlockBean block = null;
+		ImportsHelper.init();
+		ArtifactHelper.init();
 
 		if (returnType.isVoid()) {
 			return generateRegularBlockForMethod(method, returnType, color);
@@ -238,9 +245,31 @@ public class MethodBlocksGenerator {
 
 	private static void buildMethodCode(MethodDeclaration method, BlockBean mBlock) {
 		StringBuilder code = new StringBuilder();
+		if (method.isStatic()) {
+			ResolvedReferenceTypeDeclaration clazz = method.findAncestor(ClassOrInterfaceDeclaration.class).get()
+					.resolve();
+			code.append(clazz.getName());
+			code.append(".");
+			ImportsHelper.insertImport(clazz.getQualifiedName());
+		} else {
+			code.append(CodeFormatterUtils.getKeySyntaxString("mObject"));
+			code.append(".");
+		}
 		code.append(method.getNameAsString());
 		code.append("(");
+		int numberOfParam = method.getParameters().size();
+		for (int i = 0; i < numberOfParam; ++i) {
+			Parameter paramter = method.getParameters().get(i);
+			String paramName = paramter.getNameAsString();
+			code.append(CodeFormatterUtils.getKeySyntaxString(paramName));
+			if (i < numberOfParam - 1) {
+				code.append(", ");
+			}
+		}
 		code.append(")");
+		if (method.getType().resolve().isVoid()) {
+			code.append(";");
+		}
 		if (mBlock instanceof ExpressionBlockBean block) {
 			block.setCodeSyntax(code.toString());
 		} else if (mBlock instanceof RegularBlockBean block) {
@@ -277,6 +306,9 @@ public class MethodBlocksGenerator {
 					throw new IllegalArgumentException(
 							"Unknown primitive type: " + returnType.asPrimitive().describe());
 			}
+		} else if (returnType.describe().equals("java.lang.String")) {
+			StringBlockBean block = new StringBlockBean();
+			mBlock = block;
 		} else {
 			GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
 			block.setReturnDatatype(dtype);
@@ -286,6 +318,15 @@ public class MethodBlocksGenerator {
 		mBlock.setColor(color);
 		buildBaseBlockLayer(method, dtype, mBlock);
 		buildMethodCode(method, mBlock);
+
+		BeanManifest beanManifest = new BeanManifest();
+		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
+
+		metaData.addAll(ImportsHelper.getImports());
+		metaData.addAll(ArtifactHelper.getArtifacts());
+
+		beanManifest.setMetadata(metaData);
+		mBlock.setBeanManifest(beanManifest);
 		return mBlock;
 	}
 
@@ -295,6 +336,15 @@ public class MethodBlocksGenerator {
 		mBlock.setColor(color);
 		buildActionBlockLayer(method, returnType, mBlock);
 		buildMethodCode(method, mBlock);
+
+		BeanManifest beanManifest = new BeanManifest();
+		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
+
+		metaData.addAll(ImportsHelper.getImports());
+		metaData.addAll(ArtifactHelper.getArtifacts());
+
+		beanManifest.setMetadata(metaData);
+		mBlock.setBeanManifest(beanManifest);
 		return mBlock;
 	}
 
