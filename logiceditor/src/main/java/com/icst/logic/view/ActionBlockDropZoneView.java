@@ -75,7 +75,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 
 	public void dereferenceActionBlocks(int index) {
 		if (index == 0) {
-			actionBlockNode = null;
+			setActionBlockNode(null);
 			return;
 		}
 		ActionBlockNode iNode = actionBlockNode.get(index);
@@ -85,6 +85,10 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			return;
 		iNode.getPrevious().setNextNode(null);
 		iNode.setPrevious(null);
+	}
+
+	protected void setActionBlockNode(ActionBlockNode head) {
+		actionBlockNode = head;
 	}
 
 	// Always throw this error to make sure no unexpected view is added.
@@ -411,7 +415,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 
 		if (actionBlockNode == null) {
 			if (index == 0) {
-				actionBlockNode = node;
+				setActionBlockNode(node);
 				addBlockView(actionBlockNode, 0);
 				return;
 			} else
@@ -447,7 +451,7 @@ public class ActionBlockDropZoneView extends BlockDropZoneView {
 			}
 			tempHead.setPrevious((RegularBlockNode) lastNode);
 			((RegularBlockNode) lastNode).setNextNode(tempHead);
-			actionBlockNode = node;
+			setActionBlockNode(node);
 		} else if (index == actionBlockNodeSize) {
 
 			ActionBlockNode lastNode = actionBlockNode;
