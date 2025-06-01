@@ -19,68 +19,72 @@ package com.icst.blockidle.bean;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import com.icst.blockidle.bean.utils.JavaBeansUIDConstants;
 
 public class JavaImportDeclarationBean extends BeanMetadata
-        implements Serializable, CloneableBean<JavaImportDeclarationBean> {
+		implements Serializable, CloneableBean<JavaImportDeclarationBean> {
 
-    public static final long serialVersionUID = JavaBeansUIDConstants.JAVA_IMPORT_DECLARATION_BEAN;
+	public static final long serialVersionUID = JavaBeansUIDConstants.JAVA_IMPORT_DECLARATION_BEAN;
 
-    private String className;
-    private boolean isStaticImport;
+	private String className;
+	private boolean isStaticImport;
 
-    // For non-parameterized contructor, do not removr
-    public JavaImportDeclarationBean() {}
+	// For non-parameterized contructor, do not removr
+	public JavaImportDeclarationBean() {
+	}
 
-    public JavaImportDeclarationBean(String className, boolean isStatic) {
-        this.className = className;
-        this.isStaticImport = isStatic;
-    }
+	public JavaImportDeclarationBean(String className, boolean isStatic) {
+		this.className = className;
+		this.isStaticImport = isStatic;
+	}
 
-    public String getClassName() {
-        return this.className;
-    }
+	public String getClassName() {
+		return this.className;
+	}
 
-    public void setClassName(String className) {
-        this.className = className;
-    }
-	
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        JavaImportDeclarationBean other = (JavaImportDeclarationBean) obj;
-        return isStaticImport == other.isStaticImport &&
-            Objects.equals(className, other.className);
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(className, isStaticImport);
-    }
+	public void setClassName(String className) {
+		this.className = className;
+	}
 
-    @Override
-    public JavaImportDeclarationBean cloneBean() {
-        return new JavaImportDeclarationBean(new String(className), Boolean.valueOf(isStaticImport));
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		JavaImportDeclarationBean other = (JavaImportDeclarationBean) obj;
+		return isStaticImport == other.isStaticImport &&
+				Objects.equals(className, other.className);
+	}
 
-    public boolean getIsStaticImport() {
-        return this.isStaticImport;
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(className, isStaticImport);
+	}
 
-    public void setIsStaticImport(boolean isStaticImport) {
-        this.isStaticImport = isStaticImport;
-    }
+	@Override
+	public JavaImportDeclarationBean cloneBean() {
+		return new JavaImportDeclarationBean(new String(className), Boolean.valueOf(isStaticImport));
+	}
 
-    public String getCode() {
-        if (className == null || className.isEmpty()) {
-            return "";
-        }
-        StringBuilder builder = new StringBuilder("import ");
-        if (isStaticImport) {
-            builder.append("static ");
-        }
-        builder.append(className).append(";");
-        return builder.toString();
-    }
+	public boolean getIsStaticImport() {
+		return this.isStaticImport;
+	}
+
+	public void setIsStaticImport(boolean isStaticImport) {
+		this.isStaticImport = isStaticImport;
+	}
+
+	public String getCode() {
+		if (className == null || className.isEmpty()) {
+			return "";
+		}
+		StringBuilder builder = new StringBuilder("import ");
+		if (isStaticImport) {
+			builder.append("static ");
+		}
+		builder.append(className).append(";");
+		return builder.toString();
+	}
 }

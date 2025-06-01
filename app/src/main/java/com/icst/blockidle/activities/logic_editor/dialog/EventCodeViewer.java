@@ -20,6 +20,7 @@ package com.icst.blockidle.activities.logic_editor.dialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.logic_editor.LogicEditorActivity;
 import com.icst.blockidle.bean.EventBean;
+import com.icst.blockidle.bean.JavaImportDeclarationBean;
 import com.icst.blockidle.databinding.DialogEventCodeBinding;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Themes;
@@ -50,6 +51,17 @@ public class EventCodeViewer extends MaterialAlertDialogBuilder {
 		binding.eventCode.setTheme(Themes.SoraEditorTheme.Light.Default);
 		binding.eventCode.setLanguageMode("java");
 		binding.eventCode.setText(event.getProcessedCode());
+
+		StringBuilder imports = new StringBuilder();
+		event.getAllMetadata(JavaImportDeclarationBean.class).forEach(importDeclaration -> {
+			imports.append(importDeclaration.getCode());
+			imports.append("\n");
+		});
+
+		binding.eventImports.setEditable(false);
+		binding.eventImports.setTheme(Themes.SoraEditorTheme.Light.Default);
+		binding.eventImports.setLanguageMode("java");
+		binding.eventImports.setText(imports.toString());
 
 		setView(binding.getRoot());
 		setPositiveButton("Close", null);

@@ -10,6 +10,19 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:text="Event imports"
+        android:textSize="24sp"
+        android:fontFamily="@font/noto_sans_semibold" />
+
+    <com.icst.editor.widget.CodeEditorLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="8dp"
+        android:id="@+id/eventImports"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:text="Code Viewer"
         android:textSize="24sp"
         android:fontFamily="@font/noto_sans_semibold" />

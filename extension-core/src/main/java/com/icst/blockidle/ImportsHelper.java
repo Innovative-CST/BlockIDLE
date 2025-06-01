@@ -16,24 +16,27 @@
  */
 
 package com.icst.blockidle;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import com.icst.blockidle.bean.BeanMetadata;
 import com.icst.blockidle.bean.JavaImportDeclarationBean;
-import java.util.HashSet;
-import java.util.ArrayList;
+
 public class ImportsHelper {
 
-    private static HashSet<JavaImportDeclarationBean> imports;
-	
+	private static HashSet<JavaImportDeclarationBean> imports;
+
 	public static void init() {
 		imports = new HashSet<JavaImportDeclarationBean>();
 	}
-	
+
 	public static void insertImport(String importClass) {
-	    imports.add(new JavaImportDeclarationBean(importClass, false));
+		imports.add(new JavaImportDeclarationBean(importClass, false));
 	}
-	
+
 	public static ArrayList<BeanMetadata> getImports() {
-	    return new ArrayList<BeanMetadata>(imports);
+		return new ArrayList<BeanMetadata>(imports);
 	}
 
 }

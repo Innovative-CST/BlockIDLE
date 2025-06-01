@@ -17,9 +17,6 @@
 
 package com.icst.blockidle;
 
-import com.icst.blockidle.bean.BeanManifest;
-import com.icst.blockidle.bean.BeanMetadata;
-import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -28,6 +25,8 @@ import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclarat
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.resolution.types.ResolvedType;
 import com.icst.blockidle.bean.BaseBlockBean;
+import com.icst.blockidle.bean.BeanManifest;
+import com.icst.blockidle.bean.BeanMetadata;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
@@ -43,6 +42,7 @@ import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
+import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
 public class ConstructorBlockGenerator {
 
@@ -167,9 +167,10 @@ public class ConstructorBlockGenerator {
 		generateParamters(contructor, layer1);
 
 		layers.add(layer1);
-		
-		ResolvedReferenceTypeDeclaration clazz = contructor.findAncestor(ClassOrInterfaceDeclaration.class).get().resolve();
-        ImportsHelper.insertImport(clazz.getQualifiedName());
+
+		ResolvedReferenceTypeDeclaration clazz = contructor.findAncestor(ClassOrInterfaceDeclaration.class).get()
+				.resolve();
+		ImportsHelper.insertImport(clazz.getQualifiedName());
 
 		mBlock.setElementsLayers(layers);
 	}
@@ -183,11 +184,11 @@ public class ConstructorBlockGenerator {
 		code.append("new " + dType.getClassName());
 		code.append("(");
 		int numberOfParam = contructor.getParameters().size();
-		for(int i = 0; i < numberOfParam; ++i) {
+		for (int i = 0; i < numberOfParam; ++i) {
 			Parameter paramter = contructor.getParameters().get(i);
 			String paramName = paramter.getNameAsString();
 			code.append(CodeFormatterUtils.getKeySyntaxString(paramName));
-			if(i < numberOfParam - 1) {
+			if (i < numberOfParam - 1) {
 				code.append(", ");
 			}
 		}
@@ -206,13 +207,13 @@ public class ConstructorBlockGenerator {
 		block.setColor(color);
 		buildBaseBlockLayer(contructor, dtype, block);
 		buildMethodCode(contructor, block);
-		
+
 		BeanManifest beanManifest = new BeanManifest();
 		ArrayList<BeanMetadata> metaData = new ArrayList<BeanMetadata>();
-		
+
 		metaData.addAll(ImportsHelper.getImports());
 		metaData.addAll(ArtifactHelper.getArtifacts());
-		
+
 		beanManifest.setMetadata(metaData);
 		block.setBeanManifest(beanManifest);
 		return block;

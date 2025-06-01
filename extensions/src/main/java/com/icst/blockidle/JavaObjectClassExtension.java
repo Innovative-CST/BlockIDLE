@@ -19,7 +19,6 @@ package com.icst.blockidle;
 
 import java.util.ArrayList;
 
-import com.icst.blockidle.bean.ActionBlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
 import com.icst.blockidle.bean.EventBean;

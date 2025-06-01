@@ -16,29 +16,31 @@
  */
 
 package com.icst.blockidle;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+
 import com.icst.blockidle.bean.ArtifactBean;
 import com.icst.blockidle.bean.BeanMetadata;
-import com.icst.blockidle.bean.JavaImportDeclarationBean;
-import java.util.HashSet;
-import java.util.ArrayList;
+
 public class ArtifactHelper {
 
-    private static HashSet<ArtifactBean> artifacts;
-	
+	private static HashSet<ArtifactBean> artifacts;
+
 	public static void init() {
 		artifacts = new HashSet<ArtifactBean>();
 	}
-	
+
 	public void addArtifacts(ArrayList<ArtifactBean> artifacts) {
 		ArtifactHelper.artifacts.addAll(artifacts);
 	}
-	
+
 	public static void insertArtifactBean(ArtifactBean artifact) {
-	    artifacts.add(artifact);
+		artifacts.add(artifact);
 	}
-	
+
 	public static ArrayList<BeanMetadata> getArtifacts() {
-	    return new ArrayList<BeanMetadata>(artifacts);
+		return new ArrayList<BeanMetadata>(artifacts);
 	}
 
 }
