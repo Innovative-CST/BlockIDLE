@@ -63,7 +63,9 @@ task generateExtensions(type: JavaExec) {
 	main = "com.icst.blockidle.extension.ExtensionsZipWriter"
 	args = [
 		outputDir.getAbsolutePath(),
-		"$buildDir/unzipped/openjdk-17"
+		"$buildDir/unzipped/openjdk-17",
+		"src/main/resources/extension-source/android-sdk-35/src/java",
+		"src/main/resources/extension-source/appcompat-1.7.0/src/java"
 	]
 }
 
