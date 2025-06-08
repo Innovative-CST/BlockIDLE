@@ -20,6 +20,7 @@ package com.icst.blockidle.application;
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
 import com.icst.blockidle.util.EnvironmentUtils;
+import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 
 import android.app.AlarmManager;
 import android.app.Application;
@@ -30,6 +31,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Process;
 import android.util.Log;
+import android.widget.Toast;
+
+import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
+import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 
 public class MyApplication extends Application {
 
@@ -44,6 +49,16 @@ public class MyApplication extends Application {
 
 		EnvironmentUtils.init(this);
 		com.icst.blockidle.activities.terminal.EnvironmentUtils.init(this);
+
+		FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
+		AssetsFileResolver assetsFileResolver = new AssetsFileResolver(getAssets());
+		fileProviderRegistry.addFileProvider(assetsFileResolver);
+		try {
+			TextMateProvider.loadGrammars();
+		} catch (Exception e) {
+			Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+
 		Thread.setDefaultUncaughtExceptionHandler(
 				new Thread.UncaughtExceptionHandler() {
 					@Override

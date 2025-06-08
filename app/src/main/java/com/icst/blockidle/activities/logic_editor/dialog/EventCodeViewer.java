@@ -22,14 +22,9 @@ import com.icst.blockidle.activities.logic_editor.LogicEditorActivity;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.bean.JavaImportDeclarationBean;
 import com.icst.blockidle.databinding.DialogEventCodeBinding;
-import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Themes;
 
 import android.view.LayoutInflater;
-import android.widget.Toast;
-
-import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
-import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 
 public class EventCodeViewer extends MaterialAlertDialogBuilder {
 
@@ -39,14 +34,6 @@ public class EventCodeViewer extends MaterialAlertDialogBuilder {
 		super(activity);
 		LayoutInflater layoutInflator = LayoutInflater.from(activity);
 		binding = DialogEventCodeBinding.inflate(layoutInflator);
-
-		FileProviderRegistry.getInstance()
-				.addFileProvider(new AssetsFileResolver(activity.getAssets()));
-		try {
-			TextMateProvider.loadGrammars();
-		} catch (Exception e) {
-			Toast.makeText(activity, e.getMessage(), Toast.LENGTH_LONG).show();
-		}
 		binding.eventCode.setEditable(false);
 		binding.eventCode.setTheme(Themes.SoraEditorTheme.Light.Default);
 		binding.eventCode.setLanguageMode("java");

@@ -46,8 +46,6 @@ public class BootstrapInstaller {
 
 	public interface ProgressListener {
 		void onProgress(String message);
-
-		void onWarning(String warning);
 	}
 
 	public static Context context;
@@ -180,7 +178,7 @@ public class BootstrapInstaller {
 		if (!new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libhook.so").exists()) {
 			copyFileFromAssets(
 					"libhook.so",
-					new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libhook.so").getAbsolutePath());
+					new File(mkdirIfNotExits(new File(PREFIX, "lib")), "libhook.so").getAbsolutePath(), listener);
 
 			grantFile(new File(new File(PREFIX, "lib"), "libhook.so"), context, listener);
 		}
@@ -189,13 +187,14 @@ public class BootstrapInstaller {
 	public static void extractAapt2(final File PREFIX, Context context, ProgressListener listener) {
 		if (!new File(mkdirIfNotExits(new File(PREFIX, "bin")), "aapt2").exists()) {
 			copyFileFromAssets(
-					"aapt2", new File(mkdirIfNotExits(new File(PREFIX, "bin")), "aapt2").getAbsolutePath());
+					"aapt2", new File(mkdirIfNotExits(new File(PREFIX, "bin")), "aapt2").getAbsolutePath(), listener);
 
 			grantFile(new File(new File(PREFIX, "bin"), "aapt2"), context, listener);
 		}
 	}
 
-	public static boolean copyFileFromAssets(final String assetsFilePath, final String destFilePath) {
+	public static boolean copyFileFromAssets(final String assetsFilePath, final String destFilePath,
+			final ProgressListener listener) {
 		boolean res = true;
 		try {
 			String[] assets = context.getAssets().list(assetsFilePath);
@@ -208,6 +207,7 @@ public class BootstrapInstaller {
 				res = writeFileFromIS(destFilePath, context.getAssets().open(assetsFilePath));
 			}
 		} catch (IOException e) {
+			error(listener, e.getMessage());
 			e.printStackTrace();
 			res = false;
 		}
@@ -218,7 +218,7 @@ public class BootstrapInstaller {
 		try {
 			Os.chmod(path.getAbsolutePath(), 0700);
 		} catch (ErrnoException e) {
-			warn(listener, e.getMessage());
+			error(listener, e.getMessage());
 		}
 	}
 
@@ -234,13 +234,19 @@ public class BootstrapInstaller {
 
 	private static void notify(ProgressListener listener, String message) {
 		if (listener != null) {
-			listener.onProgress(message);
+			listener.onProgress("LOG: " + message);
 		}
 	}
 
 	private static void warn(ProgressListener listener, String message) {
 		if (listener != null) {
-			listener.onWarning(message);
+			listener.onProgress("WARNING: " + message);
+		}
+	}
+
+	private static void error(ProgressListener listener, String message) {
+		if (listener != null) {
+			listener.onProgress("ERROR: " + message);
 		}
 	}
 }

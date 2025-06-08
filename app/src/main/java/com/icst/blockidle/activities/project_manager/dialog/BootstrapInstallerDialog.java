@@ -24,6 +24,7 @@ import com.icst.blockidle.activities.terminal.EnvironmentUtils;
 import com.icst.blockidle.databinding.DialogBootstrapInstallerBinding;
 import com.icst.blockidle.terminal.BootstrapInstaller;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
+import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
 
 import android.app.Activity;
@@ -45,17 +46,9 @@ public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 		super(activity);
 		this.activity = activity;
 		binding = DialogBootstrapInstallerBinding.inflate(LayoutInflater.from(activity));
-
-		FileProviderRegistry.getInstance()
-				.addFileProvider(new AssetsFileResolver(activity.getAssets()));
-		try {
-			TextMateProvider.loadGrammars();
-		} catch (Exception e) {
-		}
-
 		binding.editor.setEditable(false);
-
 		binding.editor.setTheme(Themes.SoraEditorTheme.Light.Default);
+		binding.editor.setLanguageMode(Language.LOG);
 
 		setView(binding.getRoot());
 		setTitle("Installing Bootstrap");
@@ -65,16 +58,6 @@ public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 		final CompletableFuture<Void> future = BootstrapInstaller.install(
 				activity,
 				new BootstrapInstaller.ProgressListener() {
-					@Override
-					public void onWarning(String warning) {
-						log.append(warning);
-						log.append("\n");
-						activity.runOnUiThread(
-								() -> {
-									binding.editor.setText(log.toString());
-								});
-					}
-
 					@Override
 					public void onProgress(String message) {
 						log.append(message);

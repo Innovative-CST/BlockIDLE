@@ -9,5 +9,6 @@
   "html": "text.html.basic",
   "xml": "text.xml",
   "gradle": "source.groovy",
-  "sh": "source.shell"
+  "sh": "source.shell",
+  "log": "text.log"
 }
