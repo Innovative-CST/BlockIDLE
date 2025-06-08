@@ -58,7 +58,7 @@ public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 		binding.editor.setTheme(Themes.SoraEditorTheme.Light.Default);
 
 		setView(binding.getRoot());
-		setTitle("Setting up your terminal...");
+		setTitle("Installing Bootstrap");
 		setCancelable(false);
 		StringBuilder log = new StringBuilder();
 
