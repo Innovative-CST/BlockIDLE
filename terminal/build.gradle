@@ -85,6 +85,9 @@ tasks.register("downloadBootstrapFiles") {
 }
 
 project.afterEvaluate {
+    tasks.named("preBuild").configure {
+		dependsOn("downloadBootstrapFiles")
+	}
 	tasks.matching { it.name.startsWith("assemble") }.configureEach {
 		finalizedBy(rootProject.tasks.named("spotlessApply"))
 	}
