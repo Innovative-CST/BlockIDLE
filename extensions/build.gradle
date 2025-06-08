@@ -25,15 +25,14 @@ application {
 }
 
 def downloadOpenJDK17() {
-	println "Downloading openjdk-17-source..."
-	if (file("src/main/resources/openjdk-17-source.zip").exists()) {
-		println "Downloading openjdk-17-source will be ignored as it already exists."
-	}
-	download.run {
-		src "https://github.com/Innovative-CST/jdk17/releases/download/jdk17/src.zip"
-		dest file("src/main/resources/openjdk-17-source.zip")
-		overwrite false
-		quiet true
+	if (!file("src/main/resources/openjdk-17-source.zip").exists()) {
+		println "Downloading openjdk-17-source..."
+		download.run {
+			src "https://github.com/Innovative-CST/jdk17/releases/download/jdk17/src.zip"
+			dest file("src/main/resources/openjdk-17-source.zip")
+			overwrite false
+			quiet true
+		}
 	}
 }
 

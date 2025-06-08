@@ -43,6 +43,7 @@ public class MyApplication extends Application {
 		uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
 		EnvironmentUtils.init(this);
+		com.icst.blockidle.activities.terminal.EnvironmentUtils.init(this);
 		Thread.setDefaultUncaughtExceptionHandler(
 				new Thread.UncaughtExceptionHandler() {
 					@Override

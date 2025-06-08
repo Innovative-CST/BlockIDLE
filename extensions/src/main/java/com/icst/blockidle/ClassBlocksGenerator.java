@@ -25,7 +25,7 @@ public class ClassBlocksGenerator {
 		File openJdkSource = new File(args[1]);
 		File androidSdk = new File(args[2]);
 		File appCompat = new File(args[3]);
-		
+
 		BlocksGenerator.generateBlocks(
 				new File[] { new File(appCompat, "androidx/appcompat/app/AppCompatActivity.java") },
 				new String[] { "#3366CC" },
@@ -34,7 +34,7 @@ public class ClassBlocksGenerator {
 				new File[] { androidSdk, appCompat }, null, null,
 				new File(outputFolder, "Appcompat-1.7.0.bidle"));
 
-        BlocksGenerator.generateBlocks(
+		BlocksGenerator.generateBlocks(
 				new File[] { new File(androidSdk, "android/app/Activity.java") },
 				new String[] { "#FF0033" },
 				new String[] { "Activity" },

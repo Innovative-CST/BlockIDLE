@@ -17,10 +17,12 @@
 
 package com.icst.blockidle.activities.project_manager;
 
+import java.io.File;
 import java.util.Objects;
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.project_manager.adapter.ProjectListAdapter;
+import com.icst.blockidle.activities.project_manager.dialog.BootstrapInstallerDialog;
 import com.icst.blockidle.databinding.ActivityProjectManagerBinding;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.viewmodel.ProjectManagerViewModel;
@@ -91,6 +93,21 @@ public class ProjectManagerActivity extends AppCompatActivity {
 		binding.projectList.setLayoutManager(new LinearLayoutManager(this));
 		binding.projectList.setAdapter(adapter);
 		projectUI();
+
+		final File bash = new File(com.icst.blockidle.activities.terminal.EnvironmentUtils.BIN_DIR, "bash");
+		if (!(com.icst.blockidle.activities.terminal.EnvironmentUtils.PREFIX.exists()
+				&& com.icst.blockidle.activities.terminal.EnvironmentUtils.PREFIX.isDirectory()
+				&& bash.exists()
+				&& bash.isFile()
+				&& bash.canExecute())) {
+			new BootstrapInstallerDialog(
+					this,
+					new BootstrapInstallerDialog.BootstrapInstallCompletionListener() {
+						@Override
+						public void onComplete() {
+						}
+					});
+		}
 	}
 
 	private void projectUI() {

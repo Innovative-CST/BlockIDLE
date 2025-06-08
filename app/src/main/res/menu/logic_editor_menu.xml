@@ -9,4 +9,10 @@
         android:title="Source"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/terminal"
+        android:icon="@drawable/console"
+        android:title="Terminal"
+        app:showAsAction="always" />
+
 </menu>

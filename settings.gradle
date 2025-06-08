@@ -60,3 +60,6 @@ include(":editor")
 
 // TreeView
 include(":treeview")
+
+// Terminal
+include(":terminal")

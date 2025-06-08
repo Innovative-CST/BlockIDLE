@@ -1,0 +1,91 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+	id("com.android.library")
+	id("de.undercouch.download")
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+	localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
+android {
+	namespace "com.icst.blockidle.terminal"
+	compileSdk localProperties.getProperty("compileSdk", "35").toInteger()
+
+	defaultConfig {
+		minSdk 26
+		targetSdk 34
+		versionCode 1
+		versionName "1.0"
+
+		vectorDrawables {
+			useSupportLibrary true
+		}
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+}
+
+dependencies {
+	implementation("androidx.appcompat:appcompat:$appcompat_version")
+
+	api("com.blankj:utilcodex:$blankj_utilcodex_version")
+
+	api("com.termux.termux-app:terminal-view:0.117")
+	api("com.termux.termux-app:terminal-emulator:0.117")
+}
+
+def downloadBootstrap(String fileU, String fileName) {
+	def downloadUrl = "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2025.06.08-r1%2Bapt.android-7/${fileU}"
+	def zipFile = file("src/main/assets/${fileName}")
+	if (!zipFile.exists()) {
+		println "Downloading ${zipFile.getAbsolutePath()}..."
+		download.run {
+			src downloadUrl
+			dest zipFile
+			overwrite false
+			quiet true
+		}
+	}
+}
+
+tasks.register("downloadBootstrapFiles") {
+	downloadBootstrap("bootstrap-aarch64.zip", "bootstrap-arm64-v8a.zip")
+	downloadBootstrap("bootstrap-arm.zip", "bootstrap-armeabi-v7a.zip")
+	downloadBootstrap("bootstrap-i686.zip", "bootstrap-x86.zip")
+	downloadBootstrap("bootstrap-x86_64.zip", "bootstrap-x86_64.zip")
+}
+
+project.afterEvaluate {
+	tasks.matching { it.name.startsWith("assemble") }.configureEach {
+		finalizedBy(rootProject.tasks.named("spotlessApply"))
+	}
+}
