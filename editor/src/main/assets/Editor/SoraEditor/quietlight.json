@@ -478,7 +478,79 @@
       "settings": {
         "foreground": "#333333ff"
       }
-    }
+    },
+    {
+	  "name": "LOG: Assert",
+      "scope": ["constant.language.log.assert", "keyword.control.log.assert", "constant.language.log.assert.line", "log.line.assert"],
+      "settings": {
+        "foreground": "#b00000",
+        "fontStyle": "bold"
+      }
+    },
+    {
+	  "name": "LOG: Info",
+      "scope": ["constant.language.log.info", "keyword.control.log.info", "log.line.info", "constant.language.log.info.line"],
+      "settings": {
+        "foreground": "#3366CC",
+        "fontStyle": "bold"
+      }
+    },
+    {
+	  "name": "LOG: Warning",
+      "scope": ["constant.language.log.warning", "keyword.control.log.warning", "log.line.warning", "constant.language.log.warning.line"],
+      "settings": {
+        "foreground": "#b58900",
+        "fontStyle": "bold"
+      }
+    },
+    {
+	  "name": "LOG: Debug",
+      "scope": ["constant.language.log.debug", "keyword.control.log.debug", "log.line.debug", "constant.language.log.debug.line"],
+      "settings": {
+        "foreground": "#999988",
+        "fontStyle": "italic"
+      }
+    },
+    {
+	  "name": "LOG: Error",
+      "scope": ["constant.language.log.error", "keyword.control.log.error", "log.line.error", "constant.language.log.error.line"],
+      "settings": {
+        "foreground": "#ff0000",
+        "fontStyle": "bold underline"
+      }
+    },
+	{
+	  "name": "Bootstrap: INFO",
+      "scope": "keyword.control.bootstap.log.info",
+      "settings": {
+        "foreground": "#3366CC",
+        "fontStyle": "bold"
+      }
+	},
+	{
+	  "name": "Bootstrap: WARNING",
+      "scope": "keyword.control.bootstap.log.warning",
+      "settings": {
+        "foreground": "#FFEB3B",
+        "fontStyle": "bold"
+      }
+	},
+	{
+	  "name": "Bootstrap: install successful",
+      "scope": "keyword.control.bootstap.log.install_success",
+      "settings": {
+        "foreground": "#008800",
+        "fontStyle": "bold"
+      }
+	},
+	{
+	  "name": "Bootstrap: ERROR",
+      "scope": "keyword.control.bootstap.log.error",
+      "settings": {
+        "foreground": "#F65D5D",
+        "fontStyle": "bold underline"
+      }
+	}
   ],
   "colors": {
     "focusBorder": "#A6B39B",

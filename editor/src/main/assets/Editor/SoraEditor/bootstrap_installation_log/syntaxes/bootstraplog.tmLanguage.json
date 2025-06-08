@@ -1,0 +1,31 @@
+{
+  "name": "bootstraplog",
+  "scopeName": "bootstrap.log",
+  "patterns": [
+    {
+      "include": "#value"
+    }
+  ],
+  "repository": {
+    "value": {
+      "patterns": [
+        {
+          "match": "INFO",
+          "name": "keyword.control.bootstap.log.info"
+        },
+        {
+          "match": "WARNING",
+          "name": "keyword.control.bootstap.log.warning"
+        },
+        {
+          "match": "ERROR",
+          "name": "keyword.control.bootstap.log.error"
+        },
+		{
+          "match": "Bootstrap installed successfully",
+          "name": "keyword.control.bootstap.log.install_success"
+        }
+      ]
+    }
+  }
+}

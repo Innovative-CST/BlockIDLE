@@ -10,5 +10,6 @@
   "xml": "text.xml",
   "gradle": "source.groovy",
   "sh": "source.shell",
-  "log": "text.log"
+  "log": "text.log",
+  "bootstrap_installer_log": "bootstrap.log"
 }

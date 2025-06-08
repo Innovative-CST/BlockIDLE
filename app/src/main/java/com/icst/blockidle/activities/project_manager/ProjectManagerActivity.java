@@ -45,6 +45,7 @@ public class ProjectManagerActivity extends AppCompatActivity {
 	private ActivityProjectManagerBinding binding;
 	private ProjectListAdapter adapter;
 	private ProjectManagerViewModel mProjectManagerViewModel;
+	private BootstrapInstallerDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -100,11 +101,13 @@ public class ProjectManagerActivity extends AppCompatActivity {
 				&& bash.exists()
 				&& bash.isFile()
 				&& bash.canExecute())) {
-			new BootstrapInstallerDialog(
+			dialog = new BootstrapInstallerDialog(
 					this,
 					new BootstrapInstallerDialog.BootstrapInstallCompletionListener() {
 						@Override
 						public void onComplete() {
+							dialog.setPositiveButton("Dismiss", null);
+							dialog.setCancelable(true);
 						}
 					});
 		}

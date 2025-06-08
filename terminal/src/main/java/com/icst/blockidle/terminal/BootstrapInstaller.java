@@ -159,6 +159,7 @@ public class BootstrapInstaller {
 					} catch (IOException | ErrnoException e) {
 						throw new RuntimeException(e);
 					}
+					notifyInstallSuccess(listener);
 				});
 	}
 
@@ -234,19 +235,25 @@ public class BootstrapInstaller {
 
 	private static void notify(ProgressListener listener, String message) {
 		if (listener != null) {
-			listener.onProgress("LOG: " + message);
+			listener.onProgress("INFO " + message);
+		}
+	}
+
+	private static void notifyInstallSuccess(ProgressListener listener) {
+		if (listener != null) {
+			listener.onProgress("Bootstrap installed successfully");
 		}
 	}
 
 	private static void warn(ProgressListener listener, String message) {
 		if (listener != null) {
-			listener.onProgress("WARNING: " + message);
+			listener.onProgress("WARNING " + message);
 		}
 	}
 
 	private static void error(ProgressListener listener, String message) {
 		if (listener != null) {
-			listener.onProgress("ERROR: " + message);
+			listener.onProgress("ERROR " + message);
 		}
 	}
 }

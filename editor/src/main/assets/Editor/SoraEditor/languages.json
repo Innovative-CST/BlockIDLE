@@ -73,8 +73,13 @@
     },
 	{
       "grammar": "Editor/SoraEditor/log/syntaxes/log.tmLanguage.json",
-      "name": "log",
+      "name": "Log",
       "scopeName": "text.log"
+    },
+	{
+      "grammar": "Editor/SoraEditor/bootstrap_installation_log/syntaxes/bootstraplog.tmLanguage.json",
+      "name": "bootstraplog",
+      "scopeName": "bootstrap.log"
     }
   ]
 }

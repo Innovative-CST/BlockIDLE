@@ -54,11 +54,11 @@ public class CodeEditorLayout extends CodeEditor {
 		setTypefaceText(font);
 	}
 
-	public void setLanguageMode(String LanguageMode) {
-		if (!LanguageMode.equals(Language.UNKNOWN)) {
+	public void setLanguageMode(String languageMode) {
+		if (!languageMode.equals(Language.UNKNOWN)) {
 			setEditorLanguage(
 					AndroidCodeEditorTMLanguage.create(
-							TextMateProvider.getLanguageScope(context, LanguageMode)));
+							TextMateProvider.getLanguageScope(context, languageMode)));
 		}
 	}
 

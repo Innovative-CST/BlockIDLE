@@ -23,18 +23,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.terminal.EnvironmentUtils;
 import com.icst.blockidle.databinding.DialogBootstrapInstallerBinding;
 import com.icst.blockidle.terminal.BootstrapInstaller;
-import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
+import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import io.github.rosemoe.sora.langs.textmate.registry.FileProviderRegistry;
-import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver;
 
 public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 	private Activity activity;
@@ -47,9 +44,8 @@ public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 		this.activity = activity;
 		binding = DialogBootstrapInstallerBinding.inflate(LayoutInflater.from(activity));
 		binding.editor.setEditable(false);
-		binding.editor.setTheme(Themes.SoraEditorTheme.Light.Default);
-		binding.editor.setLanguageMode(Language.LOG);
-
+		binding.editor.setLanguageMode(Language.BOOTSTRAP_INSTALLER_LOG);
+		binding.editor.setTheme(Themes.SoraEditorTheme.Light.Quietlight);
 		setView(binding.getRoot());
 		setTitle("Installing Bootstrap");
 		setCancelable(false);
@@ -74,12 +70,13 @@ public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 				(voidResult, throwable) -> {
 					activity.runOnUiThread(
 							() -> {
-								dialog.dismiss();
 								listener.onComplete();
+								binding.done.setVisibility(View.VISIBLE);
 							});
 				});
 		dialog = create();
 		dialog.show();
+		binding.done.setOnClickListener(v -> dialog.dismiss());
 	}
 
 	public interface BootstrapInstallCompletionListener {
