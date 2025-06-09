@@ -92,6 +92,7 @@ public final class EnvironmentUtils {
 			return ENV_VARS;
 		}
 
+		ENV_VARS.put("PREFIX", PREFIX.getAbsolutePath());
 		ENV_VARS.put("HOME", HOME.getAbsolutePath());
 		ENV_VARS.put("ANDROID_USER_HOME", HOME.getAbsolutePath() + "/.android");
 		ENV_VARS.put("TMPDIR", TMP_DIR.getAbsolutePath());
