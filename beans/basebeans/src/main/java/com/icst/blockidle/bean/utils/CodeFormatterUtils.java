@@ -15,21 +15,21 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
 package com.icst.blockidle.bean.utils;
 
 public final class CodeFormatterUtils {
 
 	public static String getKeySyntaxString(String key) {
-		return new String("<CodeKey : ").concat(key).concat(">");
+		return "<CodeKey : ".concat(key).concat(">");
 	}
 
-	public static String addIntendation(String code, int intendation) {
+	public static String addIndentation(String code, int indentation) {
 		StringBuilder intendedCode = new StringBuilder();
 		String[] lines = code.split("\n");
-		for (int i = 0; i < lines.length; ++i) {
-			String line = lines[i];
-			if (i != 0) {
-				intendedCode.append("\t".repeat(intendation));
+		for (String line : lines) {
+			if (!lines[0].equals(line)) {
+				intendedCode.append("\t".repeat(indentation));
 			}
 			intendedCode.append(line);
 			intendedCode.append("\n");
@@ -37,7 +37,7 @@ public final class CodeFormatterUtils {
 		return intendedCode.toString();
 	}
 
-	public static int getIntendation(String codeSyntax, String item) {
+	public static int getIndentation(String codeSyntax, String item) {
 
 		String[] codeLines = codeSyntax.split("\n");
 		for (String line : codeLines) {
