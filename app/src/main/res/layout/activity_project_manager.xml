@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -20,7 +19,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_height="?attr/collapsingToolbarLayoutMediumSize"
                 android:layout_width="match_parent"
-				android:id="@+id/collapsingToolbar"
+                android:id="@+id/collapsingToolbar"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:titleCollapseMode="scale"
                 style="?attr/collapsingToolbarLayoutMediumStyle">
@@ -64,7 +63,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:fontFamily="@font/noto_sans_thin"
-                        android:text="No projects yet" />
+                        android:text="@string/no_projects_yet" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -73,7 +72,7 @@
                         android:fontFamily="@font/noto_sans_thin"
                         android:layout_marginStart="2dp"
                         android:onClick="@{() -> viewModel.createNewProject()}"
-                        android:text="Create a new project" />
+                        android:text="@string/create_a_new_project" />
                 </LinearLayout>
 
             </LinearLayout>
