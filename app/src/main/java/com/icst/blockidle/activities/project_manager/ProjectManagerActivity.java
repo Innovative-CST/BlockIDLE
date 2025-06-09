@@ -23,12 +23,16 @@ import java.util.Objects;
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.project_manager.adapter.ProjectListAdapter;
 import com.icst.blockidle.activities.project_manager.dialog.BootstrapInstallerDialog;
+import com.icst.blockidle.activities.terminal.TerminalActivity;
 import com.icst.blockidle.databinding.ActivityProjectManagerBinding;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.viewmodel.ProjectManagerViewModel;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -121,6 +125,21 @@ public class ProjectManagerActivity extends AppCompatActivity {
 			binding.projectList.setVisibility(View.VISIBLE);
 			binding.noProjectsYet.setVisibility(View.GONE);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.project_manager_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem menuItem) {
+		if (R.id.terminal == menuItem.getItemId()) {
+			Intent terminal = new Intent(this, TerminalActivity.class);
+			startActivity(terminal);
+		}
+		return true;
 	}
 
 	@Override
