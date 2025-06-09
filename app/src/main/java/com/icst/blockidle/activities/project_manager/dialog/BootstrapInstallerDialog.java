@@ -21,12 +21,14 @@ import java.util.concurrent.CompletableFuture;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.terminal.EnvironmentUtils;
+import com.icst.blockidle.activities.terminal.TerminalActivity;
 import com.icst.blockidle.databinding.DialogBootstrapInstallerBinding;
 import com.icst.blockidle.terminal.BootstrapInstaller;
 import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -71,12 +73,17 @@ public class BootstrapInstallerDialog extends MaterialAlertDialogBuilder {
 					activity.runOnUiThread(
 							() -> {
 								listener.onComplete();
-								binding.done.setVisibility(View.VISIBLE);
+								binding.install.setVisibility(View.VISIBLE);
 							});
 				});
 		dialog = create();
 		dialog.show();
-		binding.done.setOnClickListener(v -> dialog.dismiss());
+		binding.install.setOnClickListener(v -> launchTerminal());
+	}
+
+	public void launchTerminal() {
+		Intent terminal = new Intent(activity, TerminalActivity.class);
+		activity.startActivity(terminal);
 	}
 
 	public interface BootstrapInstallCompletionListener {
