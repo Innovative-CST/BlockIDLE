@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-     <data>
+    <data>
         <variable
             name="viewModel"
             type="com.icst.blockidle.viewmodel.NewJavaClassDialogViewModel" />
@@ -13,29 +12,29 @@
         android:layout_width="wrap_content"
         android:orientation="vertical"
         android:padding="24dp">
-    
+
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/new_java_class"
             android:textSize="24sp"
             android:fontFamily="@font/noto_sans_semibold" />
-    
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:hint="Class Name"
+            android:hint="@string/class_name"
             android:layout_marginTop="8dp"
             android:id="@+id/classNameTextInputLayout">
-    
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-				android:text="@={viewModel.javaClassName}"
+                android:text="@={viewModel.javaClassName}"
                 android:id="@+id/className" />
-    
+
         </com.google.android.material.textfield.TextInputLayout>
-    
+
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -43,22 +42,22 @@
             android:textSize="12sp"
             android:fontFamily="@font/noto_sans_thin"
             android:text="@string/class_name_example" />
-    
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:hint="@string/package_name"
             android:layout_marginTop="8dp"
             android:id="@+id/packageNameTextInputLayout">
-    
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-				android:text="@={viewModel.packageName}"
+                android:text="@={viewModel.packageName}"
                 android:id="@+id/packageName" />
-    
+
         </com.google.android.material.textfield.TextInputLayout>
-    
+
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -66,31 +65,31 @@
             android:textSize="12sp"
             android:fontFamily="@font/noto_sans_thin"
             android:text="@string/package_name_example" />
-    
+
         <LinearLayout
             android:orientation="vertical"
             android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_width="match_parent">
-    
+
             <Button
-				android:id="@+id/create"
+                android:id="@+id/create"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-				android:onClick="@{() -> viewModel.createJavaFile()}"
+                android:onClick="@{() -> viewModel.createJavaFile()}"
                 android:text="@string/create" />
-    
+
             <Button
-				android:id="@+id/cancel"
+                android:id="@+id/cancel"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-				android:onClick="@{() -> viewModel.dismissDialog()}"
+                android:onClick="@{() -> viewModel.dismissDialog()}"
                 android:text="@string/cancel" />
-    
+
         </LinearLayout>
-    
+
     </LinearLayout>
 
 </layout>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -38,7 +37,6 @@
 
         </LinearLayout>
 
-
         <com.google.android.material.navigation.NavigationView
             android:layout_height="match_parent"
             android:layout_width="300dp"
@@ -59,7 +57,7 @@
                     android:textSize="16sp"
                     android:textColor="?attr/colorOnSurface"
                     android:textStyle="bold"
-                    android:text="File Tree" />
+                    android:text="@string/file_tree" />
 
                 <HorizontalScrollView
                     android:layout_height="match_parent"

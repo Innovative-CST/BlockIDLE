@@ -27,9 +27,9 @@
                 android:visibility="gone"
                 android:scaleType="fitEnd"
                 android:layout_marginEnd="8dp"
-                android:tint="?attr/colorOnSurface"
-				android:src="@drawable/menu_right_outline"
-                android:id="@+id/expandCollapse" />
+                android:src="@drawable/menu_right_outline"
+                android:id="@+id/expandCollapse"
+                app:tint="?attr/colorOnSurface" />
 
             <ProgressBar
                 android:layout_height="wrap_content"
@@ -44,9 +44,9 @@
             android:layout_width="25dp"
             android:scaleType="fitCenter"
             android:layout_marginEnd="8dp"
-            android:tint="?attr/colorOnSurface"
-			android:src="@drawable/folder_outline"
-            android:id="@+id/icon" />
+            android:src="@drawable/folder_outline"
+            android:id="@+id/icon"
+            app:tint="?attr/colorOnSurface" />
 
         <TextView
             android:layout_height="wrap_content"

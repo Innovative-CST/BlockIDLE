@@ -16,4 +16,27 @@
 	<string name="static_variables">Static Variables</string>
     <string name="version_name">Version Name</string>
     <string name="more_options">More Options</string>
+
+    <!-- From: activity_project_editor.xml-->
+    <string name="file_tree">File Tree</string>
+
+    <!-- From: activity_project_manager.xml -->
+    <string name="no_projects_yet">No projects yet</string>
+
+    <!-- From: bottomsheet_add_event.xml-->
+    <string name="add_event">Add Event</string>
+
+    <!-- From: dialog_create_java_file.xml-->
+    <string name="class_name">Class Name</string>
+
+    <!-- From: dialog_event_code.xml-->
+    <string name="event_imports">Event imports</string>
+    <string name="code_viewer">Code Viewer</string>
+
+    <!-- From: dialog_project_config.xml-->
+    <string name="block_idle">Block IDLE</string>
+
+    <!-- From: no_pane_layout.xml-->
+    <string name="no_pane_yet">No pane yet</string>
+    <string name="open_from_drawer">Open from drawer</string>
 </resources>
