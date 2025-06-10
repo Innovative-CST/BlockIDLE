@@ -43,7 +43,6 @@ public final class EnvironmentUtils {
 	public static File LIB_HOOK;
 	public static File SHELL;
 	public static File LOGIN_SHELL;
-	public static File BUSYBOX;
 	public static final Map<String, String> IDE_PROPS = new HashMap<>();
 	public static final List<String> blacklist = new ArrayList<>();
 	public static Map<String, String> ENV_VARS = new HashMap<>();
@@ -58,12 +57,8 @@ public final class EnvironmentUtils {
 		LIB_DIR = mkdirIfNotExits(new File(PREFIX, "lib"));
 		SHELL = new File(BIN_DIR, "bash");
 		LOGIN_SHELL = new File(BIN_DIR, "login");
-		BUSYBOX = mkdirIfNotExits(new File(BIN_DIR, "busybox"));
-
-		BUSYBOX.setExecutable(true);
 		SHELL.setExecutable(true);
 		LOGIN_SHELL.setExecutable(true);
-		grantFile(BUSYBOX);
 		grantFile(LOGIN_SHELL);
 		grantFile(SHELL);
 	}
@@ -101,7 +96,6 @@ public final class EnvironmentUtils {
 
 		ENV_VARS.put("SYSROOT", PREFIX.getAbsolutePath());
 
-		ENV_VARS.put("BUSYBOX", BUSYBOX.getAbsolutePath());
 		ENV_VARS.put("SHELL", SHELL.getAbsolutePath());
 		ENV_VARS.put("CONFIG_SHELL", SHELL.getAbsolutePath());
 		ENV_VARS.put("TERM", "screen");
