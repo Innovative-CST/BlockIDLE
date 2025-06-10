@@ -54,10 +54,8 @@ public class ProjectManagerActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		SplashScreen.installSplashScreen(this);
-		super.onCreate(savedInstanceState);
 		EdgeToEdge.enable(this);
-		EnvironmentUtils.init(this);
-
+		super.onCreate(savedInstanceState);
 		mProjectManagerViewModel = new ViewModelProvider(this).get(ProjectManagerViewModel.class);
 		mProjectManagerViewModel.setActivity(this);
 
@@ -99,9 +97,9 @@ public class ProjectManagerActivity extends AppCompatActivity {
 		binding.projectList.setAdapter(adapter);
 		projectUI();
 
-		final File bash = new File(com.icst.blockidle.activities.terminal.EnvironmentUtils.BIN_DIR, "bash");
-		if (!(com.icst.blockidle.activities.terminal.EnvironmentUtils.PREFIX.exists()
-				&& com.icst.blockidle.activities.terminal.EnvironmentUtils.PREFIX.isDirectory()
+		final File bash = new File(EnvironmentUtils.BIN_DIR, "bash");
+		if (!(EnvironmentUtils.PREFIX.exists()
+				&& EnvironmentUtils.PREFIX.isDirectory()
 				&& bash.exists()
 				&& bash.isFile()
 				&& bash.canExecute())) {

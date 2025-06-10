@@ -31,6 +31,7 @@ import com.icst.blockidle.terminal.KeyListener;
 import com.icst.blockidle.terminal.SpecialButton;
 import com.icst.blockidle.terminal.VirtualKeysConstants;
 import com.icst.blockidle.terminal.VirtualKeysInfo;
+import com.icst.blockidle.util.EnvironmentUtils;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
 import com.termux.terminal.TerminalSessionClient;

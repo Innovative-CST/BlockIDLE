@@ -25,7 +25,7 @@ import com.icst.blockidle.bean.ProjectBean;
 import com.icst.blockidle.exception.ProjectUpdateException;
 import com.icst.blockidle.listener.DeserializationListener;
 import com.icst.blockidle.listener.SerializationListener;
-import com.icst.blockidle.util.EnvironmentUtils;
+import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.ProjectFile;
 import com.icst.blockidle.util.SerializationUtils;
 
@@ -51,10 +51,10 @@ public class ProjectRepository {
 
 	public void loadProjects() {
 		mProjects = new ArrayList<ProjectFile>();
-		File projectsDir = EnvironmentUtils.projectDirectory;
+		File projectsDir = ProjectEnvironment.projectDirectory;
 
 		for (File file : projectsDir.listFiles()) {
-			File projectBean = new File(file, EnvironmentUtils.PROJECT_BEAN_FILE);
+			File projectBean = new File(file, ProjectEnvironment.PROJECT_BEAN_FILE);
 			if (!projectBean.exists()) {
 				continue;
 			}
@@ -90,13 +90,13 @@ public class ProjectRepository {
 		File newProjectDir;
 		do {
 			String dir = String.valueOf(System.currentTimeMillis());
-			newProjectDir = new File(EnvironmentUtils.projectDirectory, dir);
+			newProjectDir = new File(ProjectEnvironment.projectDirectory, dir);
 		} while (newProjectDir.exists());
 
 		newProjectDir.mkdirs();
 		SerializationUtils.serialize(
 				project,
-				new File(newProjectDir, EnvironmentUtils.PROJECT_BEAN_FILE),
+				new File(newProjectDir, ProjectEnvironment.PROJECT_BEAN_FILE),
 				new SerializationListener() {
 
 					@Override
@@ -114,7 +114,7 @@ public class ProjectRepository {
 	}
 
 	public void updateProject(ProjectFile projectFile) throws ProjectUpdateException {
-		File projectBeanFile = new File(projectFile.getFile(), EnvironmentUtils.PROJECT_BEAN_FILE);
+		File projectBeanFile = new File(projectFile.getFile(), ProjectEnvironment.PROJECT_BEAN_FILE);
 
 		if (!projectBeanFile.exists()) {
 			throw new ProjectUpdateException(ProjectUpdateException.PROJECT_NOT_FOUND);

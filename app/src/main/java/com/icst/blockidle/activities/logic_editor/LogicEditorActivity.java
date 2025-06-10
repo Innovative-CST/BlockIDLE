@@ -32,7 +32,7 @@ import com.icst.blockidle.bean.BlockPaletteBean;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.ActivityLogicEditorBinding;
 import com.icst.blockidle.listener.SerializationListener;
-import com.icst.blockidle.util.EnvironmentUtils;
+import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.SerializationUtils;
 import com.icst.logic.config.LogicEditorConfiguration;
 
@@ -134,7 +134,7 @@ public class LogicEditorActivity extends AppCompatActivity {
 	public ArrayList<BlockPaletteBean> getBlockPaletteBeans() {
 		ArrayList<BlockPaletteBean> blockPalettes = new ArrayList<BlockPaletteBean>();
 
-		for (File file : EnvironmentUtils.extensionsDirectory.listFiles()) {
+		for (File file : ProjectEnvironment.extensionsDirectory.listFiles()) {
 			if (file.isDirectory())
 				continue;
 

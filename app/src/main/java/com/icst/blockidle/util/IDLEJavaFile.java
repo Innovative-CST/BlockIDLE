@@ -34,7 +34,7 @@ public class IDLEJavaFile extends IDLEFile implements Parcelable {
 
 	public VariableRepository getInstanceVariableRepository() {
 		if (instanceVariableRepository == null) {
-			File instanceVariableFile = new File(file, EnvironmentUtils.INSTANCE_VARIABLE_FILE);
+			File instanceVariableFile = new File(file, ProjectEnvironment.INSTANCE_VARIABLE_FILE);
 			instanceVariableRepository = new VariableRepository(instanceVariableFile);
 		}
 		return instanceVariableRepository;
@@ -46,7 +46,7 @@ public class IDLEJavaFile extends IDLEFile implements Parcelable {
 	}
 
 	public File getEventDirectory() {
-		File eventDir = new File(file, EnvironmentUtils.EVENT_FOLDER);
+		File eventDir = new File(file, ProjectEnvironment.EVENT_FOLDER);
 		if (!eventDir.exists()) {
 			eventDir.mkdir();
 		}

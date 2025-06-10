@@ -20,6 +20,7 @@ package com.icst.blockidle.application;
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
 import com.icst.blockidle.util.EnvironmentUtils;
+import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 
 import android.app.AlarmManager;
@@ -47,8 +48,8 @@ public class MyApplication extends Application {
 		mApplicationContext = getApplicationContext();
 		uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
+		ProjectEnvironment.init(this);
 		EnvironmentUtils.init(this);
-		com.icst.blockidle.activities.terminal.EnvironmentUtils.init(this);
 
 		FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
 		AssetsFileResolver assetsFileResolver = new AssetsFileResolver(getAssets());

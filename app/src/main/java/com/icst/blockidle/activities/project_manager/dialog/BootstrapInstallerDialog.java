@@ -20,10 +20,10 @@ package com.icst.blockidle.activities.project_manager.dialog;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.blockidle.activities.terminal.EnvironmentUtils;
 import com.icst.blockidle.activities.terminal.TerminalActivity;
 import com.icst.blockidle.databinding.DialogBootstrapInstallerBinding;
 import com.icst.blockidle.terminal.BootstrapInstaller;
+import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.editor.tools.Language;
 import com.icst.editor.tools.Themes;
 
