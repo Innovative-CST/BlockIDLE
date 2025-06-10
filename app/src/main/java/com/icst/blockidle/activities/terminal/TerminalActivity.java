@@ -19,11 +19,13 @@ package com.icst.blockidle.activities.terminal;
 
 import java.io.File;
 import java.util.Map;
+import java.util.Objects;
 
 import org.json.JSONException;
 
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
+import com.icst.blockidle.R;
 import com.icst.blockidle.databinding.ActivityTerminalBinding;
 import com.icst.blockidle.terminal.KeyListener;
 import com.icst.blockidle.terminal.SpecialButton;
@@ -32,7 +34,6 @@ import com.icst.blockidle.terminal.VirtualKeysInfo;
 import com.termux.terminal.TerminalEmulator;
 import com.termux.terminal.TerminalSession;
 import com.termux.terminal.TerminalSessionClient;
-import com.termux.view.TerminalView;
 import com.termux.view.TerminalViewClient;
 
 import android.Manifest;
@@ -44,6 +45,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
@@ -53,8 +55,9 @@ public class TerminalActivity extends AppCompatActivity
 		implements TerminalSessionClient, TerminalViewClient {
 
 	private ActivityTerminalBinding binding;
-	public TerminalView terminal;
-	protected KeyListener keyListener;
+	private KeyListener keyListener;
+	private float terminalTextSize = 24f;
+
 	public static final String VIRTUAL_KEYS = "["
 			+ "\n  ["
 			+ "\n    \"ESC\","
@@ -85,10 +88,22 @@ public class TerminalActivity extends AppCompatActivity
 	@Override
 	protected void onCreate(Bundle bundle) {
 		getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+		EdgeToEdge.enable(this);
 		super.onCreate(bundle);
 
 		binding = ActivityTerminalBinding.inflate(getLayoutInflater());
 		keyListener = new KeyListener(binding.termux);
+
+		setContentView(binding.getRoot());
+
+		setSupportActionBar(binding.toolbar);
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		binding.toolbar.setNavigationOnClickListener(v -> {
+			getOnBackPressedDispatcher().onBackPressed();
+		});
+		binding.toolbar.setTitle(R.string.app_name);
+
 		try {
 			binding.extraKeys.setVirtualKeysViewClient(keyListener);
 			binding.extraKeys.reload(
@@ -100,9 +115,6 @@ public class TerminalActivity extends AppCompatActivity
 				.setSoftInputMode(
 						WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 								| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
-		setContentView(binding.getRoot());
-		terminal = binding.termux;
 
 		if (ContextCompat.checkSelfPermission(this,
 				Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
@@ -151,7 +163,7 @@ public class TerminalActivity extends AppCompatActivity
 	public void setupTerminalView(boolean systemShell, String cwd) {
 		TerminalSession terminalSession;
 
-		terminal.setTextSize((int) terminalTextSize);
+		binding.termux.setTextSize((int) terminalTextSize);
 		String executablePath;
 
 		grantFileExecutionPermissiom(
@@ -181,8 +193,8 @@ public class TerminalActivity extends AppCompatActivity
 				env,
 				TerminalEmulator.DEFAULT_TERMINAL_TRANSCRIPT_ROWS,
 				this);
-		terminal.setTerminalViewClient(this);
-		terminal.attachSession(terminalSession);
+		binding.termux.setTerminalViewClient(this);
+		binding.termux.attachSession(terminalSession);
 	}
 
 	public File mkdirIfNotExits(File in) {
@@ -223,8 +235,6 @@ public class TerminalActivity extends AppCompatActivity
 	@Override
 	public void onEmulatorSet() {
 	}
-
-	private float terminalTextSize = 24f;
 
 	@Override
 	public float onScale(float scale) {
@@ -286,7 +296,7 @@ public class TerminalActivity extends AppCompatActivity
 
 	@Override
 	public void onTextChanged(TerminalSession arg0) {
-		terminal.onScreenUpdated();
+		binding.termux.onScreenUpdated();
 	}
 
 	@Override
