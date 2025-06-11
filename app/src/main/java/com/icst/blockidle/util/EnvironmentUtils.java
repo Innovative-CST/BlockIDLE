@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
 import android.system.ErrnoException;
 import android.system.Os;
 
@@ -42,7 +41,7 @@ public class EnvironmentUtils {
 	public static final List<String> blacklist = new ArrayList<>();
 	public static Map<String, String> ENV_VARS = new HashMap<>();
 
-	public static void init(Context context) {
+	public static void init() {
 		ROOT = new File("/data/data/com.icst.blockidle/files");
 		PREFIX = new File(ROOT, "usr");
 		HOME = new File(ROOT, "home");

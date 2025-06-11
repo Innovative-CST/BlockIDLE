@@ -49,7 +49,7 @@ public class MyApplication extends Application {
 		uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
 		ProjectEnvironment.init(this);
-		EnvironmentUtils.init(this);
+		EnvironmentUtils.init();
 
 		FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
 		AssetsFileResolver assetsFileResolver = new AssetsFileResolver(getAssets());
