@@ -19,16 +19,24 @@ package com.icst.logic.builder;
 
 import com.icst.blockidle.bean.ActionBlockLayerBean;
 import com.icst.blockidle.bean.BlockBean;
+import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
+import com.icst.blockidle.bean.BooleanBlockBean;
 import com.icst.blockidle.bean.BooleanBlockElementBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
+import com.icst.blockidle.bean.GeneralExpressionBlockBean;
 import com.icst.blockidle.bean.GeneralExpressionBlockElementBean;
 import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
+import com.icst.blockidle.bean.NumericBlockBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
+import com.icst.blockidle.bean.StringBlockBean;
 import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.block.view.BooleanBlockView;
+import com.icst.logic.block.view.GeneralExpressionBlockView;
+import com.icst.logic.block.view.NumericBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
 import com.icst.logic.utils.ColorUtils;
@@ -39,6 +47,7 @@ import com.icst.logic.view.GeneralBlockElementView;
 import com.icst.logic.view.InfoBlockElementBeanView;
 import com.icst.logic.view.LayerBeanView;
 import com.icst.logic.view.NumericBlockElementBeanView;
+import com.icst.logic.view.StringBlockBeanView;
 import com.icst.logic.view.StringBlockElementBeanView;
 
 import android.content.Context;
@@ -99,7 +108,7 @@ public final class LayerViewFactory {
 								view.addView(mView);
 							} else if (element instanceof ExpressionBlockBean mExpressionBlockBean) {
 								View mView = buildExpressionBlockBeanView(
-										mExpressionBlockBean, context, configuration);
+										element, context, logicEdtitor, configuration);
 								view.addView(mView);
 							} else if (element instanceof StringBlockElementBean mStringBlockElement) {
 								View mView = buildStringFieldView(
@@ -246,10 +255,24 @@ public final class LayerViewFactory {
 	}
 
 	private static View buildExpressionBlockBeanView(
-			ExpressionBlockBean mExpressionBlockBean,
+			BlockElementBean element,
 			Context context,
+			LogicEditorView logicEditor,
 			LogicEditorConfiguration configuration) {
-		// TODO: Need to write this method....
+		if (element instanceof StringBlockBean stringBlockBean) {
+			StringBlockBeanView view = new StringBlockBeanView(context, stringBlockBean, configuration, logicEditor);
+			return view;
+		} else if (element instanceof BooleanBlockBean booleanBlockBean) {
+			BooleanBlockView view = new BooleanBlockView(context, booleanBlockBean, configuration, logicEditor);
+			return view;
+		} else if (element instanceof NumericBlockBean numericBlockBean) {
+			NumericBlockBeanView view = new NumericBlockBeanView(context, numericBlockBean, configuration, logicEditor);
+			return view;
+		} else if (element instanceof GeneralExpressionBlockBean generalExpressionBlockBean) {
+			GeneralExpressionBlockView view = new GeneralExpressionBlockView(context, generalExpressionBlockBean,
+					configuration, logicEditor);
+			return view;
+		}
 		return null;
 	}
 }
