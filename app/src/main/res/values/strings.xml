@@ -1,43 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="add_event">Add Event</string>
     <string name="app_name">Block IDLE</string>
+    <string name="block_idle">Block IDLE</string>
     <string name="cancel">Cancel</string>
-	<string name="class_name_example">Example \: MyClass</string>
-	<string name="create">Create</string>
+    <string name="code_viewer">Code Viewer</string>
+    <string name="class_name">Class Name</string>
+    <string name="class_name_example">Example \: MyClass</string>
+    <string name="create">Create</string>
     <string name="create_a_new_project">Create a new project</string>
-	<string name="dismiss">Dismiss</string>
-	<string name="done">Done</string>
-	<string name="instance_variables">Instance Variables</string>
-	<string name="new_java_class">New Java Class</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="done">Done</string>
+    <string name="event_imports">Event imports</string>
+    <string name="file_tree">File Tree</string>
+    <string name="instance_variables">Instance Variables</string>
+    <string name="new_java_class">New Java Class</string>
+    <string name="no_projects_yet">No projects yet</string>
+    <string name="no_pane_yet">No pane yet</string>
+    <string name="open_from_drawer">Open from drawer</string>
     <string name="package_name">Package Name</string>
     <string name="package_name_example">Example \: com.example.pkg</string>
     <string name="project_configuration">Project Configuration</string>
     <string name="project_name">Project Name</string>
     <string name="project_name_example">Example \: MyProject</string>
-	<string name="static_variables">Static Variables</string>
+    <string name="static_variables">Static Variables</string>
     <string name="version_name">Version Name</string>
     <string name="more_options">More Options</string>
-
-    <!-- From: activity_project_editor.xml-->
-    <string name="file_tree">File Tree</string>
-
-    <!-- From: activity_project_manager.xml -->
-    <string name="no_projects_yet">No projects yet</string>
-
-    <!-- From: bottomsheet_add_event.xml-->
-    <string name="add_event">Add Event</string>
-
-    <!-- From: dialog_create_java_file.xml-->
-    <string name="class_name">Class Name</string>
-
-    <!-- From: dialog_event_code.xml-->
-    <string name="event_imports">Event imports</string>
-    <string name="code_viewer">Code Viewer</string>
-
-    <!-- From: dialog_project_config.xml-->
-    <string name="block_idle">Block IDLE</string>
-
-    <!-- From: no_pane_layout.xml-->
-    <string name="no_pane_yet">No pane yet</string>
-    <string name="open_from_drawer">Open from drawer</string>
 </resources>
