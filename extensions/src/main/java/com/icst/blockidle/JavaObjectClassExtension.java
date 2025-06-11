@@ -21,8 +21,10 @@ import java.util.ArrayList;
 
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
+import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.bean.EventBlockBean;
+import com.icst.blockidle.bean.GeneralExpressionBlockBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
@@ -306,6 +308,25 @@ public class JavaObjectClassExtension {
 		LabelBlockElementBean equals = new LabelBlockElementBean();
 		equals.setLabel("equals");
 		layer1elements.add(equals);
+
+		GeneralExpressionBlockBean obj = new GeneralExpressionBlockBean();
+		obj.setReturnDatatype(new DatatypeBean("java.lang.Object", "Object"));
+		obj.setColor("#6622ff");
+
+		ArrayList<BlockElementLayerBean> objectBlockLayers = new ArrayList<>();
+		BlockElementLayerBean objLayer1elements = new BlockElementLayerBean();
+		ArrayList<BlockElementBean> objBlockLayer1elements = new ArrayList<>();
+		LabelBlockElementBean objText = new LabelBlockElementBean();
+		objText.setLabel("object");
+		objBlockLayer1elements.add(objText);
+		objLayer1elements.setBlockElementBeans(objBlockLayer1elements);
+		objectBlockLayers.add(objLayer1elements);
+
+		obj.setElementsLayers(objectBlockLayers);
+		obj.setCodeSyntax("object");
+
+		layer1elements.add(obj);
+
 		layer1.setBlockElementBeans(layer1elements);
 
 		layers.add(layer1);
