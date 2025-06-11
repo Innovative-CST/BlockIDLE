@@ -26,6 +26,7 @@ public class ProjectEnvironment {
 	public static final String PROJECT_BEAN_FILE = "ProjectBean";
 	public static final String EVENT_FOLDER = "events";
 	public static final String INSTANCE_VARIABLE_FILE = "InstanceVariable";
+	public static final String STATIC_VARIABLE_FILE = "StaticVariable";
 
 	public static File projectDirectory;
 	public static File extensionsDirectory;

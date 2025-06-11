@@ -19,7 +19,7 @@ package com.icst.blockidle.activities.project_editor.java_editor.variable_manage
 
 import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.AdapterVariableBinding;
-import com.icst.blockidle.util.IDLEJavaFile;
+import com.icst.blockidle.repository.VariableRepository;
 import com.icst.blockidle.viewmodel.VariableViewModel;
 
 import android.view.LayoutInflater;
@@ -30,10 +30,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.VariableViewHolder> {
 
-	private IDLEJavaFile javaFile;
+	private VariableRepository variableRepository;
+	private VariableType variableType;
 
-	public VariableAdapter(IDLEJavaFile javaFile) {
-		this.javaFile = javaFile;
+	public VariableAdapter(VariableRepository variableRepository, VariableType variableType) {
+		this.variableRepository = variableRepository;
+		this.variableType = variableType;
 	}
 
 	@NonNull @Override
@@ -44,14 +46,23 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
 
 	@Override
 	public void onBindViewHolder(@NonNull final VariableViewHolder holder, int position) {
-		VariableBean variableBean = javaFile.getInstanceVariableRepository().getData().getValue().get(position);
+		VariableBean variableBean = null;
+		if (VariableType.INSTANCE == variableType) {
+			variableBean = variableRepository.getInstanceVariableData().getValue().get(position);
+		} else {
+			variableBean = variableRepository.getStaticVariableData().getValue().get(position);
+		}
 		VariableViewModel variableViewModel = new VariableViewModel(variableBean);
 		holder.binding.setViewModel(variableViewModel);
 	}
 
 	@Override
 	public int getItemCount() {
-		return javaFile.getInstanceVariableRepository().getData().getValue().size();
+		if (VariableType.INSTANCE == variableType) {
+			return variableRepository.getInstanceVariableData().getValue().size();
+		} else {
+			return variableRepository.getStaticVariableData().getValue().size();
+		}
 	}
 
 	public static class VariableViewHolder extends RecyclerView.ViewHolder {
@@ -61,5 +72,9 @@ public class VariableAdapter extends RecyclerView.Adapter<VariableAdapter.Variab
 			super(binding.getRoot());
 			this.binding = binding;
 		}
+	}
+
+	public enum VariableType {
+		STATIC, INSTANCE;
 	}
 }

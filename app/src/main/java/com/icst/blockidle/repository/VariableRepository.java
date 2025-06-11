@@ -17,40 +17,63 @@
 
 package com.icst.blockidle.repository;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import com.icst.blockidle.bean.VariableBean;
+import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.util.SerializationUtils;
 
 import androidx.lifecycle.MutableLiveData;
 
 public class VariableRepository {
 
-	private File variableFile;
+	private IDLEJavaFile javaFile;
 	private ArrayList<VariableBean> variables;
-	private final MutableLiveData<ArrayList<VariableBean>> data;
+	private ArrayList<VariableBean> instanceVariable;
+	private ArrayList<VariableBean> staticVariable;
+	private final MutableLiveData<ArrayList<VariableBean>> instanceVariableData;
+	private final MutableLiveData<ArrayList<VariableBean>> staticVariableData;
 
-	public VariableRepository(File file) {
-		this.variableFile = file;
+	public VariableRepository(IDLEJavaFile javaFile) {
+		this.javaFile = javaFile;
 		loadVariables();
-		data = new MutableLiveData<ArrayList<VariableBean>>(variables);
+		instanceVariableData = new MutableLiveData<ArrayList<VariableBean>>(instanceVariable);
+		staticVariableData = new MutableLiveData<ArrayList<VariableBean>>(staticVariable);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void loadVariables() {
-		variables = SerializationUtils.deserialize(variableFile, ArrayList.class);
-		if (variables == null) {
-			variables = new ArrayList<VariableBean>();
+		variables = new ArrayList<VariableBean>();
+		instanceVariable = SerializationUtils.deserialize(javaFile.getInstanceVariableFile(), ArrayList.class);
+		staticVariable = SerializationUtils.deserialize(javaFile.getStaticVariableFile(), ArrayList.class);
+
+		if (instanceVariable == null) {
+			instanceVariable = new ArrayList<VariableBean>();
 		}
+
+		if (staticVariable == null) {
+			staticVariable = new ArrayList<VariableBean>();
+		}
+
+		variables.addAll(instanceVariable);
+		variables.addAll(staticVariable);
+	}
+
+	public boolean canCreateVariable(String name) {
+		return variables.stream().map(VariableBean::getVariableName).anyMatch(name::equals);
 	}
 
 	public void reload() {
 		loadVariables();
-		data.postValue(variables);
+		instanceVariableData.postValue(instanceVariable);
+		staticVariableData.postValue(staticVariable);
 	}
 
-	public MutableLiveData<ArrayList<VariableBean>> getData() {
-		return this.data;
+	public MutableLiveData<ArrayList<VariableBean>> getInstanceVariableData() {
+		return this.instanceVariableData;
+	}
+
+	public MutableLiveData<ArrayList<VariableBean>> getStaticVariableData() {
+		return this.staticVariableData;
 	}
 }

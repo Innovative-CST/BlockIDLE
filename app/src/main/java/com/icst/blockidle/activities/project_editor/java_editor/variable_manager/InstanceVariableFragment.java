@@ -17,9 +17,13 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
+
 import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
 import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
+import com.icst.blockidle.listener.SerializationListener;
+import com.icst.blockidle.repository.VariableRepository;
 import com.icst.blockidle.util.IDLEJavaFile;
+import com.icst.blockidle.util.SerializationUtils;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,6 +40,7 @@ public class InstanceVariableFragment extends Fragment {
 	private FragmentInstanceVariableBinding binding;
 	private IDLEJavaFile javaFile;
 	private VariableAdapter adapter;
+	private VariableRepository variableRepository;
 
 	public static final String IDLEJavaFileArgument = "IDLEJavaFile";
 
@@ -43,9 +48,26 @@ public class InstanceVariableFragment extends Fragment {
 	@SuppressWarnings("deprecation")
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
+
 		binding = FragmentInstanceVariableBinding.inflate(inflator);
 		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
-		adapter = new VariableAdapter(javaFile);
+
+		SerializationUtils.serialize(
+				arr,
+				javaFile.getInstanceVariableFile(),
+				new SerializationListener() {
+
+					@Override
+					public void onSerializationSucess() {
+					}
+
+					@Override
+					public void onSerializationFailed(Exception exception) {
+					}
+				});
+
+		variableRepository = new VariableRepository(javaFile);
+		adapter = new VariableAdapter(variableRepository, VariableAdapter.VariableType.INSTANCE);
 		binding.instanceVariableList.setLayoutManager(new LinearLayoutManager(parent.getContext()));
 		binding.instanceVariableList.setAdapter(adapter);
 		return binding.getRoot();
@@ -54,5 +76,4 @@ public class InstanceVariableFragment extends Fragment {
 	public void saveData() {
 		// Todo: Save all the data of variable
 	}
-
 }

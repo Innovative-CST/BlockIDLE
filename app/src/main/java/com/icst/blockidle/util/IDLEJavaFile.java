@@ -26,23 +26,30 @@ import android.os.Parcelable;
 
 public class IDLEJavaFile extends IDLEFile implements Parcelable {
 
-	private VariableRepository instanceVariableRepository;
+	private VariableRepository variableRepository;
 
 	public IDLEJavaFile(File file) {
 		super(file);
 	}
 
-	public VariableRepository getInstanceVariableRepository() {
-		if (instanceVariableRepository == null) {
-			File instanceVariableFile = new File(file, ProjectEnvironment.INSTANCE_VARIABLE_FILE);
-			instanceVariableRepository = new VariableRepository(instanceVariableFile);
+	public VariableRepository getVariableRepository() {
+		if (variableRepository == null) {
+			variableRepository = new VariableRepository(this);
 		}
-		return instanceVariableRepository;
+		return variableRepository;
 	}
 
 	@SuppressWarnings("deprecation")
 	protected IDLEJavaFile(Parcel in) {
 		super(new File(in.readString()));
+	}
+
+	public File getInstanceVariableFile() {
+		return new File(file, ProjectEnvironment.INSTANCE_VARIABLE_FILE);
+	}
+
+	public File getStaticVariableFile() {
+		return new File(file, ProjectEnvironment.STATIC_VARIABLE_FILE);
 	}
 
 	public File getEventDirectory() {
