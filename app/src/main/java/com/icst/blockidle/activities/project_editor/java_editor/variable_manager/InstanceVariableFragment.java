@@ -48,24 +48,8 @@ public class InstanceVariableFragment extends Fragment {
 	@SuppressWarnings("deprecation")
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-
 		binding = FragmentInstanceVariableBinding.inflate(inflator);
 		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
-
-		SerializationUtils.serialize(
-				arr,
-				javaFile.getInstanceVariableFile(),
-				new SerializationListener() {
-
-					@Override
-					public void onSerializationSucess() {
-					}
-
-					@Override
-					public void onSerializationFailed(Exception exception) {
-					}
-				});
-
 		variableRepository = new VariableRepository(javaFile);
 		adapter = new VariableAdapter(variableRepository, VariableAdapter.VariableType.INSTANCE);
 		binding.instanceVariableList.setLayoutManager(new LinearLayoutManager(parent.getContext()));
