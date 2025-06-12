@@ -17,13 +17,10 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
-
 import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
 import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
-import com.icst.blockidle.listener.SerializationListener;
 import com.icst.blockidle.repository.VariableRepository;
 import com.icst.blockidle.util.IDLEJavaFile;
-import com.icst.blockidle.util.SerializationUtils;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

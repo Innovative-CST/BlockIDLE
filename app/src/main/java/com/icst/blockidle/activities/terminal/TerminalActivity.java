@@ -357,4 +357,22 @@ public class TerminalActivity extends AppCompatActivity
 	public void onClipboardText(TerminalSession arg0, String arg1) {
 		ClipboardUtils.copyText(arg1);
 	}
+
+	@Override
+	public boolean readFnKey() {
+		Boolean state = binding.extraKeys.readSpecialButton(SpecialButton.FN, true);
+		return state != null && state;
+	}
+
+	@Override
+	public boolean readShiftKey() {
+		Boolean state = binding.extraKeys.readSpecialButton(SpecialButton.SHIFT, true);
+		return state != null && state;
+	}
+
+	@Override
+	public boolean isTerminalViewSelected() {
+		return binding.termux.hasFocus();
+	}
+
 }

@@ -59,8 +59,8 @@ dependencies {
 
 	api("com.blankj:utilcodex:$blankj_utilcodex_version")
 
-	api("com.termux.termux-app:terminal-view:0.117")
-	api("com.termux.termux-app:terminal-emulator:0.117")
+	api(name: "terminal-emulator-0.114", ext: 'aar')
+	api(name: "terminal-view-v0.118.0", ext: 'aar')
 }
 
 def downloadBootstrap(String fileU, String fileName) {
