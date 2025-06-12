@@ -35,7 +35,7 @@
              android:visibility="gone"
              style="@style/Widget.Material3.Button.TextButton"
              android:id="@+id/install"
-             android:text="Install tools" />
+             android:text="@string/install_tools" />
 
     </LinearLayout>
 

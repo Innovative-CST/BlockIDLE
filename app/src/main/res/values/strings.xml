@@ -13,6 +13,7 @@
     <string name="done">Done</string>
     <string name="event_imports">Event imports</string>
     <string name="file_tree">File Tree</string>
+	<string name="install_tools">Install Tools</string>
     <string name="instance_variables">Instance Variables</string>
     <string name="new_java_class">New Java Class</string>
     <string name="no_projects_yet">No projects yet</string>
