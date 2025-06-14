@@ -45,7 +45,6 @@ public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
 	@Override
 	public TerminatorBlockBean cloneBean() {
 		TerminatorBlockBean clone = new TerminatorBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
 		clone.setDragAllowed(new Boolean(isDragAllowed()));

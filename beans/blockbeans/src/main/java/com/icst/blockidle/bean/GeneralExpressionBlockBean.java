@@ -38,7 +38,6 @@ public class GeneralExpressionBlockBean extends ExpressionBlockBean<GeneralExpre
 	@Override
 	public GeneralExpressionBlockBean cloneBean() {
 		GeneralExpressionBlockBean clone = new GeneralExpressionBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
 		clone.setDragAllowed(new Boolean(isValueReadOnly()));
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));

@@ -42,7 +42,6 @@ public class RegularBlockBean extends ActionBlockBean<RegularBlockBean>
 	@Override
 	public RegularBlockBean cloneBean() {
 		RegularBlockBean clone = new RegularBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
 		clone.setDragAllowed(new Boolean(isDragAllowed()));

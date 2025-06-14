@@ -26,8 +26,6 @@ public abstract class BlockBean<T> implements Serializable, CloneableBean<T> {
 
 	public static final long serialVersionUID = BlockBeansUIDConstants.BLOCK_BEAN;
 
-	private String blockBeanKey;
-
 	// The color of the block
 	private String color;
 
@@ -38,14 +36,6 @@ public abstract class BlockBean<T> implements Serializable, CloneableBean<T> {
 	private boolean valueReadOnly;
 
 	private BeanManifest beanManifest;
-
-	public String getBlockBeanKey() {
-		return this.blockBeanKey;
-	}
-
-	public void setBlockBeanKey(String blockBeanKey) {
-		this.blockBeanKey = blockBeanKey;
-	}
 
 	/**
 	 * Gets the color of the block.

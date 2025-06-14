@@ -37,7 +37,6 @@ public class NumericBlockBean extends ExpressionBlockBean<NumericBlockBean> impl
 	@Override
 	public NumericBlockBean cloneBean() {
 		NumericBlockBean clone = new NumericBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
 		clone.setDragAllowed(new Boolean(isValueReadOnly()));
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));

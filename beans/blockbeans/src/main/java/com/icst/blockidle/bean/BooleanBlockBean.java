@@ -37,7 +37,6 @@ public class BooleanBlockBean extends ExpressionBlockBean<BooleanBlockBean> impl
 	@Override
 	public BooleanBlockBean cloneBean() {
 		BooleanBlockBean clone = new BooleanBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
 		clone.setDragAllowed(new Boolean(isValueReadOnly()));
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));

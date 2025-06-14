@@ -32,7 +32,6 @@ public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implem
 	@Override
 	public StringBlockBean cloneBean() {
 		StringBlockBean clone = new StringBlockBean();
-		clone.setBlockBeanKey(getBlockBeanKey() == null ? null : new String(getBlockBeanKey()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
 		clone.setDragAllowed(new Boolean(isValueReadOnly()));
 		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
