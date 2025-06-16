@@ -17,8 +17,32 @@
 
 package com.icst.blockidle.bean.utils;
 
+/**
+ * Contains {@code serialVersionUID} constants for bean classes to ensure
+ * serialization compatibility across different versions of those classes.
+ *
+ * These IDs are used during Java object serialization and deserialization
+ * to verify that the sender and receiver of a serialized object have loaded
+ * classes for that object that are compatible with respect to serialization.
+ */
+
 public class BeansUIDConstants {
+
+	/**
+	* {@code serialVersionUID} for the {@code ArtifactBean} class.
+	* Ensures serialization compatibility.
+	*/
 	public static final long ARTIFACT_BEAN = 1L;
+
+	/**
+	* {@code serialVersionUID} for the {@code DatatypeBean} class.
+	* Ensures serialization compatibility.
+	*/
 	public static final long DATATYPE_BEAN_BEAN = 1L;
+
+	/**
+	* {@code serialVersionUID} for the {@code VariableBean} class.
+	* Ensures serialization compatibility.
+	*/
 	public static final long VARIABLE_BEAN = 1L;
 }
