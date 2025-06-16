@@ -19,18 +19,18 @@ package com.icst.blockidle.bean;
 
 /**
  * A generic interface that indicates a bean can be cloned.
- * <p>
- * Implementing classes should provide a meaningful implementation of the
- * {@link #cloneBean()} method to create a copy of the object.
+ *
+ * <p>Implementing classes should provide a meaningful implementation of the {@link #cloneBean()}
+ * method to create a copy of the object.
  *
  * @param <T> the type of object that this bean can clone
  */
 public interface CloneableBean<T> {
 
-    /**
-     * Create and returns a deep copy of this bean.
-     *
-     * @return a cloned instance of the bean
-     */
-    T cloneBean();
+	/**
+	 * Create and returns a deep copy of this bean.
+	 *
+	 * @return a cloned instance of the bean
+	 */
+	T cloneBean();
 }
