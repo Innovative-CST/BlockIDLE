@@ -17,8 +17,24 @@
 
 package com.icst.blockidle.bean;
 
+/**
+ * Represents a bean capable of providing code syntax and its processed form.
+ *
+ * <p>Implementing classes should define how code is represented and processed.
+ */
 public interface CodeProcessorBean {
+
+	/**
+	 * Returns the raw code syntax representation of this bean.
+	 *
+	 * @return the unprocessed code syntax as a {@link String}
+	 */
 	String getCodeSyntax();
 
+	/**
+	 * Returns the processed or transformed code of this bean.
+	 *
+	 * @return the final code output after processing
+	 */
 	String getProcessedCode();
 }

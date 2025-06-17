@@ -19,18 +19,41 @@ package com.icst.blockidle.bean;
 
 import java.io.Serializable;
 
+/**
+ * Represents a folder in the Block IDLE file system. This class extends {@link IDLEFileBean} and
+ * provides a specific implementation for folder-type files.
+ *
+ * <p>This class implements {@link Serializable} to allow instances to be serialized and passed
+ * between components or stored persistently.
+ */
 public class IDLEFolderBean extends IDLEFileBean implements Serializable {
-	public static final long serialVersionUID = 1;
 
-	public static final String FILE_TYPE = "folder";
+    /**
+     * Serial version UID for serialization compatibility.
+     */
+    public static final long serialVersionUID = 1;
 
-	public IDLEFolderBean(String name) {
-		super(name);
-	}
+    /**
+     * Constant representing the file type for this class.
+     */
+    public static final String FILE_TYPE = "folder";
 
-	@Override
-	public String getFileType() {
-		return FILE_TYPE;
-	}
+    /**
+     * Constructs an {@code IDLEFolderBean} with the specified folder name.
+     *
+     * @param name the name of the folder
+     */
+    public IDLEFolderBean(String name) {
+        super(name);
+    }
 
+    /**
+     * Returns the file type of this object, which is always {@code "folder"}.
+     *
+     * @return a string representing the file type, i.e., {@code "folder"}
+     */
+    @Override
+    public String getFileType() {
+        return FILE_TYPE;
+    }
 }

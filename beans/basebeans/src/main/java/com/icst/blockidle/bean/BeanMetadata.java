@@ -19,5 +19,11 @@ package com.icst.blockidle.bean;
 
 import java.io.Serializable;
 
+/**
+ * An abstract base class for all metadata beans in the system.
+ *
+ * <p>This class implements {@link Serializable} to support object serialization. Subclasses
+ * typically represent specific types of beans related metadata.
+ */
 public abstract class BeanMetadata implements Serializable {
 }
