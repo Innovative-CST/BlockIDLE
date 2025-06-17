@@ -15,15 +15,9 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-plugins {
-	id("java-library")
-	id("org.jetbrains.dokka")
-}
-
-dokkaHtmlPartial {
-	dokkaSourceSets {
-		create("main") {
-			sourceRoots.from(file("src/main/java"))
-		}
-	}
-}
+include(":basebeans")
+include(":blockbeans")
+include(":layoutbeans")
+include(":javabeans")
+include(":projectbeans")
+include(":xmlbeans")

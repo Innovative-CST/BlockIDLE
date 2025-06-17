@@ -24,7 +24,7 @@ dependencies {
 	api project(":beans:basebeans")
 }
 
-dokkaHtml {
+dokkaHtmlPartial {
 	dokkaSourceSets {
 		create("main") {
 			sourceRoots.from(file("src/main/java"))

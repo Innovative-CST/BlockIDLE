@@ -19,21 +19,40 @@ package com.icst.blockidle.bean;
 
 import java.io.Serializable;
 
-// TODO: Inheritance
+/**
+ * Represents a Java-related file (e.g., class or interface) in the Block IDLE file system.
+ * Extends {@link IDLEFileBean} and implements {@link Serializable}.
+ */
 public class IDLEJavaFileBean extends IDLEFileBean implements Serializable {
-	public static final long serialVersionUID = 1;
 
-	public static final String FILE_TYPE = "folder";
+    /** Serial version UID for serialization compatibility. */
+    public static final long serialVersionUID = 1;
 
-	public static final String JAVA_CLASS = "JavaClass";
+    /** Constant representing the file type for a Java class file. */
+    public static final String FILE_TYPE = "JavaClass";
+
+    /** Constant representing the file type for a Java class file. */
+    public static final String JAVA_CLASS = "JavaClass";
+
+	/** Constant representing the file type name for a Java interface. */
 	public static final String JAVA_INTERFACE = "JavaInterface";
 
-	public IDLEJavaFileBean(String name) {
+    /**
+     * Constructs a new {@code IDLEJavaFileBean} with the given file name.
+     *
+     * @param name the name of the Java file
+     */
+    public IDLEJavaFileBean(String name) {
 		super(name);
 	}
 
-	@Override
-	public String getFileType() {
+    /**
+     * Returns the file type of this Java file, always {@code "JavaClass"}.
+     *
+     * @return a string representing the file type
+     */
+    @Override
+    public String getFileType() {
 		return FILE_TYPE;
 	}
 }

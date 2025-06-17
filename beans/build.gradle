@@ -16,14 +16,5 @@
  */
 
 plugins {
-	id("java-library")
-	id("org.jetbrains.dokka")
-}
-
-dokkaHtmlPartial {
-	dokkaSourceSets {
-		create("main") {
-			sourceRoots.from(file("src/main/java"))
-		}
-	}
+    id "org.jetbrains.dokka" version "1.9.20"
 }
