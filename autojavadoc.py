@@ -7,12 +7,13 @@ from typing import List, Optional
 
 import javalang
 from github import GithubIntegration
+# from langchain import PromptTemplate, LLMChain
+# from openai import OpenAI
 from tqdm import tqdm
 from unidiff import PatchSet
 from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
-# from langchain.llms import OpenAI  # or use ChatOpenAI for chat models
-from langchain_openai import ChatOpenAI
+from langchain.llms import OpenAI  # or use ChatOpenAI for chat models
 
 # Prompt & patterns
 PROMPT_TEMPLATE = """
@@ -100,8 +101,7 @@ def main():
     gh = integration.get_github_for_installation(int(gh_install_id))
 
     prompt = PromptTemplate(template=PROMPT_TEMPLATE, input_variables=["code"])
-    #llm = OpenAI(openai_api_key=openai_key)
-    llm = ChatOpenAI(model="gpt-4o", api_key=openai_key)
+    llm = OpenAI(openai_api_key=openai_key)
     llm_chain = LLMChain(prompt=prompt, llm=llm)
 
     owner, repo = os.environ["REPO_OWNER"], os.environ["REPO_NAME"]
