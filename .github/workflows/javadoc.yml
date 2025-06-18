@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install langchain docopt pygithub tqdm unidiff openai javalang
+          pip install langchain langchain-community docopt pygithub tqdm unidiff openai javalang
 
       - name: Write GitHub App private key to file
         run: |
