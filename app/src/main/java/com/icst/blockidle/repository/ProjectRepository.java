@@ -116,9 +116,8 @@ public class ProjectRepository {
 	public void updateProject(ProjectFile projectFile) throws ProjectUpdateException {
 		File projectBeanFile = new File(projectFile.getFile(), ProjectEnvironment.PROJECT_BEAN_FILE);
 
-		if (!projectBeanFile.exists()) {
-			throw new ProjectUpdateException(ProjectUpdateException.PROJECT_NOT_FOUND);
-		}
+        if (!projectBeanFile.exists())
+            throw new ProjectUpdateException(ProjectUpdateException.PROJECT_NOT_FOUND);
 
 		SerializationUtils.serialize(
 				projectFile.getProjectBean(),
