@@ -115,13 +115,11 @@ public class EventRepository {
 	public void loadEvents() {
 		events = new ArrayList<Pair<File, EventBean>>();
 		for (File file : javaFile.getEventDirectory().listFiles()) {
-			if (file.isDirectory())
-				continue;
+            if (file.isDirectory()) continue;
 			EventBean eventBean = SerializationUtils.deserialize(file, EventBean.class);
 
-			if (eventBean != null) {
-				events.add(Pair.create(file, eventBean));
-			}
+			if (eventBean == null) continue;
+            events.add(Pair.create(file, eventBean));
 		}
 		data.postValue(events);
 	}
