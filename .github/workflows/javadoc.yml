@@ -1,0 +1,44 @@
+name: AutoJavadoc Workflow
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  autojavadoc:
+    runs-on: ubuntu-latest
+
+    env:
+      INSTALLATION_ID: ${{ secrets.GH_INSTALLATION_ID }}
+      APP_ID: ${{ secrets.GH_APP_ID }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install langchain docopt pygithub tqdm unidiff openai javalang
+
+      - name: Write GitHub App private key to file
+        run: |
+          echo "${{ secrets.GH_PRIVATE_KEY }}" > private-key.pem
+          echo "PRIVATE_KEY_PATH=private-key.pem" >> $GITHUB_ENV
+
+      - name: Run autojavadoc.py
+        run: python autojavadoc.py
+        env:
+          GITHUB_INSTALLATION_ID: ${{ env.INSTALLATION_ID }}
+          GITHUB_APP_ID: ${{ env.APP_ID }}
+          GITHUB_PRIVATE_KEY_PATH: ${{ env.PRIVATE_KEY_PATH }}
+          OPENAI_API: ${{ env.OPENAI_API_KEY }}
+          
