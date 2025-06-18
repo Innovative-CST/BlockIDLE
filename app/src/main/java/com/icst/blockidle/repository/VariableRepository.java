@@ -62,6 +62,10 @@ public class VariableRepository {
 	public boolean canCreateVariable(String name) {
 		return variables.stream().map(VariableBean::getVariableName).anyMatch(name::equals);
 	}
+	
+	public boolean getPublicVariables() {
+		return variables.stream().map(VariableBean::getAccessModifier).anyMatch(Integer.valueOf(VariableBean.ACCESS_MODIFIER_PUBLIC)::equals);
+	}
 
 	public void reload() {
 		loadVariables();
