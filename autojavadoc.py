@@ -31,14 +31,36 @@ COMMENT_TEMPLATE = """ Shall we add a Javadoc?
 JAVADOC_PATTERN = re.compile(r"/\\*\\*.+?\\*/", re.DOTALL)
 
 def get_method_start_end(node, tree) -> tuple:
-    # Implement logic to derive start_position, end_position, start_line, end_line for a method node.
-    # ...
-    raise NotImplementedError
+    """
+    Extracts method start/end position (char offset) and line numbers.
+    `node` is a MethodDeclaration.
+    """
+    # Start line comes directly from node
+    start_line = node.position.line if node.position else 0
+
+    # We find end_line by getting the max line of any node inside the method
+    end_line = start_line
+    for path, child in node:
+        if hasattr(child, 'position') and child.position:
+            end_line = max(end_line, child.position.line)
+
+    # Use placeholder char positions for now
+    start_position = 0
+    end_position = 0
+
+    return start_position, end_position, start_line, end_line
 
 def get_method_text(start_pos, end_pos, start_line, end_line, last_endline_index, codelines) -> str:
-    # Use start_pos/end_pos or line bounds to extract full method source as string
-    # ...
-    raise NotImplementedError
+    """
+    Extracts the text of a method from a list of code lines using line numbers.
+    `start_line` and `end_line` are 1-based (javalang style), so we convert them to 0-based.
+    """
+    if start_line <= 0 or end_line <= 0 or start_line > len(codelines) or end_line > len(codelines):
+        return ""
+
+    # Extract lines from start_line to end_line (inclusive)
+    method_lines = codelines[start_line - 1:end_line]
+    return "\n".join(method_lines)
 
 def generate_pr_comment_for_adding_javadoc(
     method_data: dict, file_text: str, llm_chain: LLMChain
