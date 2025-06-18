@@ -7,10 +7,13 @@ from typing import List, Optional
 
 import javalang
 from github import GithubIntegration
-from langchain import PromptTemplate, LLMChain
-from openai import OpenAI
+# from langchain import PromptTemplate, LLMChain
+# from openai import OpenAI
 from tqdm import tqdm
 from unidiff import PatchSet
+from langchain.chains import LLMChain
+from langchain_core.prompts import PromptTemplate
+from langchain.llms import OpenAI  # or use ChatOpenAI for chat models
 
 # Prompt & patterns
 PROMPT_TEMPLATE = """
