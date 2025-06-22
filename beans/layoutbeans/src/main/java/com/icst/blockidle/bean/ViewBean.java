@@ -157,7 +157,7 @@ public class ViewBean implements Serializable, CloneableBean<ViewBean> {
 		ViewBean clone = new ViewBean();
 		clone.setAttributes(BeanArrayCloneUtils.clone(getAttributes()));
 		clone.setChilds(BeanArrayCloneUtils.clone(getChilds()));
-		clone.setRootElement(new Boolean(getIsRootElement()));
+		clone.setRootElement(getIsRootElement());
 		clone.setClass(viewClass == null ? null : new String(viewClass));
 		return clone;
 	}

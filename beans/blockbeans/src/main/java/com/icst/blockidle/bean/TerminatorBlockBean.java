@@ -47,9 +47,9 @@ public class TerminatorBlockBean extends ActionBlockBean<TerminatorBlockBean>
 		TerminatorBlockBean clone = new TerminatorBlockBean();
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setColor(getColor() == null ? null : new String(getColor()));
-		clone.setDragAllowed(new Boolean(isDragAllowed()));
+		clone.setDragAllowed(isDragAllowed());
 		clone.setLayers(BeanArrayCloneUtils.clone(getLayers()));
-		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		clone.setValueReadOnly(isValueReadOnly());
 		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());
 		return clone;
 	}

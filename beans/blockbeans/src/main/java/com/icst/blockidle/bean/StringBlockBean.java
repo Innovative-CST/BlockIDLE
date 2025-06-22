@@ -33,8 +33,8 @@ public class StringBlockBean extends ExpressionBlockBean<StringBlockBean> implem
 	public StringBlockBean cloneBean() {
 		StringBlockBean clone = new StringBlockBean();
 		clone.setColor(getColor() == null ? null : new String(getColor()));
-		clone.setDragAllowed(new Boolean(isValueReadOnly()));
-		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		clone.setDragAllowed(isValueReadOnly());
+		clone.setValueReadOnly(isValueReadOnly());
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setBeanManifest(getBeanManifest() == null ? null : getBeanManifest());

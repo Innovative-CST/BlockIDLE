@@ -103,7 +103,7 @@ public class BooleanBlockElementBean
 	@Override
 	public BooleanBlockElementBean cloneBean() {
 		BooleanBlockElementBean clone = new BooleanBlockElementBean();
-		clone.setBool(new Boolean(getBool()));
+		clone.setBool(getBool());
 		clone.setBooleanBlock(getBooleanBlock() == null ? null : getBooleanBlock().cloneBean());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
 		clone.setAcceptedReturnType(getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());

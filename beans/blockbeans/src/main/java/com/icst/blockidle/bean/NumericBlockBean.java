@@ -38,8 +38,8 @@ public class NumericBlockBean extends ExpressionBlockBean<NumericBlockBean> impl
 	public NumericBlockBean cloneBean() {
 		NumericBlockBean clone = new NumericBlockBean();
 		clone.setColor(getColor() == null ? null : new String(getColor()));
-		clone.setDragAllowed(new Boolean(isValueReadOnly()));
-		clone.setValueReadOnly(new Boolean(isValueReadOnly()));
+		clone.setDragAllowed(isValueReadOnly());
+		clone.setValueReadOnly(isValueReadOnly());
 		clone.setElementsLayers(BeanArrayCloneUtils.clone(getElementsLayers()));
 		clone.setCodeSyntax(getCodeSyntax() == null ? null : new String(getCodeSyntax()));
 		clone.setReturnDatatype(getReturnDatatype() == null ? null : getReturnDatatype().cloneBean());

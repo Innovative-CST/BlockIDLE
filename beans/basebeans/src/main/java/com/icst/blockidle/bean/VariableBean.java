@@ -142,16 +142,16 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 	@Override
 	public VariableBean cloneBean() {
 		VariableBean variable = new VariableBean();
-		variable.accessModifier = new Integer(this.accessModifier);
+		variable.accessModifier = this.accessModifier;
 		variable.variableTitle = this.variableTitle == null ? null : new String(this.variableTitle);
 		variable.variableDataType = this.variableDataType == null ? null : variableDataType.cloneBean();
 		variable.variableName = this.variableName == null ? null : new String(this.variableName);
-		variable.mustBeGloballyIntialized = new Boolean(this.mustBeGloballyIntialized);
-		variable.isInitializedGlobally = new Boolean(this.isInitializedGlobally);
-		variable.canInitializedGlobally = new Boolean(this.canInitializedGlobally);
-		variable.isStaticVariable = new Boolean(this.isStaticVariable);
-		variable.isFinalVariable = new Boolean(this.isFinalVariable);
-		variable.applyColorFilter = new Boolean(this.applyColorFilter);
+		variable.mustBeGloballyIntialized = this.mustBeGloballyIntialized;
+		variable.isInitializedGlobally = this.isInitializedGlobally;
+		variable.canInitializedGlobally = this.canInitializedGlobally;
+		variable.isStaticVariable = this.isStaticVariable;
+		variable.isFinalVariable = this.isFinalVariable;
+		variable.applyColorFilter = this.applyColorFilter;
 		// TODO: Deep clone BeanManifest
 		variable.beanManifest = this.beanManifest == null ? null : this.beanManifest;
 		variable.nonFixedVariableName = this.nonFixedVariableName == null ? null
