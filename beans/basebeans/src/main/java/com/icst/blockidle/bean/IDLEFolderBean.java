@@ -28,32 +28,32 @@ import java.io.Serializable;
  */
 public class IDLEFolderBean extends IDLEFileBean implements Serializable {
 
-    /**
-     * Serial version UID for serialization compatibility.
-     */
-    public static final long serialVersionUID = 1;
+	/**
+	 * Serial version UID for serialization compatibility.
+	 */
+	public static final long serialVersionUID = 1;
 
-    /**
-     * Constant representing the file type for this class.
-     */
-    public static final String FILE_TYPE = "folder";
+	/**
+	 * Constant representing the file type for this class.
+	 */
+	public static final String FILE_TYPE = "folder";
 
-    /**
-     * Constructs an {@code IDLEFolderBean} with the specified folder name.
-     *
-     * @param name the name of the folder
-     */
-    public IDLEFolderBean(String name) {
-        super(name);
-    }
+	/**
+	 * Constructs an {@code IDLEFolderBean} with the specified folder name.
+	 *
+	 * @param name the name of the folder
+	 */
+	public IDLEFolderBean(String name) {
+		super(name);
+	}
 
-    /**
-     * Returns the file type of this object, which is always {@code "folder"}.
-     *
-     * @return a string representing the file type, i.e., {@code "folder"}
-     */
-    @Override
-    public String getFileType() {
-        return FILE_TYPE;
-    }
+	/**
+	 * Returns the file type of this object, which is always {@code "folder"}.
+	 *
+	 * @return a string representing the file type, i.e., {@code "folder"}
+	 */
+	@Override
+	public String getFileType() {
+		return FILE_TYPE;
+	}
 }
