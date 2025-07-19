@@ -28,29 +28,29 @@ import java.io.Serializable;
  */
 public class IDLEFileBean implements Serializable {
 
-    /** Serial version UID for serialization compatibility. */
-    public static final long serialVersionUID = 1;
+	/** Serial version UID for serialization compatibility. */
+	public static final long serialVersionUID = 1;
 
-    /** The name of the file. */
-    protected String name;
+	/** The name of the file. */
+	protected String name;
 
-    /**
-     * Constructs an {@code IDLEFileBean} with the specified file name.
-     *
-     * @param name the name of the file
-     */
-    public IDLEFileBean(String name) {
-        this.name = name;
-    }
+	/**
+	 * Constructs an {@code IDLEFileBean} with the specified file name.
+	 *
+	 * @param name the name of the file
+	 */
+	public IDLEFileBean(String name) {
+		this.name = name;
+	}
 
-    /**
-     * Returns the file type associated with this file.
-     *
-     * <p>This method can be overridden by subclasses to provide specific file types.
-     *
-     * @return the file type as a string, or an empty string if undefined
-     */
-    public String getFileType() {
-        return "";
-    }
+	/**
+	 * Returns the file type associated with this file.
+	 *
+	 * <p>This method can be overridden by subclasses to provide specific file types.
+	 *
+	 * @return the file type as a string, or an empty string if undefined
+	 */
+	public String getFileType() {
+		return "";
+	}
 }
