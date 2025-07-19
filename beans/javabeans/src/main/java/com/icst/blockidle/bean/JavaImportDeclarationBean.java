@@ -22,6 +22,21 @@ import java.util.Objects;
 
 import com.icst.blockidle.bean.utils.JavaBeansUIDConstants;
 
+/**
+ * Represents a Java import declaration within the Block IDLE environment.
+ * <p>
+ * This bean encapsulates information about a single import statement, including
+ * whether the import is static and the fully qualified name of the imported class
+ * or member. It provides utility methods to retrieve and modify the import
+ * attributes, as well as generate corresponding Java source code.
+ * </p>
+ *
+ * <p>
+ * This class is serializable and cloneable, making it suitable for storage and
+ * duplication in environments where import declarations need to be manipulated
+ * programmatically, such as in a visual programming editor or code generator.
+ * </p>
+ */
 public class JavaImportDeclarationBean extends BeanMetadata
 		implements Serializable, CloneableBean<JavaImportDeclarationBean> {
 
