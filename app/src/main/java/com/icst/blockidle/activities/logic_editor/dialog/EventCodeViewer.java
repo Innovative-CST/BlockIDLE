@@ -17,6 +17,8 @@
 
 package com.icst.blockidle.activities.logic_editor.dialog;
 
+import java.util.HashSet;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.logic_editor.LogicEditorActivity;
 import com.icst.blockidle.bean.EventBean;
@@ -39,8 +41,14 @@ public class EventCodeViewer extends MaterialAlertDialogBuilder {
 		binding.eventCode.setLanguageMode("java");
 		binding.eventCode.setText(event.getProcessedCode());
 
+		HashSet<String> importedImports = new HashSet<String>();
+
 		StringBuilder imports = new StringBuilder();
 		event.getAllMetadata(JavaImportDeclarationBean.class).forEach(importDeclaration -> {
+			if (importedImports.contains(importDeclaration.getCode()))
+				return;
+
+			importedImports.add(importDeclaration.getCode());
 			imports.append(importDeclaration.getCode());
 			imports.append("\n");
 		});
