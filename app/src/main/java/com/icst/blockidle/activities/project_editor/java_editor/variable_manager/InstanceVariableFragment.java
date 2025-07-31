@@ -18,6 +18,7 @@
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
 import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog.VariableConfigurationDialog;
 import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
 import com.icst.blockidle.repository.VariableRepository;
 import com.icst.blockidle.util.IDLEJavaFile;
@@ -51,6 +52,9 @@ public class InstanceVariableFragment extends Fragment {
 		adapter = new VariableAdapter(variableRepository, VariableAdapter.VariableType.INSTANCE);
 		binding.instanceVariableList.setLayoutManager(new LinearLayoutManager(parent.getContext()));
 		binding.instanceVariableList.setAdapter(adapter);
+		binding.fab.setOnClickListener(v -> {
+			VariableConfigurationDialog dialog = new VariableConfigurationDialog(InstanceVariableFragment.this);
+		});
 		return binding.getRoot();
 	}
 

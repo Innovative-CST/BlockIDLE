@@ -17,7 +17,47 @@
 
 package com.icst.blockidle.viewmodel;
 
+import com.icst.blockidle.bean.VariableBean;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.lifecycle.ViewModel;
 
 public class VariableConfigDialogViewModel extends ViewModel {
+
+	private VariableBean variableBean;
+	private AlertDialog alertDialog;
+
+	public VariableBean getVariableBean() {
+		return this.variableBean;
+	}
+
+	public void setVariableBean(VariableBean variableBean) {
+		this.variableBean = variableBean;
+	}
+
+	public String getVariableName() {
+		// Return a empty string instead of null value
+		if (variableBean == null)
+			return "";
+		if (variableBean.getNonFixedVariableName() == null)
+			return "";
+
+		return variableBean.getNonFixedVariableName();
+	}
+
+	public void setVariableName(String name) {
+		variableBean.setNonFixedVariableName(name);
+	}
+
+	public AlertDialog getAlertDialog() {
+		return this.alertDialog;
+	}
+
+	public void setAlertDialog(AlertDialog alertDialog) {
+		this.alertDialog = alertDialog;
+	}
+
+	public void cancel() {
+		alertDialog.dismiss();
+	}
 }
