@@ -49,8 +49,7 @@ public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getContext(),
 				android.R.layout.simple_dropdown_item_1line,
-				suggestions
-		);
+				suggestions);
 
 		binding.datatypeTextInputAutoCompletion.setAdapter(adapter);
 		binding.datatypeTextInputAutoCompletion
