@@ -26,13 +26,27 @@ public class ClassBlocksGenerator {
 		File androidSdk = new File(args[2]);
 		File appCompat = new File(args[3]);
 
+		ExtensionZipOutputStream appcompatExtension = new ExtensionZipOutputStream(
+				new File(outputFolder, "Appcompat-1.7.0.bidle"));
+
 		BlocksGenerator.generateBlocks(
 				new File[] { new File(appCompat, "androidx/appcompat/app/AppCompatActivity.java") },
 				new String[] { "#3366CC" },
 				new String[] { "AppCompatActivity" },
 				new String[] { "block_palette/appcompatactivity" },
 				new File[] { androidSdk, appCompat }, null, null,
-				new File(outputFolder, "Appcompat-1.7.0.bidle"));
+				appcompatExtension);
+
+		DatatypeGenerator.generateDatatypes(
+				new File[] { new File(appCompat, "androidx/appcompat/app/AppCompatActivity.java") },
+				new String[] { "datatype/appcompatactivity" },
+				new File[] { androidSdk, appCompat }, null, null,
+				appcompatExtension);
+
+		appcompatExtension.close();
+
+		ExtensionZipOutputStream androidSdkExtension = new ExtensionZipOutputStream(
+				new File(outputFolder, "android-sdk-35.bidle"));
 
 		BlocksGenerator.generateBlocks(
 				new File[] { new File(androidSdk, "android/app/Activity.java") },
@@ -40,7 +54,18 @@ public class ClassBlocksGenerator {
 				new String[] { "Activity" },
 				new String[] { "block_palette/activity" },
 				new File[] { androidSdk }, null, null,
-				new File(outputFolder, "android-sdk-35.bidle"));
+				androidSdkExtension);
+
+		DatatypeGenerator.generateDatatypes(
+				new File[] { new File(androidSdk, "android/app/Activity.java") },
+				new String[] { "datatype/activity" },
+				new File[] { androidSdk }, null, null,
+				androidSdkExtension);
+
+		androidSdkExtension.close();
+
+		ExtensionZipOutputStream baseDatatypesExtension = new ExtensionZipOutputStream(
+				new File(outputFolder, "BaseDatatypes.bidle"));
 
 		BlocksGenerator.generateBlocks(
 				new File[] {
@@ -90,7 +115,40 @@ public class ClassBlocksGenerator {
 				new File[] { new File(openJdkSource, "java.base") },
 				null,
 				null,
-				new File(outputFolder, "BaseDatatypes.bidle"));
+				baseDatatypesExtension);
+
+		DatatypeGenerator.generateDatatypes(
+				new File[] {
+						new File(openJdkSource, "java.base/java/lang/String.java"),
+						new File(openJdkSource, "java.base/java/lang/Byte.java"),
+						new File(openJdkSource, "java.base/java/lang/Short.java"),
+						new File(openJdkSource, "java.base/java/lang/Integer.java"),
+						new File(openJdkSource, "java.base/java/lang/Long.java"),
+						new File(openJdkSource, "java.base/java/lang/Float.java"),
+						new File(openJdkSource, "java.base/java/lang/Double.java"),
+						new File(openJdkSource, "java.base/java/lang/Character.java"),
+						new File(openJdkSource, "java.base/java/lang/Boolean.java")
+				},
+				new String[] {
+						"datatype/string",
+						"datatype/byte",
+						"datatype/short",
+						"datatype/integer",
+						"datatype/long",
+						"datatype/float",
+						"datatype/double",
+						"datatype/character",
+						"datatype/boolean"
+				},
+				new File[] { new File(openJdkSource, "java.base") },
+				null,
+				null,
+				baseDatatypesExtension);
+
+		baseDatatypesExtension.close();
+
+		ExtensionZipOutputStream systemExtension = new ExtensionZipOutputStream(
+				new File(outputFolder, "SystemExtension.bidle"));
 
 		BlocksGenerator.generateBlocks(
 				new File[] { new File(openJdkSource, "java.base/java/lang/System.java") },
@@ -98,7 +156,18 @@ public class ClassBlocksGenerator {
 				new String[] { "System" },
 				new String[] { "block_palette/system" },
 				new File[] { new File(openJdkSource, "java.base") }, null, null,
-				new File(outputFolder, "SystemExtension.bidle"));
+				systemExtension);
+
+		DatatypeGenerator.generateDatatypes(
+				new File[] { new File(openJdkSource, "java.base/java/lang/System.java") },
+				new String[] { "datatype/system" },
+				new File[] { new File(openJdkSource, "java.base") }, null, null,
+				systemExtension);
+
+		systemExtension.close();
+
+		ExtensionZipOutputStream objectExtension = new ExtensionZipOutputStream(
+				new File(outputFolder, "ObjectExtension.bidle"));
 
 		BlocksGenerator.generateBlocks(
 				new File[] { new File(openJdkSource, "java.base/java/lang/Object.java") },
@@ -106,7 +175,18 @@ public class ClassBlocksGenerator {
 				new String[] { "Object" },
 				new String[] { "block_palette/object" },
 				new File[] { new File(openJdkSource, "java.base") }, null, null,
-				new File(outputFolder, "ObjectExtension.bidle"));
+				objectExtension);
+
+		DatatypeGenerator.generateDatatypes(
+				new File[] { new File(openJdkSource, "java.base/java/lang/Object.java") },
+				new String[] { "datatype/object" },
+				new File[] { new File(openJdkSource, "java.base") }, null, null,
+				objectExtension);
+
+		objectExtension.close();
+
+		ExtensionZipOutputStream arrExtension = new ExtensionZipOutputStream(
+				new File(outputFolder, "ArrayListExtension.bidle"));
 
 		BlocksGenerator.generateBlocks(
 				new File[] { new File(openJdkSource, "java.base/java/util/ArrayList.java") },
@@ -114,6 +194,14 @@ public class ClassBlocksGenerator {
 				new String[] { "ArrayList" },
 				new String[] { "block_palette/array_list" },
 				new File[] { new File(openJdkSource, "java.base") }, null, null,
-				new File(outputFolder, "ArrayListExtension.bidle"));
+				arrExtension);
+
+		DatatypeGenerator.generateDatatypes(
+				new File[] { new File(openJdkSource, "java.base/java/util/ArrayList.java") },
+				new String[] { "datatype/array_list" },
+				new File[] { new File(openJdkSource, "java.base") }, null, null,
+				arrExtension);
+
+		arrExtension.close();
 	}
 }

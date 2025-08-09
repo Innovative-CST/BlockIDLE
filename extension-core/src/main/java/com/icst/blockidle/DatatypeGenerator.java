@@ -19,25 +19,23 @@ package com.icst.blockidle;
 
 import java.io.*;
 import java.io.File;
-import java.util.ArrayList;
 
 import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParserConfiguration;
 import com.github.javaparser.ast.body.*;
+import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
 import com.github.javaparser.symbolsolver.JavaSymbolSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.AarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.CombinedTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JarTypeSolver;
 import com.github.javaparser.symbolsolver.resolution.typesolvers.JavaParserTypeSolver;
-import com.icst.blockidle.bean.BlockBean;
-import com.icst.blockidle.bean.BlockPaletteBean;
+import com.icst.blockidle.bean.DatatypeBean;
 
-public class BlocksGenerator {
+public class DatatypeGenerator {
 
-	public static void generateBlocks(File[] mClasses, String[] colors, String[] paletteNames, String[] entryNames,
+	public static void generateDatatypes(File[] mClasses, String[] entryNames,
 			File[] sourceCode, File[] jarFiles, File[] aarFiles, ExtensionZipOutputStream os) {
 
-		ArrayList<BlockBean> blocks = new ArrayList<BlockBean>();
 		CombinedTypeSolver combinedTypeSolver = new CombinedTypeSolver();
 		for (File file : sourceCode) {
 			combinedTypeSolver.add(new JavaParserTypeSolver(file.toPath(),
@@ -70,49 +68,21 @@ public class BlocksGenerator {
 
 		for (int i = 0; i < mClasses.length; ++i) {
 			File mClass = mClasses[i];
-			String color = colors[i];
-			String paletteName = paletteNames[i];
 			String entryName = entryNames[i];
 			try {
 				parser.parse(mClass).ifSuccessful(cu -> {
 
 					cu.findAll(ClassOrInterfaceDeclaration.class).forEach(clazz -> {
-						System.out.println("Creating blocks for class " + clazz.resolve().getQualifiedName());
-						clazz.getMethods().forEach(method -> {
-							if (method.isPublic() || method.isProtected()) {
-								BlockBean block = MethodBlocksGenerator.generateBlockForMethod(method, color);
-
-								if (block != null) {
-									blocks.add(block);
-								} else {
-									System.err.println(method.getNameAsString() + " - block failed to create");
-								}
-							}
-						});
-
-						clazz.getConstructors().forEach(constructor -> {
-							if (constructor.isPublic() || constructor.isProtected()) {
-								BlockBean block = ConstructorBlockGenerator.generateBlockForConstructor(constructor,
-										color);
-
-								if (block != null) {
-									blocks.add(block);
-								} else {
-									System.err.println(constructor.getNameAsString() + " - block failed to create");
-								}
-							}
-						});
+						System.out.println("Creating datatype for class " + clazz.resolve().getQualifiedName());
+						ResolvedReferenceTypeDeclaration type = clazz.resolve();
+						if (clazz.isPublic() || clazz.isProtected()) {
+							DatatypeBean dataType = DatatypeBeanResolver.getDatatypeBean(type);
+							os.writeObjectToZipEntry(entryName.concat("/").concat(type.getQualifiedName()), dataType);
+						}
 					});
 				});
 			} catch (Exception e) {
 			}
-
-			BlockPaletteBean mPalette = new BlockPaletteBean();
-			mPalette.setColor(color);
-			mPalette.setName(paletteName);
-			mPalette.setBlocks(blocks);
-			os.writeObjectToZipEntry(entryName, mPalette);
-			blocks.clear();
 		}
 	}
 }
