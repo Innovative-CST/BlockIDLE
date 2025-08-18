@@ -15,6 +15,9 @@ Currently this app is under development
 > [!CAUTION]
 > This project is still under active development. Features may change, and some parts may be unstable or incomplete.
 
+> [!CAUTION]
+> If the app fails to install then considering turning on developer options. 
+
 ## Discord
 [![Join our discord](https://invidget.switchblade.xyz/RM5qaZs4kd)](https://discord.gg/RM5qaZs4kd)
 
