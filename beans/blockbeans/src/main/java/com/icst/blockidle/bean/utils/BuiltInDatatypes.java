@@ -55,6 +55,10 @@ public final class BuiltInDatatypes {
 		return new DatatypeBean("int", "int");
 	}
 
+	public static DatatypeBean getPrimitiveFloatDatatype() {
+		return new DatatypeBean("float", "float");
+	}
+
 	public static DatatypeBean getPrimitiveDatatype(String primitiveName) {
 		switch (primitiveName) {
 			case "boolean":
@@ -80,7 +84,7 @@ public final class BuiltInDatatypes {
 		// Create Integer type
 		DatatypeBean integer = new DatatypeBean("java.lang.Integer", "Integer");
 
-		// Set up hierarchy: String -> Number -> Object
+		// Set up hierarchy: Integer -> Number -> Object
 		integer.addSuperType(number);
 		number.addSuperType(object);
 
@@ -91,6 +95,28 @@ public final class BuiltInDatatypes {
 		integer.addSuperType(getPrimitiveIntegerDatatype());
 
 		return integer;
+	}
+
+	public static DatatypeBean getFloatDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
+		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+
+		// Create Integer type
+		DatatypeBean flt = new DatatypeBean("java.lang.Float", "Float");
+
+		// Set up hierarchy: Float -> Number -> Object
+		flt.addSuperType(number);
+		number.addSuperType(object);
+
+		// Add interfaces implemented by Integer
+		flt.addSuperType(serializable);
+		flt.addSuperType(comparable);
+		flt.addSuperType(number);
+		flt.addSuperType(getPrimitiveFloatDatatype());
+
+		return flt;
 	}
 
 	public static DatatypeBean getStringDatatype() {

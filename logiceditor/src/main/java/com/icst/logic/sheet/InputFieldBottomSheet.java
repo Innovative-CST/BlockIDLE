@@ -40,8 +40,8 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 		super(context);
 
 		binding = BottomsheetInputFieldBinding.inflate(LayoutInflater.from(context));
-		if (mValueInputBlockElementBean.getAcceptedReturnType().isSuperTypeOrDatatype(getStringDatatype())) {
-			if (mValueInputBlockElementBean instanceof StringBlockElementBean mStringBlockElementBean) {
+		if (mValueInputBlockElementBean instanceof StringBlockElementBean mStringBlockElementBean) {
+			if (mValueInputBlockElementBean.getAcceptedReturnType().isSuperTypeOrDatatype(getStringDatatype())) {
 				binding.dialogTitle.setText("Enter String");
 				binding.message.setText(
 						"Please make sure you escape the String, otherwise you will encounter error.");
@@ -58,8 +58,8 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 							}
 						});
 			}
-		} else if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getIntegerDatatype())) {
-			if (mValueInputBlockElementBean instanceof NumericBlockElementBean mNumericBlockElementBean) {
+		} else if (mValueInputBlockElementBean instanceof NumericBlockElementBean mNumericBlockElementBean) {
+			if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getIntegerDatatype())) {
 				binding.dialogTitle.setText("Enter your Integer");
 				binding.message.setText(
 						"Please make sure you enter a valid integer value, otherwise you will encounter error.");
@@ -68,6 +68,23 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 								: mNumericBlockElementBean.getNumericalValue());
 				binding.mBlockElementInputEditText.setInputType(
 						BlockElementInputEditText.InputType.INT,
+						binding.mTextInputLayout,
+						new BlockElementInputEditText.EditTextValueListener() {
+
+							@Override
+							public void onValueChange(String value) {
+								binding.done.setEnabled(binding.mBlockElementInputEditText.isValid());
+							}
+						});
+			} else if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getFloatDatatype())) {
+				binding.dialogTitle.setText("Enter your Float");
+				binding.message.setText(
+						"Please make sure you enter a valid float value, otherwise you will encounter error.");
+				binding.mBlockElementInputEditText.setText(
+						mNumericBlockElementBean.getNumericalValue() == null ? ""
+								: mNumericBlockElementBean.getNumericalValue());
+				binding.mBlockElementInputEditText.setInputType(
+						BlockElementInputEditText.InputType.FLOAT,
 						binding.mTextInputLayout,
 						new BlockElementInputEditText.EditTextValueListener() {
 
@@ -91,6 +108,10 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 
 	public DatatypeBean getIntegerDatatype() {
 		return BuiltInDatatypes.getPrimitiveIntegerDatatype();
+	}
+
+	public DatatypeBean getFloatDatatype() {
+		return BuiltInDatatypes.getPrimitiveFloatDatatype();
 	}
 
 	public interface ValueListener {
