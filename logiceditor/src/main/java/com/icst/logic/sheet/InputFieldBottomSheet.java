@@ -79,7 +79,7 @@ public class InputFieldBottomSheet extends BottomSheetDialog {
 			} else if (mValueInputBlockElementBean.getAcceptedReturnType().equals(getFloatDatatype())) {
 				binding.dialogTitle.setText("Enter your Float");
 				binding.message.setText(
-						"Please make sure you enter a valid float value, otherwise you will encounter error.");
+						"Please make sure you enter a valid float value, otherwise you will encounter error.\n\nWarning: Float value is within range ±3.40282347E+38F, but out of this range it will be considered infinity");
 				binding.mBlockElementInputEditText.setText(
 						mNumericBlockElementBean.getNumericalValue() == null ? ""
 								: mNumericBlockElementBean.getNumericalValue());

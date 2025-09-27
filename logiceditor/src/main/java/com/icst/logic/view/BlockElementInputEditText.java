@@ -122,7 +122,7 @@ public class BlockElementInputEditText extends TextInputEditText {
 	}
 
 	private String getFloatError() {
-		return "This input is invalid integer please make sure that it is a proper Integer and ranges between -2,147,483,648 to 2,147,483,647.";
+		return "This input is an invalid float. Please make sure it is a valid number.";
 	}
 
 	public boolean isValid() {
@@ -130,6 +130,8 @@ public class BlockElementInputEditText extends TextInputEditText {
 			return isValidString();
 		} else if (inputType == InputType.INT) {
 			return isValidInteger();
+		} else if (inputType == InputType.FLOAT) {
+			return isValidFloat();
 		}
 		return true;
 	}
