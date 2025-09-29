@@ -4,23 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.icst.blockidle.viewmodel.VariableConfigDialogViewModel" />
+
     </data>
 
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/variable_configuration"
             android:textSize="24sp"
-            android:fontFamily="@font/noto_sans_semibold" />
+            android:fontFamily="@font/noto_sans_semibold"
+            android:text="@string/variable_configuration" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
@@ -40,42 +42,47 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textColor="?attr/colorOnSurface"
             android:textSize="12sp"
             android:fontFamily="@font/noto_sans_thin"
+            android:textColor="?attr/colorOnSurface"
             android:text="@string/variable_name_example" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/datatype_text_input_layout"
+        <androidx.cardview.widget.CardView
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <!-- Google themselves instruct us to use the deprecated editable attribute -->
-            <AutoCompleteTextView
-                android:id="@+id/datatype_text_input_auto_completion"
-                android:layout_width="match_parent"
+            android:layout_marginVertical="12dp"
+            android:layout_marginHorizontal="24dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+            app:cardCornerRadius="10dp"
+            android:id="@+id/select_datatype">
+
+            <TextView
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:layout_width="match_parent"
                 android:hint="@string/select_your_datatype"
-                android:editable="false" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:padding="16sp"
+                android:id="@+id/select_datatype_text" />
+
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:gravity="end"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:orientation="vertical">
 
             <Button
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:text="@string/done" />
 
             <Button
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:onClick="@{() -> viewModel.cancel()}"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:text="@string/cancel" />
 
         </LinearLayout>

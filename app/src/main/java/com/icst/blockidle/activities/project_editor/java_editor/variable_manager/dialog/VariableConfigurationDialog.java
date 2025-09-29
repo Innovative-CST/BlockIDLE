@@ -22,7 +22,6 @@ import com.icst.blockidle.databinding.DialogVariableConfigurationBinding;
 import com.icst.blockidle.viewmodel.VariableConfigDialogViewModel;
 
 import android.view.LayoutInflater;
-import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -44,16 +43,14 @@ public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 		binding.setViewModel(viewModel);
 		setView(binding.getRoot());
 
-		String[] suggestions = { "String", "Integer", "Float", "Double" };
-
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-				getContext(),
-				android.R.layout.simple_dropdown_item_1line,
-				suggestions);
-
-		binding.datatypeTextInputAutoCompletion.setAdapter(adapter);
-		binding.datatypeTextInputAutoCompletion
-				.setOnClickListener(v -> binding.datatypeTextInputAutoCompletion.showDropDown());
+		binding.selectDatatype
+				.setOnClickListener(v -> {
+					DatatypeSelectorDialog dialog = new DatatypeSelectorDialog(
+							fragmenet.getActivity(),
+							(dtype) -> {
+								binding.selectDatatypeText.setText(dtype.getFullClassName());
+							});
+				});
 
 		alertDialog = create();
 		viewModel.setAlertDialog(alertDialog);
