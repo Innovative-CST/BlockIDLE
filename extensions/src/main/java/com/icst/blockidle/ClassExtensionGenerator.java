@@ -19,7 +19,7 @@ package com.icst.blockidle;
 
 import java.io.File;
 
-public class ClassBlocksGenerator {
+public class ClassExtensionGenerator {
 
 	public static void execute(File outputFolder, String[] args) {
 		File openJdkSource = new File(args[1]);
