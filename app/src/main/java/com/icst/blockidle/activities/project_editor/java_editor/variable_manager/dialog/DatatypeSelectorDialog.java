@@ -42,6 +42,7 @@ public class DatatypeSelectorDialog extends MaterialAlertDialogBuilder {
 	private DialogDatatypeSelectorBinding binding;
 	private DatatypeAdapter adapter;
 	private DatatypeCallBackListener listener;
+	private AlertDialog alertDialog;
 
 	public DatatypeSelectorDialog(Context context, DatatypeCallBackListener listener) {
 		super(context);
@@ -57,7 +58,7 @@ public class DatatypeSelectorDialog extends MaterialAlertDialogBuilder {
 		binding.list.setVisibility(View.GONE);
 		loadDatatypes();
 
-		AlertDialog alertDialog = create();
+		alertDialog = create();
 		alertDialog.show();
 	}
 
@@ -66,7 +67,7 @@ public class DatatypeSelectorDialog extends MaterialAlertDialogBuilder {
 			ArrayList<DatatypeBean> datatypeBeans = getDatatypeBeans();
 
 			binding.getRoot().post(() -> {
-				adapter = new DatatypeAdapter(datatypeBeans, listener);
+				adapter = new DatatypeAdapter(datatypeBeans, listener, alertDialog);
 				binding.list.setAdapter(adapter);
 				binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
 

@@ -27,17 +27,21 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class DatatypeAdapter extends RecyclerView.Adapter<DatatypeAdapter.DatatypeViewHolder> {
 
 	private ArrayList<DatatypeBean> datatypeBeans;
 	private DatatypeSelectorDialog.DatatypeCallBackListener listener;
+	private AlertDialog dialog;
 
 	public DatatypeAdapter(ArrayList<DatatypeBean> datatypeBeans,
-			DatatypeSelectorDialog.DatatypeCallBackListener listener) {
+			DatatypeSelectorDialog.DatatypeCallBackListener listener,
+			AlertDialog dialog) {
 		this.datatypeBeans = datatypeBeans;
 		this.listener = listener;
+		this.dialog = dialog;
 	}
 
 	@NonNull @Override
@@ -52,7 +56,10 @@ public class DatatypeAdapter extends RecyclerView.Adapter<DatatypeAdapter.Dataty
 		holder.binding.dtypeIcon.setLetter(datatype.getClassName().charAt(0));
 		holder.binding.dtypeName.setText(datatype.getClassName());
 		holder.binding.dtypeFullName.setText(datatype.getFullClassName());
-		holder.binding.getRoot().setOnClickListener(v -> listener.onDatatypeSelected(datatype));
+		holder.binding.getRoot().setOnClickListener(v -> {
+			listener.onDatatypeSelected(datatype);
+			dialog.dismiss();
+		});
 	}
 
 	@Override
