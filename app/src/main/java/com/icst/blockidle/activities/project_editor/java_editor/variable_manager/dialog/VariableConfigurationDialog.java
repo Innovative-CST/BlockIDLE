@@ -32,10 +32,10 @@ public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 	private VariableConfigDialogViewModel viewModel;
 	private AlertDialog alertDialog;
 
-	public VariableConfigurationDialog(Fragment fragmenet) {
-		super(fragmenet.getContext());
+	public VariableConfigurationDialog(Fragment fragment) {
+		super(fragment.getContext());
 
-		LayoutInflater inflator = LayoutInflater.from(fragmenet.getContext());
+		LayoutInflater inflator = LayoutInflater.from(fragment.getContext());
 		binding = DialogVariableConfigurationBinding.inflate(inflator);
 
 		viewModel = new VariableConfigDialogViewModel();
@@ -46,7 +46,7 @@ public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 		binding.selectDatatype
 				.setOnClickListener(v -> {
 					DatatypeSelectorDialog dialog = new DatatypeSelectorDialog(
-							fragmenet.getActivity(),
+							fragment.getActivity(),
 							(dtype) -> {
 								binding.selectDatatypeText.setText(dtype.getFullClassName());
 							});
