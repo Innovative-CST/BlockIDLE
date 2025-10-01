@@ -18,6 +18,7 @@
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.DialogVariableConfigurationBinding;
 import com.icst.blockidle.viewmodel.VariableConfigDialogViewModel;
 
@@ -39,6 +40,7 @@ public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 		binding = DialogVariableConfigurationBinding.inflate(inflator);
 
 		viewModel = new VariableConfigDialogViewModel();
+		viewModel.setVariableBean(new VariableBean());
 
 		binding.setViewModel(viewModel);
 		setView(binding.getRoot());
@@ -49,6 +51,7 @@ public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 							fragment.getActivity(),
 							(dtype) -> {
 								binding.selectDatatypeText.setText(dtype.getFullClassName());
+								viewModel.getVariableBean().setVariableDataType(dtype);
 							});
 				});
 
