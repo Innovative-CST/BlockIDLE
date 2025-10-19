@@ -29,7 +29,7 @@ ext {
 	constraintlayout = "2.2.1"
 	coordinatorlayout = "1.3.0"
 	markwonVersion = "4.6.2"
-	material_design_version = "1.12.0"
+	material_design_version = "1.14.0-alpha01"
 	core_splashscreen = "1.0.1"
 	blankj_utilcodex_version = "1.31.1"
 	sora_editor_version = "0.22.0"
