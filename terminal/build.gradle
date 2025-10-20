@@ -55,7 +55,8 @@ android {
 }
 
 dependencies {
-	implementation("androidx.appcompat:appcompat:$appcompat_version")
+	// AndroidX
+	api("androidx.appcompat:appcompat:$appcompat_version")
 
 	api("com.blankj:utilcodex:$blankj_utilcodex_version")
 

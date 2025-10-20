@@ -53,6 +53,7 @@
             android:exported="true" />
 
         <activity
+            android:theme="@style/TerminalTheme"
             android:name=".activities.terminal.TerminalActivity"
             android:resizeableActivity="true"
             android:configChanges="orientation|screenSize|smallestScreenSize|density|screenLayout|keyboard|keyboardHidden|navigation"
