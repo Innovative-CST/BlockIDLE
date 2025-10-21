@@ -310,11 +310,26 @@ public class MethodBlocksGenerator {
 			StringBlockBean block = new StringBlockBean();
 			mBlock = block;
 		} else {
-			GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
-			block.setReturnDatatype(dtype);
-			mBlock = block;
+			if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getNumberDatatype())) {
+				NumericBlockBean block = new NumericBlockBean();
+				if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
+					dtype.addSuperType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
+				} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getFloatDatatype())) {
+					dtype.addSuperType(BuiltInDatatypes.getPrimitiveFloatDatatype());
+				}
+				block.setReturnDatatype(dtype);
+				mBlock = block;
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getBooleanDatatype())) {
+				BooleanBlockBean block = new BooleanBlockBean();
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveBooleanDatatype());
+				block.setReturnDatatype(dtype);
+				mBlock = block;
+			} else {
+				GeneralExpressionBlockBean block = new GeneralExpressionBlockBean();
+				block.setReturnDatatype(dtype);
+				mBlock = block;
+			}
 		}
-
 		mBlock.setColor(color);
 		buildBaseBlockLayer(method, dtype, mBlock);
 		buildMethodCode(method, mBlock);
