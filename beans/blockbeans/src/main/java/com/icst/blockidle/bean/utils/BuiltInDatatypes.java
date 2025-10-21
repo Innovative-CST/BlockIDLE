@@ -75,6 +75,35 @@ public final class BuiltInDatatypes {
 		}
 	}
 
+	public static DatatypeBean getBooleanDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
+
+		// Create Boolean type
+		DatatypeBean mBoolean = new DatatypeBean("java.lang.Boolean", "Boolean");
+		// Set up hierarchy: -> Boolean -> Object
+		mBoolean.addSuperType(object);
+
+		// Add interfaces implemented by Integer
+		mBoolean.addSuperType(serializable);
+		mBoolean.addSuperType(comparable);
+		mBoolean.addSuperType(getPrimitiveBooleanDatatype());
+
+		return mBoolean;
+	}
+
+	public static DatatypeBean getNumberDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+		number.addSuperType(object);
+
+		// Add interfaces implemented by Number
+		number.addSuperType(serializable);
+		return number;
+	}
+
 	public static DatatypeBean getIntegerDatatype() {
 		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
 		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
@@ -103,7 +132,7 @@ public final class BuiltInDatatypes {
 		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
 		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
 
-		// Create Integer type
+		// Create float type
 		DatatypeBean flt = new DatatypeBean("java.lang.Float", "Float");
 
 		// Set up hierarchy: Float -> Number -> Object

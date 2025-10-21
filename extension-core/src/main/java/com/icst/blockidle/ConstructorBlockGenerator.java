@@ -30,6 +30,7 @@ import com.icst.blockidle.bean.BeanMetadata;
 import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
+import com.icst.blockidle.bean.BooleanBlockBean;
 import com.icst.blockidle.bean.BooleanBlockElementBean;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
@@ -38,6 +39,7 @@ import com.icst.blockidle.bean.GeneralExpressionBlockElementBean;
 import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
+import com.icst.blockidle.bean.NumericBlockBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
 import com.icst.blockidle.bean.StringBlockBean;
@@ -207,6 +209,20 @@ public class ConstructorBlockGenerator {
 		ExpressionBlockBean block = null;
 		if (contructor.resolve().declaringType().getQualifiedName().equals("java.lang.String")) {
 			StringBlockBean mBlock = new StringBlockBean();
+			block = mBlock;
+		} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getNumberDatatype())) {
+			NumericBlockBean mBlock = new NumericBlockBean();
+			if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
+                dtype.addSuperType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getFloatDatatype())) {
+                dtype.addSuperType(BuiltInDatatypes.getPrimitiveFloatDatatype());
+			}
+mBlock.setReturnDatatype(dtype);
+			block = mBlock;
+		} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getBooleanDatatype())) {
+			BooleanBlockBean mBlock = new BooleanBlockBean();
+            dtype.addSuperType(BuiltInDatatypes.getPrimitiveBooleanDatatype());
+			mBlock.setReturnDatatype(dtype);
 			block = mBlock;
 		} else {
 			GeneralExpressionBlockBean mBlock = new GeneralExpressionBlockBean();
