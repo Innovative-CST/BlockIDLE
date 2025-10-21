@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import com.github.javaparser.ast.body.*;
 import com.github.javaparser.resolution.declarations.ResolvedConstructorDeclaration;
 import com.github.javaparser.resolution.declarations.ResolvedReferenceTypeDeclaration;
-import com.github.javaparser.resolution.types.ResolvedType;
 import com.icst.blockidle.bean.BaseBlockBean;
 import com.icst.blockidle.bean.BeanManifest;
 import com.icst.blockidle.bean.BeanMetadata;
@@ -31,19 +30,15 @@ import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
 import com.icst.blockidle.bean.BooleanBlockBean;
-import com.icst.blockidle.bean.BooleanBlockElementBean;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
 import com.icst.blockidle.bean.GeneralExpressionBlockBean;
-import com.icst.blockidle.bean.GeneralExpressionBlockElementBean;
 import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockBean;
-import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
 import com.icst.blockidle.bean.StringBlockBean;
-import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
@@ -59,80 +54,6 @@ public class ConstructorBlockGenerator {
 			return generateExpressionBlockForMethod(contructor, returnType, dataType, color);
 		}
 		return block;
-	}
-
-	private static void generateParamters(ConstructorDeclaration contructor, BlockElementLayerBean layer) {
-		contructor.getParameters().forEach(paramter -> {
-
-			String paramTypeStr = paramter.getType().asString();
-			String paramName = paramter.getNameAsString();
-
-			LabelBlockElementBean label = new LabelBlockElementBean();
-			label.setLabel(paramName);
-			layer.getBlockElementBeans().add(label);
-
-			ResolvedType paramType = paramter.getType().resolve();
-
-			if (paramType.isPrimitive()) {
-				switch (paramter.getType().resolve().asPrimitive().describe()) {
-					case "boolean":
-						BooleanBlockElementBean mBooleanBlockElementBean = new BooleanBlockElementBean();
-						mBooleanBlockElementBean.setAcceptedReturnType(BuiltInDatatypes
-								.getPrimitiveDatatype(paramter.getType().resolve().asPrimitive().describe()));
-						mBooleanBlockElementBean.setKey(paramName);
-						layer.getBlockElementBeans().add(mBooleanBlockElementBean);
-						break;
-					case "byte":
-					case "short":
-					case "int":
-					case "long":
-					case "float":
-					case "double":
-						NumericBlockElementBean mNumericBlockElementBean = new NumericBlockElementBean();
-						mNumericBlockElementBean.setAcceptedReturnType(BuiltInDatatypes
-								.getPrimitiveDatatype(paramter.getType().resolve().asPrimitive().describe()));
-						mNumericBlockElementBean.setKey(paramName);
-						layer.getBlockElementBeans().add(mNumericBlockElementBean);
-						break;
-					case "char":
-						GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
-						mGeneralExpressionBlockElementBean.setAcceptedReturnType(BuiltInDatatypes
-								.getPrimitiveDatatype(paramter.getType().resolve().asPrimitive().describe()));
-						mGeneralExpressionBlockElementBean.setKey(paramName);
-						layer.getBlockElementBeans().add(mGeneralExpressionBlockElementBean);
-						break;
-					default:
-						throw new IllegalArgumentException(
-								"Unknown primitive type: " + paramter.getType().resolve().asPrimitive().describe());
-				}
-			} else if (paramType.isArray()) {
-
-				GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
-				mGeneralExpressionBlockElementBean.setAcceptedReturnType(
-						DatatypeBeanResolver.getDatatypeBean(paramter.getType().asArrayType().resolve()));
-				mGeneralExpressionBlockElementBean.setKey(paramName);
-				layer.getBlockElementBeans().add(mGeneralExpressionBlockElementBean);
-			} else if (paramType.isTypeVariable()) {
-				GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
-				mGeneralExpressionBlockElementBean.setAcceptedReturnType(
-						DatatypeBeanResolver.getDatatypeBean(paramter.getType().resolve().asTypeParameter()));
-				mGeneralExpressionBlockElementBean.setKey(paramName);
-				layer.getBlockElementBeans().add(mGeneralExpressionBlockElementBean);
-			} else if (paramType.isReferenceType()) {
-				if (paramter.getType().resolve().describe().equals("java.lang.String")) {
-					StringBlockElementBean mStringBlockElementBean = new StringBlockElementBean();
-					mStringBlockElementBean.setKey(paramName);
-					layer.getBlockElementBeans().add(mStringBlockElementBean);
-				} else {
-					GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
-					mGeneralExpressionBlockElementBean
-							.setAcceptedReturnType(DatatypeBeanResolver
-									.getDatatypeBean(paramter.getType().resolve().asReferenceType()));
-					mGeneralExpressionBlockElementBean.setKey(paramName);
-					layer.getBlockElementBeans().add(mGeneralExpressionBlockElementBean);
-				}
-			}
-		});
 	}
 
 	private static void buildBaseBlockLayer(ConstructorDeclaration contructor, DatatypeBean returnType,
@@ -167,7 +88,7 @@ public class ConstructorBlockGenerator {
 
 		layer1.setBlockElementBeans(layer1Elements);
 
-		generateParamters(contructor, layer1);
+		BlockParametersGenerator.generateParamters(contructor.getParameters(), layer1);
 
 		layers.add(layer1);
 
