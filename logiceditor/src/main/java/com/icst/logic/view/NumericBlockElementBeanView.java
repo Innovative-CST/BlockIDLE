@@ -21,7 +21,9 @@ import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
 import com.icst.blockidle.bean.NumericBlockBean;
 import com.icst.blockidle.bean.NumericBlockElementBean;
+import com.icst.logic.block.view.ActionBlockBeanView;
 import com.icst.logic.block.view.BlockBeanView;
+import com.icst.logic.block.view.ExpressionBlockBeanView;
 import com.icst.logic.block.view.NumericBlockBeanView;
 import com.icst.logic.config.LogicEditorConfiguration;
 import com.icst.logic.editor.view.LogicEditorView;
@@ -43,6 +45,7 @@ public class NumericBlockElementBeanView extends LinearLayout {
 	private TextView numericTextView;
 	private BlockBeanView blockView;
 	private NumericBlockElementBean mNumericBlockElementBean;
+    private LogicEditorSpinner spinner;
 	private LogicEditorConfiguration logicEditorConfiguration;
 	private LogicEditorView logicEditor;
 	private LinearLayout layout;
@@ -81,12 +84,27 @@ public class NumericBlockElementBeanView extends LinearLayout {
 		setWillNotDraw(false);
 		setOnClickListener(
 				v -> {
-					showNumericInput();
+                    if(mNumericBlockElementBean.getAllowInput()) {
+                    	showNumericInput();
+                    }
 				});
 		numericTextView = new TextView(context);
 		numericTextView.setTextSize(configuration.getTextSize().getTextSize());
 		int padding8dp = UnitUtils.dpToPx(context, 8);
 		numericTextView.setPadding(padding8dp, 0, padding8dp, 0);
+        
+        BlockBean block = null;
+		if (blockView instanceof ExpressionBlockBeanView eBlockView) {
+			block = eBlockView.getExpressionBlockBean();
+		} else if (blockView instanceof ActionBlockBeanView aBlockView) {
+			block = aBlockView.getActionBlockBean();
+		}
+        
+        spinner = new LogicEditorSpinner(
+				context,
+                mNumericBlockElementBean,
+				blockView,
+				Color.parseColor(block.getColor()));
 		addView(layout);
 		init();
 	}
@@ -113,10 +131,14 @@ public class NumericBlockElementBeanView extends LinearLayout {
 			configureNumericBlockView();
 			addNumericBlockViewToLayout();
 			showNumericBlock();
-		} else {
+		} else if(mNumericBlockElementBean.getAllowInput()) {
 			addNumericTextViewToLayout();
 			showNumericTextView();
 			refreshNumericText();
+		} else {
+			addSpinnerViewToLayout();
+			showSpinnerView();
+			refreshSpinnerView();
 		}
 		invalidate();
 	}
@@ -138,15 +160,29 @@ public class NumericBlockElementBeanView extends LinearLayout {
 	public void handleNumericBlockVisibilityChange() {
 		int visibility = numericBlockBeanView.getVisibility();
 		if (visibility == GONE) {
-			if (numericTextView.getVisibility() == GONE) {
-				numericTextView.setVisibility(VISIBLE);
-			}
-			if (numericTextView.getParent() == null) {
-				layout.addView(numericTextView);
-			}
-			refreshNumericText();
+            if(mNumericBlockElementBean.getAllowInput()) {
+            	if (numericTextView.getVisibility() == GONE) {
+				    numericTextView.setVisibility(VISIBLE);
+			    }
+			    if (numericTextView.getParent() == null) {
+				    layout.addView(numericTextView);
+			    }
+            } else {
+                if (spinner.getVisibility() == GONE) {
+				    spinner.setVisibility(VISIBLE);
+			    }
+			    if (spinner.getParent() == null) {
+				    layout.addView(spinner);
+			    }
+            }
+			refreshSpinnerView();
 		} else if (visibility == VISIBLE) {
-			layout.removeView(numericTextView);
+            if(numericTextView.getParent() != null) {
+            	layout.removeView(numericTextView);
+            }
+            if(spinner.getParent() != null) {
+            	layout.removeView(spinner);
+            }
 		}
 	}
 
@@ -162,6 +198,12 @@ public class NumericBlockElementBeanView extends LinearLayout {
 			layout.addView(numericBlockBeanView);
 		}
 	}
+    
+    private void addSpinnerViewToLayout() {
+        if (spinner.getParent() == null) {
+			layout.addView(spinner);
+		}
+    }
 
 	private void showNumericBlock() {
 		numericBlockBeanView.setVisibility(VISIBLE);
@@ -195,6 +237,10 @@ public class NumericBlockElementBeanView extends LinearLayout {
 	private void showNumericTextView() {
 		numericTextView.setVisibility(VISIBLE);
 	}
+    
+    private void showSpinnerView() {
+        spinner.setVisibility(VISIBLE);
+    }
 
 	private void refreshNumericText() {
 		if (mNumericBlockElementBean.getNumericalValue() == null) {
@@ -202,6 +248,10 @@ public class NumericBlockElementBeanView extends LinearLayout {
 		}
 		numericTextView.setText(mNumericBlockElementBean.getNumericalValue());
 	}
+    
+    private void refreshSpinnerView() {
+        spinner.requestLayout();
+    }
 
 	private void showNumericBlockIfInvisible() {
 		int visibility = numericBlockBeanView.getVisibility();
@@ -217,9 +267,12 @@ public class NumericBlockElementBeanView extends LinearLayout {
 				showNumericTextView();
 				refreshNumericText();
 			}
-		} else {
+		} else if(mNumericBlockElementBean.getAllowInput()) {
 			showNumericTextView();
 			refreshNumericText();
+		} else {
+			showSpinnerView();
+            refreshSpinnerView();
 		}
 		enableHighlighterColor = false;
 		invalidate();
@@ -264,7 +317,6 @@ public class NumericBlockElementBeanView extends LinearLayout {
 					numericBlockBeanView.setVisibility(INVISIBLE);
 				}
 			}
-
 			if (numericTextView != null) {
 				numericTextView.setVisibility(INVISIBLE);
 			}
@@ -313,9 +365,12 @@ public class NumericBlockElementBeanView extends LinearLayout {
 		if (enableHighlighterColor) {
 			BlockShapesUtils.drawNumericBlockHighlighter(
 					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
-		} else {
+		} else if (mNumericBlockElementBean.getAllowInput()) {
 			BlockShapesUtils.drawNumericBlockElement(
 					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.WHITE);
+		} else {
+			BlockShapesUtils.drawNonInputableNumericBlockElement(
+					canvas, getContext(), getMeasuredWidth(), getMeasuredHeight(), Color.BLACK);
 		}
 	}
 
