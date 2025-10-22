@@ -172,7 +172,7 @@ public class MethodBlocksGenerator {
 		ResolvedMethodDeclaration resolvedMethodDeclaration = method.resolve();
 		ResolvedReferenceTypeDeclaration resolvedDecRef = resolvedMethodDeclaration.declaringType();
 		DatatypeBean dtype = DatatypeBeanResolver.getDatatypeBean(resolvedDecRef.asReferenceType());
-		if (method.getType().resolve().describe().equals("java.lang.String")) {
+		if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getStringDatatype())) {
 			StringBlockElementBean mStringBlockElementBean = new StringBlockElementBean();
 			mStringBlockElementBean.setKey("mObject");
 			layer.getBlockElementBeans().add(0, mStringBlockElementBean);
@@ -193,6 +193,7 @@ public class MethodBlocksGenerator {
 			}
 			mNumericBlockElementBean.setAcceptedReturnType(dtype);
 			mNumericBlockElementBean.setKey("mObject");
+			mNumericBlockElementBean.setAllowInput(false);
 			layer.getBlockElementBeans().add(0, mNumericBlockElementBean);
 		} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getBooleanDatatype())) {
 			BooleanBlockElementBean mBooleanBlockElementBean = new BooleanBlockElementBean();

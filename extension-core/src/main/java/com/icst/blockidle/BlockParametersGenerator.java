@@ -103,6 +103,7 @@ public class BlockParametersGenerator {
 				}
 				mNumericBlockElementBean.setAcceptedReturnType(dtype);
 				mNumericBlockElementBean.setKey(paramName);
+				mNumericBlockElementBean.setAllowInput(true);
 				layer.getBlockElementBeans().add(mNumericBlockElementBean);
 			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getBooleanDatatype())) {
 				BooleanBlockElementBean mBooleanBlockElementBean = new BooleanBlockElementBean();
