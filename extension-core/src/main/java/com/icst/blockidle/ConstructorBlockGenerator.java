@@ -17,7 +17,6 @@
 
 package com.icst.blockidle;
 
-import java.io.*;
 import java.util.ArrayList;
 
 import com.github.javaparser.ast.body.*;
@@ -88,7 +87,7 @@ public class ConstructorBlockGenerator {
 
 		layer1.setBlockElementBeans(layer1Elements);
 
-		BlockParametersGenerator.generateParamters(contructor.getParameters(), layer1);
+		BlockParametersGenerator.generateParameters(contructor.getParameters(), layer1);
 
 		layers.add(layer1);
 
@@ -133,10 +132,18 @@ public class ConstructorBlockGenerator {
 			block = mBlock;
 		} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getNumberDatatype())) {
 			NumericBlockBean mBlock = new NumericBlockBean();
-			if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
+			if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getByteDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveByteDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getShortDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveShortDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
 				dtype.addSuperType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getLongDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveLongDatatype());
 			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getFloatDatatype())) {
 				dtype.addSuperType(BuiltInDatatypes.getPrimitiveFloatDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getDoubleDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveDoubleDatatype());
 			}
 			mBlock.setReturnDatatype(dtype);
 			block = mBlock;

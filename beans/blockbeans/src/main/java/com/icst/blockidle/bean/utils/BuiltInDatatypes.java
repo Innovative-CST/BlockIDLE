@@ -51,30 +51,6 @@ public final class BuiltInDatatypes {
 		return new DatatypeBean("boolean", "boolean");
 	}
 
-	public static DatatypeBean getPrimitiveIntegerDatatype() {
-		return new DatatypeBean("int", "int");
-	}
-
-	public static DatatypeBean getPrimitiveFloatDatatype() {
-		return new DatatypeBean("float", "float");
-	}
-
-	public static DatatypeBean getPrimitiveDatatype(String primitiveName) {
-		switch (primitiveName) {
-			case "boolean":
-			case "byte":
-			case "short":
-			case "int":
-			case "long":
-			case "char":
-			case "float":
-			case "double":
-				return new DatatypeBean(primitiveName, primitiveName);
-			default:
-				throw new IllegalArgumentException("Unknown primitive type: " + primitiveName);
-		}
-	}
-
 	public static DatatypeBean getBooleanDatatype() {
 		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
 		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
@@ -93,15 +69,60 @@ public final class BuiltInDatatypes {
 		return mBoolean;
 	}
 
-	public static DatatypeBean getNumberDatatype() {
+	public static DatatypeBean getPrimitiveByteDatatype() {
+		return new DatatypeBean("byte", "byte");
+	}
+
+	public static DatatypeBean getByteDatatype() {
 		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
 		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
 		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+
+		// Create Byte type
+		DatatypeBean mByte = new DatatypeBean("java.lang.Byte", "Byte");
+
+		// Set up hierarchy: Byte -> Number -> Object
+		mByte.addSuperType(number);
 		number.addSuperType(object);
 
-		// Add interfaces implemented by Number
-		number.addSuperType(serializable);
-		return number;
+		// Add interfaces implemented by Byte
+		mByte.addSuperType(serializable);
+		mByte.addSuperType(comparable);
+		mByte.addSuperType(number);
+		mByte.addSuperType(getPrimitiveByteDatatype());
+
+		return mByte;
+	}
+
+	public static DatatypeBean getPrimitiveShortDatatype() {
+		return new DatatypeBean("short", "short");
+	}
+
+	public static DatatypeBean getShortDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
+		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+
+		// Create Short type
+		DatatypeBean mShort = new DatatypeBean("java.lang.Short", "Short");
+
+		// Set up hierarchy: Short -> Number -> Object
+		mShort.addSuperType(number);
+		number.addSuperType(object);
+
+		// Add interfaces implemented by Short
+		mShort.addSuperType(serializable);
+		mShort.addSuperType(comparable);
+		mShort.addSuperType(number);
+		mShort.addSuperType(getPrimitiveShortDatatype());
+
+		return mShort;
+	}
+
+	public static DatatypeBean getPrimitiveIntegerDatatype() {
+		return new DatatypeBean("int", "int");
 	}
 
 	public static DatatypeBean getIntegerDatatype() {
@@ -126,6 +147,36 @@ public final class BuiltInDatatypes {
 		return integer;
 	}
 
+	public static DatatypeBean getPrimitiveLongDatatype() {
+		return new DatatypeBean("long", "long");
+	}
+
+	public static DatatypeBean getLongDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
+		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+
+		// Create Long type
+		DatatypeBean mLong = new DatatypeBean("java.lang.Long", "Long");
+
+		// Set up hierarchy: Long -> Number -> Object
+		mLong.addSuperType(number);
+		number.addSuperType(object);
+
+		// Add interfaces implemented by Long
+		mLong.addSuperType(serializable);
+		mLong.addSuperType(comparable);
+		mLong.addSuperType(number);
+		mLong.addSuperType(getPrimitiveLongDatatype());
+
+		return mLong;
+	}
+
+	public static DatatypeBean getPrimitiveFloatDatatype() {
+		return new DatatypeBean("float", "float");
+	}
+
 	public static DatatypeBean getFloatDatatype() {
 		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
 		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
@@ -146,6 +197,82 @@ public final class BuiltInDatatypes {
 		flt.addSuperType(getPrimitiveFloatDatatype());
 
 		return flt;
+	}
+
+	public static DatatypeBean getPrimitiveDoubleDatatype() {
+		return new DatatypeBean("double", "double");
+	}
+
+	public static DatatypeBean getDoubleDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
+		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+
+		// Create Double type
+		DatatypeBean mDouble = new DatatypeBean("java.lang.Double", "Double");
+
+		// Set up hierarchy: Double -> Number -> Object
+		mDouble.addSuperType(number);
+		number.addSuperType(object);
+
+		// Add interfaces implemented by Double
+		mDouble.addSuperType(serializable);
+		mDouble.addSuperType(comparable);
+		mDouble.addSuperType(number);
+		mDouble.addSuperType(getPrimitiveDoubleDatatype());
+
+		return mDouble;
+	}
+
+	public static DatatypeBean getPrimitiveCharacterDatatype() {
+		return new DatatypeBean("char", "char");
+	}
+
+	public static DatatypeBean getCharacterDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean comparable = new DatatypeBean("java.lang.Comparable", "Comparable");
+
+		// Create Character type
+		DatatypeBean mCharacter = new DatatypeBean("java.lang.Character", "Character");
+
+		// Set up hierarchy: Character -> Object
+		mCharacter.addSuperType(object);
+
+		// Add interfaces implemented by Character
+		mCharacter.addSuperType(serializable);
+		mCharacter.addSuperType(comparable);
+		mCharacter.addSuperType(getPrimitiveCharacterDatatype());
+
+		return mCharacter;
+	}
+
+	public static DatatypeBean getPrimitiveDatatype(String primitiveName) {
+		switch (primitiveName) {
+			case "boolean":
+			case "byte":
+			case "short":
+			case "int":
+			case "long":
+			case "char":
+			case "float":
+			case "double":
+				return new DatatypeBean(primitiveName, primitiveName);
+			default:
+				throw new IllegalArgumentException("Unknown primitive type: " + primitiveName);
+		}
+	}
+
+	public static DatatypeBean getNumberDatatype() {
+		DatatypeBean object = new DatatypeBean("java.lang.Object", "Object");
+		DatatypeBean serializable = new DatatypeBean("java.io.Serializable", "Serializable");
+		DatatypeBean number = new DatatypeBean("java.lang.Number", "Number");
+		number.addSuperType(object);
+
+		// Add interfaces implemented by Number
+		number.addSuperType(serializable);
+		return number;
 	}
 
 	public static DatatypeBean getStringDatatype() {

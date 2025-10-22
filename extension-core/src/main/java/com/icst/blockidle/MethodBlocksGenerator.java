@@ -32,6 +32,7 @@ import com.icst.blockidle.bean.BlockBean;
 import com.icst.blockidle.bean.BlockElementBean;
 import com.icst.blockidle.bean.BlockElementLayerBean;
 import com.icst.blockidle.bean.BooleanBlockBean;
+import com.icst.blockidle.bean.BooleanBlockElementBean;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.bean.ExpressionBlockBean;
 import com.icst.blockidle.bean.GeneralExpressionBlockBean;
@@ -40,8 +41,10 @@ import com.icst.blockidle.bean.InfoBlockElementBean;
 import com.icst.blockidle.bean.LabelBlockElementBean;
 import com.icst.blockidle.bean.LayerBean;
 import com.icst.blockidle.bean.NumericBlockBean;
+import com.icst.blockidle.bean.NumericBlockElementBean;
 import com.icst.blockidle.bean.RegularBlockBean;
 import com.icst.blockidle.bean.StringBlockBean;
+import com.icst.blockidle.bean.StringBlockElementBean;
 import com.icst.blockidle.bean.utils.BuiltInDatatypes;
 import com.icst.blockidle.bean.utils.CodeFormatterUtils;
 
@@ -114,16 +117,10 @@ public class MethodBlocksGenerator {
 
 		layer1.setBlockElementBeans(layer1Elements);
 
-		BlockParametersGenerator.generateParamters(method.getParameters(), layer1);
+		BlockParametersGenerator.generateParameters(method.getParameters(), layer1);
 
 		if (!method.isStatic()) {
-			ResolvedMethodDeclaration resolvedMethodDeclaration = method.resolve();
-			ResolvedReferenceTypeDeclaration resolvedDecRef = resolvedMethodDeclaration.declaringType();
-			GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
-			mGeneralExpressionBlockElementBean
-					.setAcceptedReturnType(DatatypeBeanResolver.getDatatypeBean(resolvedDecRef.asReferenceType()));
-			mGeneralExpressionBlockElementBean.setKey("mObject");
-			layer1.getBlockElementBeans().add(0, mGeneralExpressionBlockElementBean);
+			createInstanceMethodVariable(method, layer1);
 		}
 
 		layers.add(layer1);
@@ -160,21 +157,56 @@ public class MethodBlocksGenerator {
 
 		layer1.setBlockElementBeans(layer1Elements);
 
-		BlockParametersGenerator.generateParamters(method.getParameters(), layer1);
+		BlockParametersGenerator.generateParameters(method.getParameters(), layer1);
 
 		if (!method.isStatic()) {
-			ResolvedMethodDeclaration resolvedMethodDeclaration = method.resolve();
-			ResolvedReferenceTypeDeclaration resolvedDecRef = resolvedMethodDeclaration.declaringType();
-			GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
-			mGeneralExpressionBlockElementBean
-					.setAcceptedReturnType(DatatypeBeanResolver.getDatatypeBean(resolvedDecRef.asReferenceType()));
-			mGeneralExpressionBlockElementBean.setKey("mObject");
-			layer1.getBlockElementBeans().add(0, mGeneralExpressionBlockElementBean);
+			createInstanceMethodVariable(method, layer1);
 		}
 
 		layers.add(layer1);
 
 		mBlock.setLayers(layers);
+	}
+
+	private static void createInstanceMethodVariable(MethodDeclaration method, BlockElementLayerBean layer) {
+		ResolvedMethodDeclaration resolvedMethodDeclaration = method.resolve();
+		ResolvedReferenceTypeDeclaration resolvedDecRef = resolvedMethodDeclaration.declaringType();
+		DatatypeBean dtype = DatatypeBeanResolver.getDatatypeBean(resolvedDecRef.asReferenceType());
+		if (method.getType().resolve().describe().equals("java.lang.String")) {
+			StringBlockElementBean mStringBlockElementBean = new StringBlockElementBean();
+			mStringBlockElementBean.setKey("mObject");
+			layer.getBlockElementBeans().add(0, mStringBlockElementBean);
+		} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getNumberDatatype())) {
+			NumericBlockElementBean mNumericBlockElementBean = new NumericBlockElementBean();
+			if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getByteDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveByteDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getShortDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveShortDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getLongDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveLongDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getFloatDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveFloatDatatype());
+			} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getDoubleDatatype())) {
+				dtype.addSuperType(BuiltInDatatypes.getPrimitiveDoubleDatatype());
+			}
+			mNumericBlockElementBean.setAcceptedReturnType(dtype);
+			mNumericBlockElementBean.setKey("mObject");
+			layer.getBlockElementBeans().add(0, mNumericBlockElementBean);
+		} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getBooleanDatatype())) {
+			BooleanBlockElementBean mBooleanBlockElementBean = new BooleanBlockElementBean();
+			dtype.addSuperType(BuiltInDatatypes.getPrimitiveBooleanDatatype());
+			mBooleanBlockElementBean.setAcceptedReturnType(dtype);
+			mBooleanBlockElementBean.setKey("mObject");
+			layer.getBlockElementBeans().add(0, mBooleanBlockElementBean);
+		} else {
+			GeneralExpressionBlockElementBean mGeneralExpressionBlockElementBean = new GeneralExpressionBlockElementBean();
+			mGeneralExpressionBlockElementBean
+					.setAcceptedReturnType(dtype);
+			mGeneralExpressionBlockElementBean.setKey("mObject");
+			layer.getBlockElementBeans().add(0, mGeneralExpressionBlockElementBean);
+		}
 	}
 
 	private static void buildMethodCode(MethodDeclaration method, BlockBean mBlock) {
@@ -246,10 +278,18 @@ public class MethodBlocksGenerator {
 		} else {
 			if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getNumberDatatype())) {
 				NumericBlockBean block = new NumericBlockBean();
-				if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
+				if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getByteDatatype())) {
+					dtype.addSuperType(BuiltInDatatypes.getPrimitiveByteDatatype());
+				} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getShortDatatype())) {
+					dtype.addSuperType(BuiltInDatatypes.getPrimitiveShortDatatype());
+				} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getIntegerDatatype())) {
 					dtype.addSuperType(BuiltInDatatypes.getPrimitiveIntegerDatatype());
+				} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getLongDatatype())) {
+					dtype.addSuperType(BuiltInDatatypes.getPrimitiveLongDatatype());
 				} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getFloatDatatype())) {
 					dtype.addSuperType(BuiltInDatatypes.getPrimitiveFloatDatatype());
+				} else if (dtype.isSuperTypeOrDatatype(BuiltInDatatypes.getDoubleDatatype())) {
+					dtype.addSuperType(BuiltInDatatypes.getPrimitiveDoubleDatatype());
 				}
 				block.setReturnDatatype(dtype);
 				mBlock = block;
