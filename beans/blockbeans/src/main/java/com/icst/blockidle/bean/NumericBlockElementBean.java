@@ -31,6 +31,7 @@ public class NumericBlockElementBean
 	private NumericBlockBean numericBlock;
 	private DatatypeBean acceptedReturnType;
 	private String key;
+	private boolean allowInput;
 
 	@Override
 	public <K extends BeanMetadata> ArrayList<K> getAllMetadata(Class<K> classType) {
@@ -47,10 +48,13 @@ public class NumericBlockElementBean
 	@Override
 	public NumericBlockElementBean cloneBean() {
 		NumericBlockElementBean clone = new NumericBlockElementBean();
-		clone.setNumericalValue(getNumericalValue() == null ? null : new String(getNumericalValue()));
+		clone.setNumericalValue(
+				getNumericalValue() == null ? null : new String(getNumericalValue()));
 		clone.setNumericBlock(getNumericBlock() == null ? null : getNumericBlock().cloneBean());
 		clone.setKey(getKey() == null ? null : new String(getKey()));
-		clone.setAcceptedReturnType(getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());
+		clone.setAcceptedReturnType(
+				getAcceptedReturnType() == null ? null : getAcceptedReturnType().cloneBean());
+		clone.setAllowInput(getAllowInput());
 		return clone;
 	}
 
@@ -100,5 +104,13 @@ public class NumericBlockElementBean
 
 	public void setAcceptedReturnType(DatatypeBean acceptedReturnType) {
 		this.acceptedReturnType = acceptedReturnType;
+	}
+
+	public boolean getAllowInput() {
+		return this.allowInput;
+	}
+
+	public void setAllowInput(boolean allowInput) {
+		this.allowInput = allowInput;
 	}
 }
