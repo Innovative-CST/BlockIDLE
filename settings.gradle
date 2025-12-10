@@ -65,3 +65,6 @@ include(":treeview")
 
 // Terminal
 include(":terminal")
+
+// Plugin
+include(":app-plugin-api")
