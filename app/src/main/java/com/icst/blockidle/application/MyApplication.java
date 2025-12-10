@@ -19,6 +19,7 @@ package com.icst.blockidle.application;
 
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
+import com.icst.blockidle.plugin.PluginManager;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
@@ -45,11 +46,14 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
 		mApplicationContext = getApplicationContext();
 		uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
 		ProjectEnvironment.init(this);
 		EnvironmentUtils.init();
+		PluginManager.getInstance().initializePlugins(this);
+		PluginManager.getInstance().notifyOnCreateApplication(this);
 
 		FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
 		AssetsFileResolver assetsFileResolver = new AssetsFileResolver(getAssets());
