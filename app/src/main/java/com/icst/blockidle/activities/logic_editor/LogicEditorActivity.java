@@ -26,6 +26,7 @@ import java.util.zip.ZipInputStream;
 
 import com.icst.blockidle.ExtensionZipInputStream;
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.logic_editor.dialog.EventCodeViewer;
 import com.icst.blockidle.activities.terminal.TerminalActivity;
 import com.icst.blockidle.bean.BlockPaletteBean;
@@ -44,12 +45,11 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class LogicEditorActivity extends AppCompatActivity {
+public class LogicEditorActivity extends BaseActivity {
 
 	public static final String EVENT_FILE_ARGUMEMT = "EventFile";
 

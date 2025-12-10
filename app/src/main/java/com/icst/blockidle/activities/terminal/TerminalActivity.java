@@ -26,6 +26,7 @@ import org.json.JSONException;
 import com.blankj.utilcode.util.ClipboardUtils;
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.databinding.ActivityTerminalBinding;
 import com.icst.blockidle.terminal.KeyListener;
 import com.icst.blockidle.terminal.SpecialButton;
@@ -47,12 +48,11 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-public class TerminalActivity extends AppCompatActivity
+public class TerminalActivity extends BaseActivity
 		implements TerminalSessionClient, TerminalViewClient {
 
 	private ActivityTerminalBinding binding;

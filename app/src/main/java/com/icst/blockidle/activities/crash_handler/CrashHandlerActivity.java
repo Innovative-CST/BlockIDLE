@@ -18,6 +18,7 @@
 package com.icst.blockidle.activities.crash_handler;
 
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.databinding.ActivityCrashHandlerBinding;
 
 import android.content.ClipData;
@@ -26,9 +27,8 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class CrashHandlerActivity extends AppCompatActivity {
+public class CrashHandlerActivity extends BaseActivity {
 	private ActivityCrashHandlerBinding binding;
 
 	@Override

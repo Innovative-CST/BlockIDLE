@@ -18,6 +18,7 @@
 package com.icst.blockidle.activities.intro;
 
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.project_manager.ProjectManagerActivity;
 import com.icst.blockidle.databinding.ActivityIntroBinding;
 import com.icst.blockidle.util.INTENTS;
@@ -26,12 +27,11 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class IntroActivity extends AppCompatActivity {
+public class IntroActivity extends BaseActivity {
 
 	private static final String TAG = "IntroActivity";
 

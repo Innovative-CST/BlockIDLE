@@ -17,10 +17,13 @@
 
 package com.icst.blockidle.activities.project_manager;
 
+import androidx.lifecycle.ViewModelProvider;
+import com.icst.blockidle.plugin.PluginManager;
 import java.io.File;
 import java.util.Objects;
 
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.project_manager.adapter.ProjectListAdapter;
 import com.icst.blockidle.activities.project_manager.dialog.BootstrapInstallerDialog;
 import com.icst.blockidle.activities.terminal.TerminalActivity;
@@ -36,15 +39,13 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-public class ProjectManagerActivity extends AppCompatActivity {
+public class ProjectManagerActivity extends BaseActivity {
 
 	private ActivityProjectManagerBinding binding;
 	private ProjectListAdapter adapter;
@@ -56,9 +57,9 @@ public class ProjectManagerActivity extends AppCompatActivity {
 		SplashScreen.installSplashScreen(this);
 		EdgeToEdge.enable(this);
 		super.onCreate(savedInstanceState);
-		mProjectManagerViewModel = new ViewModelProvider(this).get(ProjectManagerViewModel.class);
-		mProjectManagerViewModel.setActivity(this);
-
+        
+        mProjectManagerViewModel = new ViewModelProvider(this).get(ProjectManagerViewModel.class);
+        mProjectManagerViewModel.setActivity(this);
 		// Inflate and get instance of binding
 		binding = ActivityProjectManagerBinding.inflate(getLayoutInflater());
 		binding.setViewModel(mProjectManagerViewModel);

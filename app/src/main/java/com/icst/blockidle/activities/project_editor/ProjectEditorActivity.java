@@ -18,6 +18,7 @@
 package com.icst.blockidle.activities.project_editor;
 
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.project_editor.dialog.NewJavaClassDialog;
 import com.icst.blockidle.activities.project_editor.java_editor.JavaFileEditorPane;
 import com.icst.blockidle.activities.project_editor.viewholder.FileTreeViewHolder;
@@ -36,9 +37,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 
-public class ProjectEditorActivity extends AppCompatActivity {
+public class ProjectEditorActivity extends BaseActivity {
 
 	private ActivityProjectEditorBinding binding;
 	private ProjectFile projectFile;
