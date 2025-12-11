@@ -19,23 +19,49 @@ package com.icst.blockidle.api;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Wraps an {@link AppCompatActivity} instance and exposes a safe interface
+ * for plugin developers to interact with the host application's activities.
+ */
 public class PluginActivity {
+
 	private final AppCompatActivity appCompatActivity;
 	private final String TAG;
 
+	/**
+	 * Creates a new {@code PluginActivity} wrapper.
+	 *
+	 * @param appCompatActivity The activity instance the plugin is interacting with.
+	 * @param TAG              A tag identifier useful for knowing the full class name of appCompatActivity.
+	 */
 	public PluginActivity(AppCompatActivity appCompatActivity, String TAG) {
 		this.appCompatActivity = appCompatActivity;
 		this.TAG = TAG;
 	}
 
+	/**
+	 * Logs a message to the standard output stream prefixed with "[Plugin]".
+	 *
+	 * @param msg The message to log.
+	 */
 	public void log(String msg) {
 		System.out.println("[Plugin] " + msg);
 	}
 
+	/**
+	 * Returns the underlying {@link AppCompatActivity} instance.
+	 *
+	 * @return The host activity.
+	 */
 	public AppCompatActivity getAppCompatActivity() {
 		return this.appCompatActivity;
 	}
 
+	/**
+	 * Returns the log tag assigned to this activity wrapper.
+	 *
+	 * @return A tag used for plugin-related logging.
+	 */
 	public String getTAG() {
 		return this.TAG;
 	}
