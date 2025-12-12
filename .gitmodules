@@ -1,0 +1,3 @@
+[submodule "app-plugin-api"]
+	path = app-plugin-api
+	url = https://github.com/Innovative-CST/blockidle-plugin-api
