@@ -70,3 +70,9 @@ include(":terminal")
 // Plugin
 include(":app-plugin-api")
 include(":utilitiesplugin")
+
+gradle.beforeProject { project ->
+    if (project.path == ":app") {
+        project.evaluationDependsOn(":app-plugin-api")
+    }
+}
