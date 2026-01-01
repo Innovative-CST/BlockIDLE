@@ -17,90 +17,90 @@
 
 // NOTE: This is a plugin for testing
 plugins {
-    id "com.icst.blockidle.plugin.builder"
+	id "com.icst.blockidle.plugin.builder"
 }
 
 blockIdlePlugin {
-    pluginName = "Utilities"
+	pluginName = "Utilities"
 }
 
 android {
-    namespace "com.icst.utilitiesplugin"
-    compileSdk 35
+	namespace "com.icst.utilitiesplugin"
+	compileSdk 35
 
-    defaultConfig {
-        minSdk 26
-        targetSdk 29
-    }
-    
-    lint {
-        disable += "ExpiredTargetSdkVersion"
-        checkReleaseBuilds = false
-        abortOnError = false
-    }
+	defaultConfig {
+		minSdk 26
+		targetSdk 29
+	}
 
-    buildTypes {
-        debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-        }
+	lint {
+		disable += "ExpiredTargetSdkVersion"
+		checkReleaseBuilds = false
+		abortOnError = false
+	}
 
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile(
-                    'proguard-android-optimize.txt'
-            ), 'proguard-rules.pro'
-        }
-    }
+	buildTypes {
+		debug {
+			applicationIdSuffix ".debug"
+			versionNameSuffix "-debug"
+		}
 
-    flavorDimensions "tier", "api"
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile(
+					'proguard-android-optimize.txt'
+					), 'proguard-rules.pro'
+		}
+	}
 
-    productFlavors {
+	flavorDimensions "tier", "api"
 
-        free {
-            dimension "tier"
-            applicationIdSuffix ".free"
-            versionNameSuffix "-free"
-        }
+	productFlavors {
 
-        paid {
-            dimension "tier"
-            applicationIdSuffix ".paid"
-            versionNameSuffix "-paid"
-        }
+		free {
+			dimension "tier"
+			applicationIdSuffix ".free"
+			versionNameSuffix "-free"
+		}
 
-        api26 {
-            dimension "api"
-            minSdk 26
-            targetSdk 26
-            versionNameSuffix "-api26"
-        }
+		paid {
+			dimension "tier"
+			applicationIdSuffix ".paid"
+			versionNameSuffix "-paid"
+		}
 
-        api29 {
-            dimension "api"
-            minSdk 29
-            targetSdk 29
-            versionNameSuffix "-api29"
-        }
-    }
+		api26 {
+			dimension "api"
+			minSdk 26
+			targetSdk 26
+			versionNameSuffix "-api26"
+		}
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
+		api29 {
+			dimension "api"
+			minSdk 29
+			targetSdk 29
+			versionNameSuffix "-api29"
+		}
+	}
 
-    buildFeatures {
-        viewBinding true
-    }
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+
+	buildFeatures {
+		viewBinding true
+	}
 }
 
 dependencies {
-    compileOnly("com.google.android.material:material:$material_design_version")
-    compileOnly("androidx.appcompat:appcompat:$appcompat_version")
+	compileOnly("com.google.android.material:material:$material_design_version")
+	compileOnly("androidx.appcompat:appcompat:$appcompat_version")
 }
 
 sourceSets {
-    main {
-        java.srcDirs = ["src/main/java"]
-    }
+	main {
+		java.srcDirs = ["src/main/java"]
+	}
 }
