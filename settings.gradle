@@ -69,3 +69,4 @@ include(":terminal")
 
 // Plugin
 include(":app-plugin-api")
+include(":utilitiesplugin")

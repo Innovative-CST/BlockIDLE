@@ -1,0 +1,106 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+// NOTE: This is a plugin for testing
+plugins {
+    id "com.icst.blockidle.plugin.builder"
+}
+
+blockIdlePlugin {
+    pluginName = "Utilities"
+}
+
+android {
+    namespace "com.icst.utilitiesplugin"
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 26
+        targetSdk 29
+    }
+    
+    lint {
+        disable += "ExpiredTargetSdkVersion"
+        checkReleaseBuilds = false
+        abortOnError = false
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'
+            ), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions "tier", "api"
+
+    productFlavors {
+
+        free {
+            dimension "tier"
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+        }
+
+        paid {
+            dimension "tier"
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
+        }
+
+        api26 {
+            dimension "api"
+            minSdk 26
+            targetSdk 26
+            versionNameSuffix "-api26"
+        }
+
+        api29 {
+            dimension "api"
+            minSdk 29
+            targetSdk 29
+            versionNameSuffix "-api29"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    compileOnly("com.google.android.material:material:$material_design_version")
+    compileOnly("androidx.appcompat:appcompat:$appcompat_version")
+}
+
+sourceSets {
+    main {
+        java.srcDirs = ["src/main/java"]
+    }
+}
