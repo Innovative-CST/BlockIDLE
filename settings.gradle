@@ -16,6 +16,7 @@
  */
 
 pluginManagement {
+    includeBuild("plugin-builder")
 	repositories {
 		gradlePluginPortal()
 		google()
