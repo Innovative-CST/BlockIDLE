@@ -19,10 +19,10 @@ package com.icst.blockidle.model;
 
 import java.io.File;
 
-import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.api.AppPlugin;
 import com.icst.blockidle.api.PluginActivity;
 import com.icst.blockidle.api.PluginApplication;
+import com.icst.blockidle.api.PluginRuntimeInfo;
 
 import android.app.Application;
 import android.content.Context;
@@ -58,7 +58,8 @@ public class PluginModel {
 	}
 
 	public boolean isCompatible() {
-		return !(minSdk > BuildConfig.PLUGIN_SDK_VERSION);
+		// TODO: Complete logic to check compatible 
+		return true;
 	}
 
 	public boolean isPluginLoaded() {
@@ -92,9 +93,9 @@ public class PluginModel {
 		}
 	}
 
-	public void notifyOnCreateApplication(Application application) {
+	public void notifyOnCreateApplication(Application application, PluginRuntimeInfo runtimeInfo) {
 		if (isLoaded) {
-			plugin.onCreateApplication(new PluginApplication(application));
+			plugin.onCreateApplication(new PluginApplication(application, runtimeInfo));
 		}
 	}
 

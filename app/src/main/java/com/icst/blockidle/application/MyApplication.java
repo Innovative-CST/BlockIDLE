@@ -19,6 +19,8 @@ package com.icst.blockidle.application;
 
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
+import com.icst.blockidle.api.PluginRuntimeInfo;
+import com.icst.blockidle.api.RuntimeSdkInfo;
 import com.icst.blockidle.plugin.PluginManager;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.util.ProjectEnvironment;
@@ -50,10 +52,16 @@ public class MyApplication extends Application {
 		mApplicationContext = getApplicationContext();
 		uncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
+		RuntimeSdkInfo sdkInfo = new RuntimeSdkInfo(BuildConfig.SDK_VERSION, BuildConfig.SDK_MIN_SUPPORTED,
+				BuildConfig.SDK_VERSION_NUMBER, BuildConfig.SDK_VERSION_TYPE, BuildConfig.SDK_SUB_VERSION,
+				BuildConfig.SDK_VERSION_NAME);
+		PluginRuntimeInfo pluginRuntimeInfo = new PluginRuntimeInfo(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE,
+				sdkInfo);
+
 		ProjectEnvironment.init(this);
 		EnvironmentUtils.init();
 		PluginManager.getInstance().initializePlugins(this);
-		PluginManager.getInstance().notifyOnCreateApplication(this);
+		PluginManager.getInstance().notifyOnCreateApplication(this, pluginRuntimeInfo);
 
 		FileProviderRegistry fileProviderRegistry = FileProviderRegistry.getInstance();
 		AssetsFileResolver assetsFileResolver = new AssetsFileResolver(getAssets());

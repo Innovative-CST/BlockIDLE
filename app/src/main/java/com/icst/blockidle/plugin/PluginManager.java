@@ -20,6 +20,7 @@ package com.icst.blockidle.plugin;
 import java.io.File;
 import java.util.ArrayList;
 
+import com.icst.blockidle.api.PluginRuntimeInfo;
 import com.icst.blockidle.model.PluginModel;
 import com.icst.blockidle.util.PluginUtils;
 import com.icst.blockidle.util.ProjectEnvironment;
@@ -70,8 +71,8 @@ public class PluginManager {
 		});
 	}
 
-	public void notifyOnCreateApplication(Application application) {
-		plugins.forEach(plugin -> plugin.notifyOnCreateApplication(application));
+	public void notifyOnCreateApplication(Application application, PluginRuntimeInfo pluginRuntimeInfo) {
+		plugins.forEach(plugin -> plugin.notifyOnCreateApplication(application, pluginRuntimeInfo));
 	}
 
 	public void notifyOnCreateActivity(AppCompatActivity activity, String TAG) {
