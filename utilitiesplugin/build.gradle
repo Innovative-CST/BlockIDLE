@@ -22,6 +22,8 @@ plugins {
 
 blockIdlePlugin {
 	pluginName = "Utilities"
+    minSdkVersion = "0.0.1"
+    sdkVersion = "0.0.1"
 }
 
 android {
