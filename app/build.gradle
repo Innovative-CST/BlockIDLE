@@ -39,18 +39,18 @@ android {
 		vectorDrawables {
 			useSupportLibrary true
 		}
-        
-        def sdkInfo = project(":app-plugin-api")
-                .extensions
-                .extraProperties
-                .get("sdkInfo")
 
-        buildConfigField "String", "SDK_MIN_SUPPORTED", "\"${sdkInfo.minSdkSupported}\""
-        buildConfigField "int",    "SDK_VERSION_NUMBER", "${sdkInfo.versionNumber}"
-        buildConfigField "String", "SDK_VERSION_TYPE", "\"${sdkInfo.versionType}\""
-        buildConfigField "int",    "SDK_SUB_VERSION", "${sdkInfo.subVersion}"
-        buildConfigField "String", "SDK_VERSION_NAME", "\"${sdkInfo.versionName}\""
-        buildConfigField "String", "SDK_VERSION", "\"${sdkInfo.version}\""
+		def sdkInfo = project(":app-plugin-api")
+				.extensions
+				.extraProperties
+				.get("sdkInfo")
+
+		buildConfigField "String", "SDK_MIN_SUPPORTED", "\"${sdkInfo.minSdkSupported}\""
+		buildConfigField "int",    "SDK_VERSION_NUMBER", "${sdkInfo.versionNumber}"
+		buildConfigField "String", "SDK_VERSION_TYPE", "\"${sdkInfo.versionType}\""
+		buildConfigField "int",    "SDK_SUB_VERSION", "${sdkInfo.subVersion}"
+		buildConfigField "String", "SDK_VERSION_NAME", "\"${sdkInfo.versionName}\""
+		buildConfigField "String", "SDK_VERSION", "\"${sdkInfo.version}\""
 	}
 
 	buildTypes {

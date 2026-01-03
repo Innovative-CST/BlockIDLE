@@ -17,13 +17,13 @@
 
 // NOTE: This is a plugin for testing
 plugins {
-	id "com.icst.blockidle.plugin.builder"
+	id "io.github.devvigilante.blockidle.plugin-builder"
 }
 
 blockIdlePlugin {
 	pluginName = "Utilities"
-    minSdkVersion = "0.0.1"
-    sdkVersion = "0.0.1"
+	minSdkVersion = "0.0.1"
+	sdkVersion = "0.0.1"
 }
 
 android {

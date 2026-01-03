@@ -72,7 +72,7 @@ include(":app-plugin-api")
 include(":utilitiesplugin")
 
 gradle.beforeProject { project ->
-    if (project.path == ":app") {
-        project.evaluationDependsOn(":app-plugin-api")
-    }
+	if (project.path == ":app") {
+		project.evaluationDependsOn(":app-plugin-api")
+	}
 }
