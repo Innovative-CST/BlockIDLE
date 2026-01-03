@@ -27,13 +27,9 @@ public class ProjectEnvironment {
 	public static final String EVENT_FOLDER = "events";
 	public static final String INSTANCE_VARIABLE_FILE = "InstanceVariable";
 	public static final String STATIC_VARIABLE_FILE = "StaticVariable";
-	public static final String PLUGINS_DIRECTORY = "plugins";
-	public static final String PLUGINS_METADATA_FILE = "metadata.json";
-	public static final String PLUGINS_FILE = "plugin.apk";
 
 	public static File projectDirectory;
 	public static File extensionsDirectory;
-	public static File pluginsDirectory;
 
 	public static void init(Context context) {
 		projectDirectory = context.getExternalFilesDir("Projects");
@@ -41,8 +37,5 @@ public class ProjectEnvironment {
 
 		extensionsDirectory = context.getExternalFilesDir("Extensions");
 		extensionsDirectory.mkdirs();
-
-		pluginsDirectory = context.getExternalFilesDir(PLUGINS_DIRECTORY);
-		pluginsDirectory.mkdirs();
 	}
 }
