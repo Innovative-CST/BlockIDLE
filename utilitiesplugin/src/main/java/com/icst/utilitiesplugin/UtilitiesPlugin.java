@@ -21,6 +21,7 @@ import com.icst.blockidle.api.AppPlugin;
 import com.icst.blockidle.api.PluginActivity;
 import com.icst.blockidle.api.PluginApplication;
 
+import android.util.Log;
 import android.widget.Toast;
 
 public class UtilitiesPlugin implements AppPlugin {
@@ -29,12 +30,12 @@ public class UtilitiesPlugin implements AppPlugin {
 
 	@Override
 	public void onCreateApplication(PluginApplication pluginApplication) {
-		pluginApplication.log("UtilitiesPlugin: Application started");
+		Log.info("UtilitiesPlugin", "Plugin application started");
 
 		// Only run once
 		if (!initialized) {
 			initialized = true;
-			Toast.makeText(
+			Toast.i(
 					pluginApplication.getAndroidApplication(),
 					"Utilities Plugin initialized",
 					Toast.LENGTH_SHORT).show();
@@ -43,6 +44,6 @@ public class UtilitiesPlugin implements AppPlugin {
 
 	@Override
 	public void onCreateActivity(PluginActivity pluginActivity) {
-		pluginActivity.log("UtilitiesPlugin: Activity created -> " + pluginActivity.getTAG());
+		Log.i("UtilitiesPlugin", "Plugin received activity with TAG={".concat(pluginActivity.getTAG()).concat("}"));
 	}
 }

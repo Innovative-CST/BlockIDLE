@@ -24,6 +24,8 @@ blockIdlePlugin {
 	pluginName = "Utilities"
 	minSdkVersion = "0.0.1"
 	sdkVersion = "0.0.1"
+	versionName = "1.0-alpha"
+	appPluginClass = "com.icst.utilitiesplugin.UtilitiesPlugin"
 }
 
 android {
@@ -32,7 +34,8 @@ android {
 
 	defaultConfig {
 		minSdk 26
-		targetSdk 29
+		targetSdk 28
+		versionName "test"
 	}
 
 	lint {
@@ -42,6 +45,7 @@ android {
 	}
 
 	buildTypes {
+
 		debug {
 			applicationIdSuffix ".debug"
 			versionNameSuffix "-debug"
@@ -55,34 +59,19 @@ android {
 		}
 	}
 
-	flavorDimensions "tier", "api"
+	flavorDimensions "mode"
 
 	productFlavors {
 
-		free {
-			dimension "tier"
-			applicationIdSuffix ".free"
-			versionNameSuffix "-free"
+		demo {
+			dimension "mode"
+			applicationIdSuffix ".demo"
+			versionNameSuffix "-demo"
 		}
 
-		paid {
-			dimension "tier"
-			applicationIdSuffix ".paid"
-			versionNameSuffix "-paid"
-		}
-
-		api26 {
-			dimension "api"
-			minSdk 26
-			targetSdk 26
-			versionNameSuffix "-api26"
-		}
-
-		api29 {
-			dimension "api"
-			minSdk 29
-			targetSdk 29
-			versionNameSuffix "-api29"
+		prod {
+			dimension "mode"
+			// no suffix → real app identity
 		}
 	}
 
