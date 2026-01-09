@@ -22,8 +22,8 @@ import java.util.ArrayList;
 
 import com.icst.blockidle.api.PluginRuntimeInfo;
 import com.icst.blockidle.model.PluginModel;
+import com.icst.blockidle.util.PluginEnvironment;
 import com.icst.blockidle.util.PluginUtils;
-import com.icst.blockidle.util.ProjectEnvironment;
 
 import android.app.Application;
 import android.content.Context;
@@ -34,25 +34,31 @@ public class PluginManager {
 	private final File pluginDir;
 
 	// List of compatible plugins only
-	private ArrayList<PluginModel> plugins;
+	private ArrayList<PluginRuntimeManager> plugins;
 	private static PluginManager pluginManagerInstance;
 
 	private PluginManager() {
-		this.pluginDir = ProjectEnvironment.pluginsDirectory;
+		this.pluginDir = PluginEnvironment.pluginsDirectory;
 		if (!pluginDir.exists())
 			pluginDir.mkdirs();
+
+		plugins = new ArrayList<PluginRuntimeManager>();
 
 		File[] pluginsFolderList = pluginDir.listFiles();
 		if (pluginsFolderList == null)
 			return;
 
-		plugins = new ArrayList<PluginModel>();
-
 		for (File pluginDir : pluginsFolderList) {
-			// Load plugins from directory
-			PluginModel plugin = PluginUtils.buildPluginModel(pluginDir);
-			if (plugin == null)
+			// Load plugins from directory which are selected
+			String variant = PluginUtils.getSelectedVariant(pluginDir);
+
+			if (variant == null) {
 				continue;
+			}
+			PluginModel pluginModel = PluginUtils.buildPluginModel(pluginDir, variant);
+			if (pluginModel == null)
+				continue;
+			PluginRuntimeManager plugin = new PluginRuntimeManager(pluginModel, new File(pluginDir, variant));
 			plugins.add(plugin);
 		}
 	}

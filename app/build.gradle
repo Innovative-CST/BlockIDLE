@@ -79,6 +79,9 @@ dependencies {
 	// Google Truth for better assertions (latest)
 	implementation("com.google.truth:truth:1.4.2")
 
+	// Gson
+	implementation("com.google.code.gson:gson:$gson_version")
+
 	// Lottie Animation
 	implementation("com.airbnb.android:lottie:$lottie")
 

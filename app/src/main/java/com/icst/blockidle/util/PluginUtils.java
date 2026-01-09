@@ -18,39 +18,43 @@
 package com.icst.blockidle.util;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 
-import org.json.JSONObject;
-
+import com.google.gson.Gson;
+import com.icst.blockidle.beans.PluginConfigurationBean;
 import com.icst.blockidle.model.PluginModel;
 
 public final class PluginUtils {
 
-	public static PluginModel buildPluginModel(File pluginDir) {
-		File pluginMetadata = new File(pluginDir, ProjectEnvironment.PLUGINS_METADATA_FILE);
-		File pluginApkFile = new File(pluginDir, ProjectEnvironment.PLUGINS_FILE);
-		if (!(pluginMetadata.exists() && pluginApkFile.exists()))
-			return null;
-
-		try {
-			FileInputStream fis = new FileInputStream(pluginMetadata);
-
-			byte[] data = new byte[(int) pluginMetadata.length()];
-			fis.read(data);
-			fis.close();
-
-			String json = new String(data, "UTF-8");
-			JSONObject jsonObject = new JSONObject(json);
-			String name = jsonObject.getString("name");
-			String packageName = jsonObject.getString("packageName");
-			String mainClassName = jsonObject.getString("mainClassName");
-			Integer minSdk = jsonObject.getInt("minSdk");
-			Integer targetSdk = jsonObject.getInt("targetSdk");
-			return new PluginModel(name, packageName, mainClassName, minSdk, targetSdk, pluginApkFile);
-		} catch (Exception e) {
-			e.printStackTrace();
+	public static String getSelectedVariant(File pluginDir) {
+		File pluginConfigFile = new File(pluginDir, PluginEnvironment.PLUGINS_CONFIG_FILE);
+		PluginConfigurationBean config = SerializationUtils.deserialize(pluginConfigFile,
+				PluginConfigurationBean.class);
+		if (config == null) {
 			return null;
 		}
+		return config.getSelectedVariant();
+	}
+
+	public static PluginModel buildPluginModel(File pluginDir, String variant) {
+		return buildPluginModel(new File(pluginDir, variant));
+	}
+
+	private static PluginModel buildPluginModel(File variantDir) {
+		File pluginMetadata = new File(variantDir, PluginEnvironment.PLUGINS_METADATA_FILE);
+		if (!(pluginMetadata.exists()))
+			return null;
+
+		PluginModel plugin = null;
+		try (FileReader reader = new FileReader(pluginMetadata)) {
+			Gson gson = new Gson();
+			plugin = gson.fromJson(reader, PluginModel.class);
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return plugin;
 	}
 
 }

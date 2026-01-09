@@ -17,12 +17,14 @@
 
 package com.icst.blockidle.application;
 
+
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
 import com.icst.blockidle.api.PluginRuntimeInfo;
 import com.icst.blockidle.api.RuntimeSdkInfo;
 import com.icst.blockidle.plugin.PluginManager;
 import com.icst.blockidle.util.EnvironmentUtils;
+import com.icst.blockidle.util.PluginEnvironment;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
 
@@ -59,7 +61,9 @@ public class MyApplication extends Application {
 				sdkInfo);
 
 		ProjectEnvironment.init(this);
+		PluginEnvironment.init(this);
 		EnvironmentUtils.init();
+
 		PluginManager.getInstance().initializePlugins(this);
 		PluginManager.getInstance().notifyOnCreateApplication(this, pluginRuntimeInfo);
 

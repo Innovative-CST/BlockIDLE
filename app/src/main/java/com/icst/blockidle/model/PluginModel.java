@@ -17,115 +17,78 @@
 
 package com.icst.blockidle.model;
 
-import java.io.File;
-
-import com.icst.blockidle.api.AppPlugin;
-import com.icst.blockidle.api.PluginActivity;
-import com.icst.blockidle.api.PluginApplication;
-import com.icst.blockidle.api.PluginRuntimeInfo;
-
-import android.app.Application;
-import android.content.Context;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import dalvik.system.DexClassLoader;
+import java.util.List;
+import java.util.Map;
 
 public class PluginModel {
-	private final String name;
-	private final String packageName;
-	private final String mainClassName;
-	private final Integer minSdk;
-	private final Integer targetSdk;
-	private final File apkFile;
 
-	private boolean isLoaded;
-	private AppPlugin plugin;
+	private String pluginName;
+	private String appPluginClass;
+	private String applicationId;
+	private String versionName;
+	private SdkModel sdk;
+	private String variant;
+	private String buildType;
+	private Map<String, String> flavors;
+	private int appMinSdk;
+	private int appTargetSdk;
+	private List<Output> outputs;
 
-	public PluginModel(
-			String name,
-			String packageName,
-			String mainClassName,
-			Integer minSdk,
-			Integer targetSdk,
-			File apkFile) {
-		this.name = name;
-		this.packageName = packageName;
-		this.mainClassName = mainClassName;
-		this.minSdk = minSdk;
-		this.targetSdk = targetSdk;
-		this.apkFile = apkFile;
+	public String getPluginName() {
+		return pluginName;
 	}
 
-	public boolean isCompatible() {
-		// TODO: Complete logic to check compatible 
-		return true;
+	public String getAppPluginClass() {
+		return appPluginClass;
 	}
 
-	public boolean isPluginLoaded() {
-		return isLoaded;
+	public String getApplicationId() {
+		return applicationId;
 	}
 
-	public void tryLoadPlugin(Context context) {
-		if (isLoaded)
-			return;
-		if (!isCompatible())
-			return;
-		try {
-			File optimizedDir = context.getDir("dex_opt", Context.MODE_PRIVATE);
+	public String getVersionName() {
+		return versionName;
+	}
 
-			DexClassLoader loader = new DexClassLoader(
-					getApkFile().getAbsolutePath(),
-					optimizedDir.getAbsolutePath(),
-					null,
-					context.getClassLoader());
+	public SdkModel getSdk() {
+		return sdk;
+	}
 
-			Class<?> clazz = loader.loadClass(getMainClassName());
-			Object pluginObj = clazz.newInstance();
+	public String getVariant() {
+		return variant;
+	}
 
-			if (pluginObj instanceof AppPlugin) {
-				plugin = (AppPlugin) pluginObj;
-				isLoaded = true;
-			}
+	public String getBuildType() {
+		return buildType;
+	}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+	public Map<String, String> getFlavors() {
+		return flavors;
+	}
+
+	public int getAppMinSdk() {
+		return appMinSdk;
+	}
+
+	public int getAppTargetSdk() {
+		return appTargetSdk;
+	}
+
+	public List<Output> getOutputs() {
+		return outputs;
+	}
+
+	public static class Output {
+
+		private String apkPath;
+		private List<String> filters;
+
+		public String getApkPath() {
+			return apkPath;
 		}
-	}
 
-	public void notifyOnCreateApplication(Application application, PluginRuntimeInfo runtimeInfo) {
-		if (isLoaded) {
-			plugin.onCreateApplication(new PluginApplication(application, runtimeInfo));
+		public List<String> getFilters() {
+			return filters;
 		}
-	}
-
-	public void notifyOnCreateActivity(AppCompatActivity activity, String TAG) {
-		if (isLoaded) {
-			plugin.onCreateActivity(new PluginActivity(activity, TAG));
-		}
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public String getPackageName() {
-		return this.packageName;
-	}
-
-	public String getMainClassName() {
-		return this.mainClassName;
-	}
-
-	public Integer getMinSdk() {
-		return this.minSdk;
-	}
-
-	public Integer getTargetSdk() {
-		return this.targetSdk;
-	}
-
-	public File getApkFile() {
-		return this.apkFile;
 	}
 }
