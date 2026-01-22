@@ -17,7 +17,6 @@
 
 package com.icst.blockidle.application;
 
-
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
 import com.icst.blockidle.api.PluginRuntimeInfo;

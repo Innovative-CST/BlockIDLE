@@ -72,6 +72,32 @@ android {
 	}
 }
 
+def beansModules = [
+	":beans:basebeans",
+	":beans:blockbeans",
+	":beans:layoutbeans",
+	":beans:javabeans",
+	":beans:projectbeans",
+	":beans:xmlbeans"
+]
+
+def beansJarDir = layout.buildDirectory.dir("libs")
+
+tasks.register("syncBeansJars", Copy) {
+
+	beansModules.each { modulePath ->
+		def p = project(modulePath)
+
+		p.pluginManager.withPlugin("java-library") {
+			dependsOn(p.tasks.named("jar"))
+			from(p.layout.buildDirectory.dir("libs"))
+		}
+	}
+
+	include("*.jar")
+	into(beansJarDir)
+}
+
 dependencies {
 	// Latest JUnit for unit tests (JVM)
 	implementation("junit:junit:4.13.2")
@@ -113,6 +139,8 @@ dependencies {
 	implementation project(":beans:projectbeans")
 	implementation project(":beans:xmlbeans")
 
+	implementation fileTree(dir: beansJarDir, include: ["*.jar"])
+
 	// Plugin API
 	implementation project(":app-plugin-api")
 
@@ -128,6 +156,8 @@ dependencies {
 	// Terminal
 	implementation project(":terminal")
 }
+
+preBuild.dependsOn(syncBeansJars)
 
 project.afterEvaluate {
 	tasks.matching { it.name.startsWith("assemble") }.configureEach {
