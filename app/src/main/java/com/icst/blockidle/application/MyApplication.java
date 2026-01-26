@@ -26,6 +26,7 @@ import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.util.PluginEnvironment;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.editor.editors.sora.lang.textmate.provider.TextMateProvider;
+import com.termux.app.TermuxApplication;
 
 import android.app.AlarmManager;
 import android.app.Application;
@@ -62,6 +63,7 @@ public class MyApplication extends Application {
 		ProjectEnvironment.init(this);
 		PluginEnvironment.init(this);
 		EnvironmentUtils.init();
+		TermuxApplication.onCreate(this);
 
 		PluginManager.getInstance().initializePlugins(this);
 		PluginManager.getInstance().notifyOnCreateApplication(this, pluginRuntimeInfo);

@@ -23,11 +23,11 @@ import java.util.Objects;
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.project_manager.adapter.ProjectListAdapter;
-import com.icst.blockidle.activities.project_manager.dialog.BootstrapInstallerDialog;
-import com.icst.blockidle.activities.terminal.TerminalActivity;
+import com.icst.blockidle.activities.project_manager.dialog.InstallBuildToolsDialog;
 import com.icst.blockidle.databinding.ActivityProjectManagerBinding;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.icst.blockidle.viewmodel.ProjectManagerViewModel;
+import com.termux.app.TermuxActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -49,7 +49,7 @@ public class ProjectManagerActivity extends BaseActivity {
 	private ActivityProjectManagerBinding binding;
 	private ProjectListAdapter adapter;
 	private ProjectManagerViewModel mProjectManagerViewModel;
-	private BootstrapInstallerDialog dialog;
+	private InstallBuildToolsDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +103,8 @@ public class ProjectManagerActivity extends BaseActivity {
 				&& bash.exists()
 				&& bash.isFile()
 				&& bash.canExecute())) {
-			dialog = new BootstrapInstallerDialog(
-					this,
-					new BootstrapInstallerDialog.BootstrapInstallCompletionListener() {
-						@Override
-						public void onComplete() {
-							dialog.setPositiveButton("Dismiss", null);
-							dialog.setCancelable(true);
-						}
-					});
+			dialog = new InstallBuildToolsDialog(this);
+			dialog.create().show();
 		}
 	}
 
@@ -134,7 +127,7 @@ public class ProjectManagerActivity extends BaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem menuItem) {
 		if (R.id.terminal == menuItem.getItemId()) {
-			Intent terminal = new Intent(this, TerminalActivity.class);
+			Intent terminal = new Intent(this, TermuxActivity.class);
 			startActivity(terminal);
 		}
 		return true;

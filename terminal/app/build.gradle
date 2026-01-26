@@ -1,0 +1,126 @@
+plugins {
+	id "com.android.library"
+	id "de.undercouch.download"
+}
+
+ext {
+	// The packageVariant defines the bootstrap variant that will be included in the app APK.
+	// This must be supported by com.termux.shared.termux.TermuxBootstrap.PackageVariant or app will
+	// crash at startup.
+	// Bootstrap of a different variant must not be manually installed by the user after app installation
+	// by replacing $PREFIX since app code is dependant on the variant used to build the APK.
+	// Currently supported values are: [ "apt-android-7" "apt-android-5" ]
+	packageVariant = System.getenv("TERMUX_PACKAGE_VARIANT") ?: "apt-android-7" // Default: "apt-android-7"
+}
+
+android {
+	namespace "com.termux"
+
+	compileSdkVersion 35
+
+	dependencies {
+		implementation "androidx.annotation:annotation:$appcompat_version"
+		implementation "androidx.core:core:1.13.1"
+		implementation "androidx.drawerlayout:drawerlayout:1.2.0"
+		implementation "androidx.preference:preference:1.2.1"
+		implementation "androidx.viewpager:viewpager:1.0.0"
+		implementation "com.google.android.material:material:$material_design_version"
+		implementation "com.google.guava:guava:24.1-jre"
+		implementation "io.noties.markwon:core:$markwonVersion"
+		implementation "io.noties.markwon:ext-strikethrough:$markwonVersion"
+		implementation "io.noties.markwon:linkify:$markwonVersion"
+		implementation "io.noties.markwon:recycler:$markwonVersion"
+		implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+
+		implementation project(":terminal:terminal-view")
+		api project(":terminal:termux-shared")
+	}
+
+	defaultConfig {
+		minSdkVersion 26
+		targetSdkVersion 28
+
+		buildConfigField "String", "TERMUX_PACKAGE_VARIANT", "\"" + project.ext.packageVariant + "\"" // Used by TermuxApplication class
+
+		manifestPlaceholders.TERMUX_PACKAGE_NAME = "com.icst.blockidle"
+		manifestPlaceholders.TERMUX_APP_NAME = "BlockIDLE"
+		manifestPlaceholders.TERMUX_API_APP_NAME = "Termux:API"
+		manifestPlaceholders.TERMUX_BOOT_APP_NAME = "Termux:Boot"
+		manifestPlaceholders.TERMUX_FLOAT_APP_NAME = "Termux:Float"
+		manifestPlaceholders.TERMUX_STYLING_APP_NAME = "Termux:Styling"
+		manifestPlaceholders.TERMUX_TASKER_APP_NAME = "Termux:Tasker"
+		manifestPlaceholders.TERMUX_WIDGET_APP_NAME = "Termux:Widget"
+	}
+
+	compileOptions {
+		// Flag to enable support for the new language APIs
+		coreLibraryDesugaringEnabled true
+
+		sourceCompatibility JavaVersion.VERSION_1_8
+		targetCompatibility JavaVersion.VERSION_1_8
+	}
+
+	lint {
+		disable 'ProtectedPermissions'
+	}
+
+	testOptions {
+		unitTests {
+			includeAndroidResources = true
+		}
+	}
+
+	packagingOptions {
+		jniLibs {
+			useLegacyPackaging true
+		}
+	}
+
+	buildFeatures {
+		buildConfig true
+	}
+}
+
+dependencies {
+	testImplementation "junit:junit:4.13.2"
+	testImplementation "org.robolectric:robolectric:4.10"
+	coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+}
+
+clean {
+	doLast {
+		def tree = fileTree(new File(projectDir, 'src/main/assets'))
+		tree.include 'bootstrap-*.zip'
+		tree.each { it.delete() }
+	}
+}
+
+def downloadBootstrap(String fileU, String fileName) {
+	def downloadUrl = "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2025.06.08-r1%2Bapt.android-7/${fileU}"
+	def zipFile = file("src/main/assets/${fileName}")
+	if (!zipFile.exists()) {
+		println "Downloading ${zipFile.getAbsolutePath()}..."
+		download.run {
+			src downloadUrl
+			dest zipFile
+			overwrite false
+			quiet true
+		}
+	}
+}
+
+tasks.register("downloadBootstrapFiles") {
+	downloadBootstrap("bootstrap-aarch64.zip", "bootstrap-arm64-v8a.zip")
+	downloadBootstrap("bootstrap-arm.zip", "bootstrap-armeabi-v7a.zip")
+	downloadBootstrap("bootstrap-i686.zip", "bootstrap-x86.zip")
+	downloadBootstrap("bootstrap-x86_64.zip", "bootstrap-x86_64.zip")
+}
+
+project.afterEvaluate {
+	tasks.named("preBuild").configure {
+		dependsOn("downloadBootstrapFiles")
+	}
+	tasks.matching { it.name.startsWith("assemble") }.configureEach {
+		finalizedBy(rootProject.tasks.named("spotlessApply"))
+	}
+}

@@ -39,7 +39,7 @@ android {
 		vectorDrawables {
 			useSupportLibrary true
 		}
-
+		manifestPlaceholders.TERMUX_PACKAGE_NAME = "com.icst.blockidle"
 		def sdkInfo = project(":app-plugin-api")
 				.extensions
 				.extraProperties
@@ -61,6 +61,8 @@ android {
 	}
 
 	compileOptions {
+        // Flag to enable support for the new language APIs
+		coreLibraryDesugaringEnabled true
 		sourceCompatibility JavaVersion.VERSION_17
 		targetCompatibility JavaVersion.VERSION_17
 	}
@@ -99,36 +101,27 @@ tasks.register("syncBeansJars", Copy) {
 }
 
 dependencies {
-	// Latest JUnit for unit tests (JVM)
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+
 	implementation("junit:junit:4.13.2")
-
-	// Google Truth for better assertions (latest)
+    
 	implementation("com.google.truth:truth:1.4.2")
-
-	// Gson
+    implementation("com.google.android.material:material:$material_design_version")
+	implementation("com.google.guava:guava:24.1-jre")
 	implementation("com.google.code.gson:gson:$gson_version")
 
-	// Lottie Animation
 	implementation("com.airbnb.android:lottie:$lottie")
 
-	// AndroidX
 	implementation("androidx.appcompat:appcompat:$appcompat_version")
 	implementation("androidx.core:core-splashscreen:$core_splashscreen")
 	implementation("androidx.constraintlayout:constraintlayout:$constraintlayout")
 	implementation("androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout")
 
-	// Lifecycle (For MVVM)
 	implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
 	implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
 	implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
 	annotationProcessor("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
-
-	// Material Design
-	implementation("com.google.android.material:material:$material_design_version")
-
-	implementation project(":editor")
-
-	// Extension Core
+    
 	implementation project(":extension-core")
 
 	// Beans
@@ -138,23 +131,14 @@ dependencies {
 	implementation project(":beans:javabeans")
 	implementation project(":beans:projectbeans")
 	implementation project(":beans:xmlbeans")
-
 	implementation fileTree(dir: beansJarDir, include: ["*.jar"])
 
-	// Plugin API
 	implementation project(":app-plugin-api")
-
-	// Logic Editor
+	implementation project(":editor")
 	implementation project(":logiceditor")
-
-	// View Editor
-	implementation project(":vieweditor")
-
-	// TreeView
+	implementation project(":terminal:app")
 	implementation project(":treeview")
-
-	// Terminal
-	implementation project(":terminal")
+	implementation project(":vieweditor")
 }
 
 preBuild.dependsOn(syncBeansJars)

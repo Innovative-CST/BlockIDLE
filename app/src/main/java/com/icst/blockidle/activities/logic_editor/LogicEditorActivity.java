@@ -28,7 +28,6 @@ import com.icst.blockidle.ExtensionZipInputStream;
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.logic_editor.dialog.EventCodeViewer;
-import com.icst.blockidle.activities.terminal.TerminalActivity;
 import com.icst.blockidle.bean.BlockPaletteBean;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.ActivityLogicEditorBinding;
@@ -36,6 +35,7 @@ import com.icst.blockidle.listener.SerializationListener;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.SerializationUtils;
 import com.icst.logic.config.LogicEditorConfiguration;
+import com.termux.app.TermuxActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -171,7 +171,7 @@ public class LogicEditorActivity extends BaseActivity {
 			new EventCodeViewer(this, binding.logicEditor.getPreparedEventBean()).create().show();
 		}
 		if (R.id.terminal == menuItem.getItemId()) {
-			Intent terminal = new Intent(this, TerminalActivity.class);
+			Intent terminal = new Intent(this, TermuxActivity.class);
 			startActivity(terminal);
 		}
 		return true;

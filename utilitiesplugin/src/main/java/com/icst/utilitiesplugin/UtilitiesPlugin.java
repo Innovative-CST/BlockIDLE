@@ -30,12 +30,12 @@ public class UtilitiesPlugin implements AppPlugin {
 
 	@Override
 	public void onCreateApplication(PluginApplication pluginApplication) {
-		Log.info("UtilitiesPlugin", "Plugin application started");
+		Log.i("UtilitiesPlugin", "Plugin application started");
 
 		// Only run once
 		if (!initialized) {
 			initialized = true;
-			Toast.i(
+			Toast.makeText(
 					pluginApplication.getAndroidApplication(),
 					"Utilities Plugin initialized",
 					Toast.LENGTH_SHORT).show();

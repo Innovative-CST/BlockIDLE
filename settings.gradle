@@ -29,6 +29,7 @@ dependencyResolutionManagement {
 	repositories {
 		google()
 		mavenCentral()
+		maven { url "https://jitpack.io" }
 		flatDir {
 			dirs "terminal/libs"
 		}
@@ -65,7 +66,10 @@ include(":editor")
 include(":treeview")
 
 // Terminal
-include(":terminal")
+include(":terminal:app")
+include(":terminal:termux-shared")
+include(":terminal:terminal-emulator")
+include(":terminal:terminal-view")
 
 // Plugin
 include(":app-plugin-api")

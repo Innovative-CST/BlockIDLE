@@ -1,0 +1,50 @@
+package android.text.style;
+
+import android.text.TextPaint;
+import android.os.Parcel;
+import android.text.ParcelableSpan;
+
+public class ScaleXSpan extends MetricAffectingSpan implements ParcelableSpan
+{
+    public ScaleXSpan(final float proportion) {
+        throw new RuntimeException("Stub!");
+    }
+    
+    public ScaleXSpan(@NonNull final Parcel src) {
+        throw new RuntimeException("Stub!");
+    }
+    
+    @Override
+    public int getSpanTypeId() {
+        throw new RuntimeException("Stub!");
+    }
+    
+    @Override
+    public int describeContents() {
+        throw new RuntimeException("Stub!");
+    }
+    
+    @Override
+    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        throw new RuntimeException("Stub!");
+    }
+    
+    public float getScaleX() {
+        throw new RuntimeException("Stub!");
+    }
+    
+    @Override
+    public void updateDrawState(final TextPaint ds) {
+        throw new RuntimeException("Stub!");
+    }
+    
+    @Override
+    public void updateMeasureState(final TextPaint ds) {
+        throw new RuntimeException("Stub!");
+    }
+    
+    @Override
+    public String toString() {
+        throw new RuntimeException("Stub!");
+    }
+}
