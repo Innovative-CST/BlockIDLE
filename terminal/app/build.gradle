@@ -84,7 +84,7 @@ android {
 dependencies {
 	testImplementation "junit:junit:4.13.2"
 	testImplementation "org.robolectric:robolectric:4.10"
-	coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+	coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
 }
 
 clean {
@@ -96,7 +96,7 @@ clean {
 }
 
 def downloadBootstrap(String fileU, String fileName) {
-	def downloadUrl = "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2025.06.08-r1%2Bapt.android-7/${fileU}"
+	def downloadUrl = "https://github.com/Innovative-CST/termux-packages/releases/download/bootstrap-2026.01.27-r1%2Bapt.android-7/${fileU}"
 	def zipFile = file("src/main/assets/${fileName}")
 	if (!zipFile.exists()) {
 		println "Downloading ${zipFile.getAbsolutePath()}..."

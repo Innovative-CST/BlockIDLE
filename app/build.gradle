@@ -61,7 +61,7 @@ android {
 	}
 
 	compileOptions {
-        // Flag to enable support for the new language APIs
+		// Flag to enable support for the new language APIs
 		coreLibraryDesugaringEnabled true
 		sourceCompatibility JavaVersion.VERSION_17
 		targetCompatibility JavaVersion.VERSION_17
@@ -101,12 +101,12 @@ tasks.register("syncBeansJars", Copy) {
 }
 
 dependencies {
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
+	coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
 
 	implementation("junit:junit:4.13.2")
-    
+
 	implementation("com.google.truth:truth:1.4.2")
-    implementation("com.google.android.material:material:$material_design_version")
+	implementation("com.google.android.material:material:$material_design_version")
 	implementation("com.google.guava:guava:24.1-jre")
 	implementation("com.google.code.gson:gson:$gson_version")
 
@@ -121,7 +121,7 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
 	implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
 	annotationProcessor("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
-    
+
 	implementation project(":extension-core")
 
 	// Beans
