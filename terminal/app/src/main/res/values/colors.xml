@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="extra_keys_button_text_color">#000000</color>
+    <color name="extra_keys_button_background_color">#FFFFFF</color>
+    <color name="extra_keys_button_active_text_color">#EF5350</color>
+    <color name="extra_keys_button_active_background_color">#2E2E2E</color>
+
 </resources>

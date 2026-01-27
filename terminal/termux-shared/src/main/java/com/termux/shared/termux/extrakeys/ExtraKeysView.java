@@ -397,6 +397,7 @@ public final class ExtraKeysView extends GridLayout {
 				button.setTextColor(mButtonTextColor);
 				button.setAllCaps(mButtonTextAllCaps);
 				button.setPadding(0, 0, 0, 0);
+				button.setBackgroundColor(mButtonBackgroundColor);
 
 				button.setOnClickListener(view -> {
 					performExtraKeyButtonHapticFeedback(view, buttonInfo, button);
