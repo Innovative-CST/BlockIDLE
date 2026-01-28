@@ -72,6 +72,12 @@ android {
 		dataBinding true
 		buildConfig true
 	}
+
+	sourceSets {
+		main {
+			assets.srcDirs("src/main/assets", "$buildDir/generated/assets")
+		}
+	}
 }
 
 def beansModules = [
@@ -100,6 +106,18 @@ tasks.register("syncBeansJars", Copy) {
 	into(beansJarDir)
 }
 
+tasks.register("copyToolingServerJar", Copy) {
+	dependsOn(":tooling:impl:shadowJar")
+
+	from("$rootDir/tooling/impl/build/libs") {
+		include("tooling-server-all.jar")
+	}
+
+	into("$buildDir/generated/assets")
+}
+
+preBuild.dependsOn(copyToolingServerJar)
+
 dependencies {
 	coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
 
@@ -123,6 +141,10 @@ dependencies {
 	annotationProcessor("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
 
 	implementation project(":extension-core")
+
+	implementation project(":tooling:api")
+
+	implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.21.1")
 
 	// Beans
 	implementation project(":beans:basebeans")
