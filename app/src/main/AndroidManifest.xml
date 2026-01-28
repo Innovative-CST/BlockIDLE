@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name="com.icst.blockidle.application.MyApplication"
@@ -51,6 +52,11 @@
         <activity
             android:name=".activities.logic_editor.LogicEditorActivity"
             android:exported="true" />
+
+        <service
+            android:name=".service.ToolingService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <meta-data
             android:name="preloaded_fonts"

@@ -37,6 +37,7 @@ public class EnvironmentUtils {
 	public static File LIB_DIR;
 	public static File SHELL;
 	public static File LOGIN_SHELL;
+	public static File GRADLE_USER_HOME;
 	public static final Map<String, String> IDE_PROPS = new HashMap<>();
 	public static final List<String> blacklist = new ArrayList<>();
 	public static Map<String, String> ENV_VARS = new HashMap<>();
@@ -46,6 +47,7 @@ public class EnvironmentUtils {
 		PREFIX = new File(ROOT, "usr");
 		HOME = new File(ROOT, "home");
 		IDE_HOME = new File(HOME, ".blockidle");
+		GRADLE_USER_HOME = new File(HOME, ".gradle");
 		TMP_DIR = new File(PREFIX, "tmp");
 		BIN_DIR = new File(PREFIX, "bin");
 		LIB_DIR = new File(PREFIX, "lib");
