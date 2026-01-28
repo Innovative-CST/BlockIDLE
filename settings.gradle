@@ -71,6 +71,9 @@ include(":terminal:termux-shared")
 include(":terminal:terminal-emulator")
 include(":terminal:terminal-view")
 
+include(":tooling:api")
+include(":tooling:impl")
+
 // Plugin
 include(":app-plugin-api")
 include(":utilitiesplugin")

@@ -1,0 +1,67 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+	id "java"
+	id "application"
+	id "com.github.johnrengelman.shadow"
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_17
+	targetCompatibility = JavaVersion.VERSION_17
+	modularity.inferModulePath = false
+}
+
+application {
+	mainClass = "com.icst.blockidle.tooling.Main"
+}
+
+dependencies {
+	implementation project(":tooling:api")
+	implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.21.1")
+	implementation("com.google.code.gson:gson:${gson_version}")
+
+	// Logging (single backend, safe for fat-jar)
+	runtimeOnly("ch.qos.logback:logback-classic:1.4.11")
+}
+
+/**
+ * Shadow JAR (fat jar)
+ */
+shadowJar {
+	archiveBaseName.set("tooling-server")
+	archiveClassifier.set("all")
+	archiveVersion.set("")
+
+	manifest {
+		attributes(
+				"Main-Class": application.mainClass
+				)
+	}
+
+	// VERY important for LSP4J / ServiceLoader
+	mergeServiceFiles()
+}
+
+tasks.jar {
+	enabled = false
+}
+
+tasks.build {
+	dependsOn tasks.shadowJar
+}
