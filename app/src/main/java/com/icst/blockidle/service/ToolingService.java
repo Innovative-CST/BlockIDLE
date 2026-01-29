@@ -21,6 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.icst.blockidle.R;
+import com.icst.blockidle.tooling.IToolingServer;
 import com.icst.blockidle.tooling.ToolingProcess;
 
 import android.app.Notification;
@@ -44,12 +45,18 @@ public class ToolingService extends Service {
 
 	private static final String CHANNEL_ID = "tooling_server";
 	private static final int NOTIFICATION_ID = 1;
+	private static volatile boolean running = false;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		running = true;
 		createNotificationChannel();
 		executor = Executors.newCachedThreadPool();
+	}
+
+	public static boolean isRunning() {
+		return running;
 	}
 
 	@Override
@@ -64,10 +71,27 @@ public class ToolingService extends Service {
 		return START_STICKY;
 	}
 
+	public ExecutorService getExecutor() {
+		return executor;
+	}
+
+	public ToolingProcess getToolingProcess() {
+		return toolingProcess;
+	}
+
+	public IToolingServer getToolingApiServer() {
+		if (toolingProcess == null) {
+			Log.e("ToolingService", "toolingProcess is null, couldn't return ToolingApiServer");
+		}
+		return toolingProcess.getToolingApiServer();
+	}
+
 	@Override
 	public void onDestroy() {
+		running = false;
 		if (toolingProcess != null)
-			toolingProcess.stop();
+			toolingProcess.getToolingApiServer().shutdown();
+		toolingProcess.stop();
 		executor.shutdownNow();
 		super.onDestroy();
 	}

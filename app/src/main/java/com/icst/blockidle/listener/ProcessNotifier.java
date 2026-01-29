@@ -15,17 +15,8 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.tooling;
+package com.icst.blockidle.listener;
 
-import org.eclipse.lsp4j.jsonrpc.services.JsonNotification;
-
-public interface IToolingClient {
-	@JsonNotification
+public interface ProcessNotifier {
 	void onBuildProgress(String msg);
-
-	@JsonNotification
-	void log(String msg);
-
-	@JsonNotification
-	void gradleLog(String msg);
 }

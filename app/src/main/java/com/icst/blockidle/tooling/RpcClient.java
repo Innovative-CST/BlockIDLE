@@ -19,19 +19,16 @@ package com.icst.blockidle.tooling;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.function.Consumer;
 
 import org.eclipse.lsp4j.jsonrpc.Launcher;
 
 public class RpcClient {
 
 	private final IToolingServer server;
-	private final Consumer<String> notifier;
 
-	public RpcClient(InputStream in, OutputStream out, Consumer<String> notifier) {
-		this.notifier = notifier;
+	public RpcClient(InputStream in, OutputStream out, ToolingClientImpl toolingClientImpl) {
 		Launcher<IToolingServer> launcher = Launcher.createLauncher(
-				new ClientCallbacks(notifier),
+				toolingClientImpl,
 				IToolingServer.class,
 				in,
 				out);
@@ -40,25 +37,7 @@ public class RpcClient {
 		server = launcher.getRemoteProxy();
 	}
 
-	public void testCalls() {
-		server.greet("BlockIdle")
-				.thenAccept(notifier);
-
-		server.add(2, 3)
-				.thenAccept(sum -> notifier.accept("2 + 3 = " + sum));
-	}
-
-	public class ClientCallbacks implements IToolingClient {
-
-		private final Consumer<String> notifier;
-
-		public ClientCallbacks(Consumer<String> notifier) {
-			this.notifier = notifier;
-		}
-
-		@Override
-		public void log(String msg) {
-			notifier.accept("[Server]: " + msg);
-		}
+	public IToolingServer getToolingApiServer() {
+		return server;
 	}
 }

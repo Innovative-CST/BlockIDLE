@@ -19,6 +19,8 @@ package com.icst.blockidle.tooling;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.eclipse.lsp4j.jsonrpc.Launcher;
 
@@ -37,8 +39,19 @@ public class Main {
 				out);
 
 		IToolingClient client = launcher.getRemoteProxy();
+		client.log("Tooling server started and will run until shutdown is received");
 		server.connect(client);
 
-		launcher.startListening();
+		Future<Void> future = launcher.startListening();
+
+		try {
+			future.get();
+		} catch (InterruptedException e) {
+			client.log("Shutting down server, error has occurred and shutdown message is not received.");
+		} catch (ExecutionException e) {
+			client.log("Shutting down server, error has occurred and shutdown message is not received.");
+		} finally {
+			server.shutdown();
+		}
 	}
 }

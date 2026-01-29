@@ -17,10 +17,12 @@
 
 package com.icst.blockidle.tooling;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -28,12 +30,14 @@ import java.util.function.Consumer;
 import com.icst.blockidle.util.EnvironmentUtils;
 
 import android.content.Context;
+import android.util.Log;
 
 public class ToolingProcess {
 
 	private final Context context;
 	private Process process;
 	private Consumer<String> notifier;
+	private RpcClient rpcClient;
 
 	public ToolingProcess(Context context, Consumer<String> notifier) {
 		this.context = context;
@@ -70,16 +74,33 @@ public class ToolingProcess {
 
 			process = pb.start();
 
-			RpcClient client = new RpcClient(
+			new Thread(() -> {
+				try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
+					String line;
+					while ((line = reader.readLine()) != null) {
+						Log.d("ToolingServer-Log", line); // Visible in Logcat
+					}
+				} catch (IOException e) {
+					Log.e("ToolingProcess", "Error reading stderr", e);
+				}
+			}, "Server-Log-Thread").start();
+			ToolingClientImpl toolingClientImpl = ToolingClientImpl.getInstance();
+			toolingClientImpl.setNotifier(notifier);
+			rpcClient = new RpcClient(
 					process.getInputStream(),
 					process.getOutputStream(),
-					notifier);
-
-			client.testCalls();
+					toolingClientImpl);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public IToolingServer getToolingApiServer() {
+		if (process != null) {
+			return rpcClient.getToolingApiServer();
+		}
+		return null;
 	}
 
 	private File copyJarFromAssets() throws IOException {
@@ -108,5 +129,9 @@ public class ToolingProcess {
 	public void stop() {
 		if (process != null)
 			process.destroy();
+	}
+
+	public Process getProcess() {
+		return process;
 	}
 }

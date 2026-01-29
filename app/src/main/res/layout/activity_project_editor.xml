@@ -30,11 +30,26 @@
 
             </com.google.android.material.appbar.AppBarLayout>
 
-            <com.icst.blockidle.view.WorkspaceView
+            <LinearLayout
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:id="@+id/workspace" />
+                android:orientation="vertical"
+                android:weightSum="100">
 
+                <com.icst.blockidle.view.WorkspaceView
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="60"
+                    android:id="@+id/workspace" />
+
+                <com.icst.editor.widget.CodeEditorLayout
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="40"
+                    android:id="@+id/buildLogs" />
+
+
+            </LinearLayout>
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView

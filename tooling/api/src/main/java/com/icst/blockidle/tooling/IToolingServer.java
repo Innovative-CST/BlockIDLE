@@ -17,15 +17,17 @@
 
 package com.icst.blockidle.tooling;
 
-import java.util.concurrent.CompletableFuture;
+import org.eclipse.lsp4j.jsonrpc.services.JsonNotification;
 
-import org.eclipse.lsp4j.jsonrpc.services.JsonRequest;
+import com.icst.blockidle.bean.ProjectBean;
 
 public interface IToolingServer {
-	@JsonRequest
-	CompletableFuture<String> greet(String name);
+	@JsonNotification
+	void bindProject(ProjectBean project);
 
-	@JsonRequest
-	CompletableFuture<Integer> add(int a, int b);
+	@JsonNotification
+	void unbindProject();
 
+	@JsonNotification
+	void shutdown();
 }

@@ -31,12 +31,8 @@ import com.icst.blockidle.viewmodel.ProjectManagerViewModel;
 import com.termux.app.TermuxActivity;
 
 import android.annotation.SuppressLint;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -55,21 +51,6 @@ public class ProjectManagerActivity extends BaseActivity {
 	private ProjectListAdapter adapter;
 	private ProjectManagerViewModel mProjectManagerViewModel;
 	private InstallBuildToolsDialog dialog;
-	private ToolingService toolingService;
-	private boolean bound = false;
-	private ServiceConnection connection = new ServiceConnection() {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			ToolingService.ToolingBinder binder = (ToolingService.ToolingBinder) service;
-			toolingService = binder.getService();
-			bound = true;
-		}
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			bound = false;
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +69,6 @@ public class ProjectManagerActivity extends BaseActivity {
 
 		// Calling Methods
 		UI();
-
-		Intent intent = new Intent(this, ToolingService.class);
-		startForegroundService(intent);
-		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 	}
 
 	@SuppressLint("NotifyDataSetChanged")
@@ -129,6 +106,11 @@ public class ProjectManagerActivity extends BaseActivity {
 				&& bash.canExecute())) {
 			dialog = new InstallBuildToolsDialog(this);
 			dialog.create().show();
+		} else {
+			if (ToolingService.isRunning())
+				return;
+			Intent intent = new Intent(this, ToolingService.class);
+			startForegroundService(intent);
 		}
 	}
 

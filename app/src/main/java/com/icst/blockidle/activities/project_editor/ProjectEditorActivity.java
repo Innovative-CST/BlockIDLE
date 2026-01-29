@@ -24,15 +24,24 @@ import com.icst.blockidle.activities.project_editor.java_editor.JavaFileEditorPa
 import com.icst.blockidle.activities.project_editor.viewholder.FileTreeViewHolder;
 import com.icst.blockidle.databinding.ActivityProjectEditorBinding;
 import com.icst.blockidle.exception.IDLEFileAlreadyExistsException;
+import com.icst.blockidle.listener.ProcessNotifier;
+import com.icst.blockidle.service.ToolingService;
+import com.icst.blockidle.tooling.ToolingClientImpl;
 import com.icst.blockidle.util.IDLEFolder;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.util.ProjectFile;
+import com.icst.editor.widget.CodeEditorLayout;
 import com.unnamed.b.atv.model.TreeNode;
 import com.unnamed.b.atv.view.AndroidTreeView;
 import com.unnamed.b.atv.view.TreeNodeWrapperView;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -47,12 +56,30 @@ public class ProjectEditorActivity extends BaseActivity {
 	private IDLEFolder javaDir;
 	private IDLEFolder resDir;
 
+	private ProcessNotifier processNotifier;
+	private ToolingService toolingService;
+	private boolean bound = false;
+	private ServiceConnection connection = new ServiceConnection() {
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			ToolingService.ToolingBinder binder = (ToolingService.ToolingBinder) service;
+			toolingService = binder.getService();
+			bound = true;
+			ToolingClientImpl.getInstance().addProcessNotifier(processNotifier);
+			toolingService.getToolingApiServer().bindProject(projectFile.getProjectBean());
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			bound = false;
+		}
+	};
+
 	@Override
 	@SuppressWarnings("deprecation")
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		EdgeToEdge.enable(this);
-
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
 			projectFile = getIntent().getParcelableExtra("projectFile", ProjectFile.class);
 		} else {
@@ -67,6 +94,20 @@ public class ProjectEditorActivity extends BaseActivity {
 
 		binding = ActivityProjectEditorBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
+
+		processNotifier = new ProcessNotifier() {
+			@Override
+			public void onBuildProgress(String msg) {
+				runOnUiThread(() -> {
+					CodeEditorLayout editor = binding.buildLogs;
+					editor.insertText(msg, 0);
+					editor.insertText("\n", 0);
+					editor.jumpToLine(editor.getLineCount() - 1);
+				});
+			}
+		};
+		Intent intent = new Intent(this, ToolingService.class);
+		bindService(intent, connection, Context.BIND_AUTO_CREATE);
 
 		binding.toolbar.setTitle(projectFile.getProjectBean().getProjectName());
 		binding.toolbar.setSubtitle(projectFile.getProjectBean().getProjectPackageName());
@@ -93,6 +134,11 @@ public class ProjectEditorActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		binding = null;
+		if (toolingService == null)
+			return;
+		if (toolingService.getToolingApiServer() == null)
+			return;
+		toolingService.getToolingApiServer().unbindProject();
 	}
 
 	@Override

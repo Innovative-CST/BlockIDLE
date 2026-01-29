@@ -17,31 +17,58 @@
 
 package com.icst.blockidle.tooling;
 
-import java.util.concurrent.CompletableFuture;
+import com.icst.blockidle.bean.ProjectBean;
 
 public class ToolingServerImpl implements IToolingServer {
-
-	@Override
-	public CompletableFuture<String> greet(String name) {
-		return CompletableFuture.supplyAsync(() -> {
-			log("Greeting " + name);
-			return "Hello, " + name + " 👋";
-		});
-	}
-
-	@Override
-	public CompletableFuture<Integer> add(int a, int b) {
-		return CompletableFuture.supplyAsync(() -> {
-			log("Adding " + a + " + " + b);
-			return a + b;
-		});
-	}
+	private boolean isProjectBound = false;
 
 	private IToolingClient client;
+	private ProjectBean project;
 
 	public void connect(IToolingClient client) {
 		this.client = client;
-		log("Server connected");
+		log("Server connected with tooling client, waiting for project to be bound");
+	}
+
+	@Override
+	public void bindProject(ProjectBean project) {
+		if (project == null) {
+			log("Tooling server cannot be bounded to null project.");
+		}
+
+		if (isProjectBound) {
+			StringBuilder log = new StringBuilder();
+			log.append("Cannot bound tooling server to ");
+			log.append(project.getProjectName());
+			log.append(", server is already bounded to ");
+			log.append(project.getProjectName());
+			log(log.toString());
+			return;
+		}
+		this.project = project;
+		isProjectBound = true;
+		log("Tooling server is bounded to " + project.getProjectName());
+	}
+
+	@Override
+	public void unbindProject() {
+		log("Server is unbinding with project " + project.getProjectName() + "...");
+		project = null;
+		isProjectBound = false;
+		log("Server waiting for project to be bound...");
+	}
+
+	@Override
+	public void shutdown() {
+		log("Shutting down server...");
+
+		project = null;
+		isProjectBound = false;
+	}
+
+	private void gradleLog(String msg) {
+		if (client != null)
+			client.gradleLog(msg);
 	}
 
 	private void log(String msg) {
