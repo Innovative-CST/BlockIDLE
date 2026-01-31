@@ -24,6 +24,8 @@ import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
 import com.icst.blockidle.databinding.ViewHolderFileTreeBinding;
 import com.icst.blockidle.util.IDLEFile;
 import com.icst.blockidle.util.IDLEFolder;
+import com.icst.blockidle.util.IDLEGradleFile;
+import com.icst.blockidle.util.IDLEGradleModule;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.unnamed.b.atv.model.TreeNode;
 
@@ -49,13 +51,21 @@ public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<IDLEFile> {
 
 		binding.expandCollapse.setVisibility(
 				value instanceof IDLEFolder ? View.VISIBLE : View.GONE);
+		binding.smallIcon.setVisibility(View.GONE);
 
 		binding.path.setText(value.getFileName());
-
 		applyPadding(node, 16);
 
-		if (value instanceof IDLEFolder) {
+		if (value instanceof IDLEGradleModule) {
 			binding.icon.setImageResource(R.drawable.folder_outline);
+			binding.smallIcon.setImageResource(R.drawable.ic_gradle);
+			binding.smallIcon.setVisibility(View.VISIBLE);
+			updateExpandCollapseIcon(node.isExpanded());
+		} else if (value instanceof IDLEFolder) {
+			binding.icon.setImageResource(R.drawable.folder_outline);
+			updateExpandCollapseIcon(node.isExpanded());
+		} else if (value instanceof IDLEGradleFile) {
+			binding.icon.setImageResource(R.drawable.ic_gradle);
 			updateExpandCollapseIcon(node.isExpanded());
 		} else if (value instanceof IDLEJavaFile) {
 			binding.icon.setImageResource(R.drawable.ic_java);

@@ -86,7 +86,8 @@ def beansModules = [
 	":beans:layoutbeans",
 	":beans:javabeans",
 	":beans:projectbeans",
-	":beans:xmlbeans"
+	":beans:xmlbeans",
+	":beans:gradlebeans"
 ]
 
 def beansJarDir = layout.buildDirectory.dir("libs")
@@ -153,6 +154,7 @@ dependencies {
 	implementation project(":beans:javabeans")
 	implementation project(":beans:projectbeans")
 	implementation project(":beans:xmlbeans")
+	implementation project(":beans:gradlebeans")
 	implementation fileTree(dir: beansJarDir, include: ["*.jar"])
 
 	implementation project(":app-plugin-api")

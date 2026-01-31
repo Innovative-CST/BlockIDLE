@@ -21,10 +21,13 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.icst.blockidle.bean.IDLEGradleModuleBean;
 import com.icst.blockidle.bean.ProjectBean;
 import com.icst.blockidle.exception.ProjectUpdateException;
 import com.icst.blockidle.listener.DeserializationListener;
 import com.icst.blockidle.listener.SerializationListener;
+import com.icst.blockidle.util.IDLEFolder;
+import com.icst.blockidle.util.IDLEGradleModule;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.ProjectFile;
 import com.icst.blockidle.util.SerializationUtils;
@@ -107,6 +110,11 @@ public class ProjectRepository {
 					public void onSerializationFailed(Exception exception) {
 					}
 				});
+		File projectRootDir = new File(newProjectDir, IDLEFolder.CONTENTS);
+		File appModuleDir = new File(projectRootDir, "app");
+		IDLEGradleModuleBean appModuleBean = new IDLEGradleModuleBean("app");
+		IDLEGradleModule appModule = new IDLEGradleModule(appModuleDir, appModuleBean);
+		appModule.makeDir();
 
 		ProjectFile projectFile = new ProjectFile(newProjectDir, project);
 		mProjects.add(projectFile);

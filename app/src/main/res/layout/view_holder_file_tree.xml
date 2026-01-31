@@ -16,14 +16,14 @@
         android:orientation="horizontal">
 
         <ViewFlipper
-            android:layout_height="25dp"
-            android:layout_width="25dp"
+            android:layout_height="24dp"
+            android:layout_width="24dp"
             android:layout_marginRight="8dp"
             android:id="@+id/viewFlipper">
 
             <ImageView
-                android:layout_height="25dp"
-                android:layout_width="25dp"
+                android:layout_height="24dp"
+                android:layout_width="24dp"
                 android:visibility="gone"
                 android:scaleType="fitEnd"
                 android:layout_marginEnd="8dp"
@@ -39,15 +39,30 @@
 
         </ViewFlipper>
 
-        <ImageView
-            android:layout_height="25dp"
-            android:layout_width="25dp"
-            android:scaleType="fitCenter"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/folder_outline"
-            android:id="@+id/icon"
-            app:tint="?attr/colorOnSurface" />
-
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp">
+        
+            <ImageView
+                android:layout_height="25dp"
+                android:layout_width="25dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/folder_outline"
+                android:id="@+id/icon"
+                app:tint="?attr/colorOnSurface" />
+            <!-- Small icon (overlay) -->
+            <ImageView
+                android:id="@+id/smallIcon"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/folder_outline"
+                android:layout_gravity="bottom|end"
+                android:visibility="gone"
+                app:tint="?attr/colorPrimary" />
+        </FrameLayout>
+        
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="0dp"

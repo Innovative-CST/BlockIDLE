@@ -53,6 +53,7 @@ include(":beans:layoutbeans")
 include(":beans:javabeans")
 include(":beans:projectbeans")
 include(":beans:xmlbeans")
+include(":beans:gradlebeans")
 
 // Logic Editor
 include(":logiceditor")

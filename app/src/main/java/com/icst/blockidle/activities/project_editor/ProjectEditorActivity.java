@@ -17,17 +17,21 @@
 
 package com.icst.blockidle.activities.project_editor;
 
+import java.io.File;
+
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.project_editor.dialog.NewJavaClassDialog;
 import com.icst.blockidle.activities.project_editor.java_editor.JavaFileEditorPane;
 import com.icst.blockidle.activities.project_editor.viewholder.FileTreeViewHolder;
+import com.icst.blockidle.bean.IDLEGradleModuleBean;
 import com.icst.blockidle.databinding.ActivityProjectEditorBinding;
 import com.icst.blockidle.exception.IDLEFileAlreadyExistsException;
 import com.icst.blockidle.listener.ProcessNotifier;
 import com.icst.blockidle.service.ToolingService;
 import com.icst.blockidle.tooling.ToolingClientImpl;
 import com.icst.blockidle.util.IDLEFolder;
+import com.icst.blockidle.util.IDLEGradleModule;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.util.ProjectFile;
 import com.icst.editor.widget.CodeEditorLayout;
@@ -52,6 +56,7 @@ public class ProjectEditorActivity extends BaseActivity {
 	private ActivityProjectEditorBinding binding;
 	private ProjectFile projectFile;
 	private IDLEFolder rootFolder;
+	private IDLEGradleModule appModule;
 	private IDLEFolder sourceDir;
 	private IDLEFolder javaDir;
 	private IDLEFolder resDir;
@@ -88,9 +93,16 @@ public class ProjectEditorActivity extends BaseActivity {
 
 		// Create project structure folders and store their reference for creating files in them.
 		rootFolder = IDLEFolder.getProjectIDLEFolder(projectFile);
+		appModule = createOrExistsIDLEAppModule();
 		sourceDir = createOrExistsIDLESourceDir();
 		javaDir = createOrExistsIDLEJavaDir();
 		resDir = createOrExistsIDLEResDir();
+
+		try {
+			appModule.createGradleFile("build.gradle");
+		} catch (IDLEFileAlreadyExistsException e) {
+			// Ignore if already exists
+		}
 
 		binding = ActivityProjectEditorBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
@@ -160,36 +172,39 @@ public class ProjectEditorActivity extends BaseActivity {
 		binding.workspace.openPane(pane);
 	}
 
-	private IDLEFolder createOrExistsIDLESourceDir() {
-		if (!new IDLEFolder(rootFolder, "src").exists()) {
-			try {
-				return rootFolder.createFolder("src");
-			} catch (IDLEFileAlreadyExistsException e) {
-				// Already handled...
-			}
+	private IDLEGradleModule createOrExistsIDLEAppModule() {
+		File projectRootDir = new File(projectFile.getFile(), IDLEFolder.CONTENTS);
+		File appModuleDir = new File(projectRootDir, "app");
+		IDLEGradleModuleBean appModuleBean = new IDLEGradleModuleBean("app");
+		IDLEGradleModule appModule = new IDLEGradleModule(appModuleDir, appModuleBean);
+		appModule.makeDir();
+		if (!appModule.exists()) {
+			appModule.makeDir();
 		}
-		return new IDLEFolder(rootFolder, "src");
+		return appModule;
+	}
+
+	private IDLEFolder createOrExistsIDLESourceDir() {
+		IDLEFolder mIDLEFolder = new IDLEFolder(appModule, "src");
+		if (!mIDLEFolder.exists()) {
+			mIDLEFolder.makeDir();
+		}
+		return mIDLEFolder;
 	}
 
 	private IDLEFolder createOrExistsIDLEJavaDir() {
-		if (!new IDLEFolder(sourceDir, "java").exists()) {
-			try {
-				return sourceDir.createFolder("java");
-			} catch (IDLEFileAlreadyExistsException e) {
-				// Already handled...
-			}
+		IDLEFolder mIDLEFolder = new IDLEFolder(sourceDir, "java");
+		if (!mIDLEFolder.exists()) {
+			mIDLEFolder.makeDir();
 		}
-		return new IDLEFolder(sourceDir, "java");
+		return mIDLEFolder;
 	}
 
 	private IDLEFolder createOrExistsIDLEResDir() {
-		if (!new IDLEFolder(sourceDir, "res").exists()) {
-			try {
-				return sourceDir.createFolder("res");
-			} catch (IDLEFileAlreadyExistsException e) {
-				// Already handled...
-			}
+		IDLEFolder mIDLEFolder = new IDLEFolder(sourceDir, "res");
+		if (!mIDLEFolder.exists()) {
+			mIDLEFolder.makeDir();
 		}
-		return new IDLEFolder(rootFolder, "res");
+		return mIDLEFolder;
 	}
 }

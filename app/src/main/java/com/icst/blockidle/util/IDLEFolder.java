@@ -23,6 +23,8 @@ import java.util.List;
 
 import com.icst.blockidle.bean.IDLEFileBean;
 import com.icst.blockidle.bean.IDLEFolderBean;
+import com.icst.blockidle.bean.IDLEGradleFileBean;
+import com.icst.blockidle.bean.IDLEGradleModuleBean;
 import com.icst.blockidle.bean.IDLEJavaFileBean;
 import com.icst.blockidle.exception.IDLEFileAlreadyExistsException;
 import com.icst.blockidle.listener.SerializationListener;
@@ -48,9 +50,9 @@ import com.icst.blockidle.listener.SerializationListener;
 public class IDLEFolder extends IDLEFile {
 
 	// Contanst for contents of folder
-	private static final String CONTENTS = "data";
-	private static final String IDLEFOLDER = "IDLEFolder";
-	private static final String IDLEFILE = "IDLEFile";
+	public static final String CONTENTS = "data";
+	public static final String IDLEFOLDER = "IDLEFolder";
+	public static final String IDLEFILE = "IDLEFile";
 
 	private IDLEFileBean fileBean;
 
@@ -64,10 +66,14 @@ public class IDLEFolder extends IDLEFile {
 	 */
 	public IDLEFolder(File file) {
 		super(file);
-		fileBean = SerializationUtils.deserialize(new File(file, IDLEFILE), IDLEFolderBean.class);
+		fileBean = SerializationUtils.deserialize(new File(file, IDLEFOLDER), IDLEFolderBean.class);
 		if (fileBean == null) {
 			fileBean = new IDLEFolderBean(file.getName());
 		}
+	}
+
+	protected void setFileBean(IDLEFolderBean fileBean) {
+		this.fileBean = fileBean;
 	}
 
 	/**
@@ -126,34 +132,38 @@ public class IDLEFolder extends IDLEFile {
 				continue;
 			}
 
+			File beanFile = null;
 			if (new File(file, IDLEFOLDER).exists()) {
-				File idleFolderFile = new File(file, IDLEFOLDER);
-				IDLEFolderBean idleFolderBean = SerializationUtils.deserialize(idleFolderFile, IDLEFolderBean.class);
-
-				// Deserialisation failed
-				if (idleFolderBean == null) {
-					continue;
-				}
-
-				filesList.add(new IDLEFolder(file));
-
+				beanFile = new File(file, IDLEFOLDER);
 			} else if (new File(file, IDLEFILE).exists()) {
-				File idleFile = new File(file, IDLEFILE);
-				IDLEFileBean idleFileBean = SerializationUtils.deserialize(idleFile, IDLEFileBean.class);
-
-				// Deserialisation failed
-				if (idleFileBean == null) {
-					continue;
-				}
-
-				// Warning: DO NOT USE `instanceof` because is type-casted using generics so `instanceof` will not work on it.
-				if (idleFileBean.getFileType().equals(IDLEJavaFileBean.FILE_TYPE)) {
-					filesList.add(new IDLEJavaFile(file));
-					continue;
-				}
-
-				filesList.add(new IDLEFile(file));
+				beanFile = new File(file, IDLEFILE);
 			}
+			if (beanFile == null)
+				continue;
+			IDLEFileBean idleFileBean = SerializationUtils.deserialize(beanFile, IDLEFileBean.class);
+
+			// Deserialisation failed
+			if (idleFileBean == null) {
+				continue;
+			}
+
+			// Warning: DO NOT USE `instanceof` because is type-casted using generics so `instanceof` will not work on it.
+			if (idleFileBean.getFileType().equals(IDLEJavaFileBean.FILE_TYPE)) {
+				filesList.add(new IDLEJavaFile(file));
+				continue;
+			}
+			if (idleFileBean.getFileType().equals(IDLEGradleFileBean.FILE_TYPE)) {
+				filesList.add(new IDLEGradleFile(file));
+				continue;
+			} else if (idleFileBean.getFileType().equals(IDLEGradleModuleBean.FILE_TYPE)) {
+				filesList.add(new IDLEGradleModule(file));
+				continue;
+			} else if (idleFileBean.getFileType().equals(IDLEFolderBean.FILE_TYPE)) {
+				filesList.add(new IDLEFolder(file));
+				continue;
+			} else
+				filesList.add(new IDLEFile(file));
+
 		}
 
 		return filesList;
@@ -205,6 +215,38 @@ public class IDLEFolder extends IDLEFile {
 		}
 
 		IDLEFileBean fileBean = new IDLEJavaFileBean(className);
+
+		SerializationUtils.serialize(
+				fileBean,
+				idleFileBeanFile,
+				new SerializationListener() {
+
+					@Override
+					public void onSerializationSucess() {
+					}
+
+					@Override
+					public void onSerializationFailed(Exception exception) {
+					}
+				});
+		return new IDLEJavaFile(folderRoot);
+	}
+
+	public IDLEJavaFile createGradleFile(String fileName) throws IDLEFileAlreadyExistsException {
+		File contents = new File(file, CONTENTS);
+		File folderRoot = new File(contents, fileName);
+
+		if (!folderRoot.exists()) {
+			folderRoot.mkdirs();
+		}
+
+		File idleFileBeanFile = new File(folderRoot, IDLEFILE);
+
+		if (idleFileBeanFile.exists() || new File(folderRoot, IDLEFOLDER).exists()) {
+			throw new IDLEFileAlreadyExistsException();
+		}
+
+		IDLEFileBean fileBean = new IDLEGradleFileBean(fileName);
 
 		SerializationUtils.serialize(
 				fileBean,
