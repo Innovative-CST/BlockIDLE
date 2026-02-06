@@ -65,7 +65,10 @@ public class NewJavaClassDialogViewModel extends ViewModel {
 			}
 		}
 		try {
-			destinationFolder.createJavaFile(javaClassName.getValue());
+			String fileName = javaClassName.getValue().concat(".java");
+			String className = javaClassName.getValue();
+			String classPackageName = packageName.getValue();
+			destinationFolder.createJavaFile(fileName, className, classPackageName);
 		} catch (IDLEFileAlreadyExistsException e) {
 			Toast.makeText(projectEditorActivity, "IDLEFileAlreadyExistsException occurred", Toast.LENGTH_SHORT).show();
 		}

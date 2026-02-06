@@ -38,12 +38,32 @@ public class IDLEJavaFileBean extends IDLEFileBean implements Serializable {
 	public static final String JAVA_INTERFACE = "JavaInterface";
 
 	/**
+	 * The simple name of the Java type defined in this file.
+	 * <p>
+	 * For example, for a file defining {@code public class MainActivity},
+	 * this value would be {@code "MainActivity"}.
+	 */
+	private String className;
+
+	/**
+	 * The package name in which this Java file belongs.
+	 * <p>
+	 * This should follow standard Java package naming conventions
+	 * (e.g., {@code "com.icst.blockidle.ui"}).
+	 */
+	private String packageName;
+
+	/**
 	 * Constructs a new {@code IDLEJavaFileBean} with the given file name.
 	 *
-	 * @param name the name of the Java file
+	 * @param fileName the name of the Java file
+	 * @param className the class name of the Java file
+	 * @param packageName the package name of the Java file
 	 */
-	public IDLEJavaFileBean(String name) {
-		super(name);
+	public IDLEJavaFileBean(String fileName, String className, String packageName) {
+		super(fileName);
+		this.className = className;
+		this.packageName = packageName;
 	}
 
 	/**

@@ -196,11 +196,14 @@ public class IDLEFolder extends IDLEFile {
 	 * Creates a new Java source file under this folder with the given class name.
 	 * Folders and metadata are created accordingly.
 	 *
-	 * @param className The name of the Java class (also used as folder name)
+	 * @param fileName The name of the Java file (also used as folder name)
+	 * @param className The name of the Java class
+	 * @param packageName The name of the Java class package
 	 * @return An {@code IDLEJavaFile} representing the new Java file
 	 * @throws IDLEFileAlreadyExistsException if a file or folder with the same name already exists
 	 */
-	public IDLEJavaFile createJavaFile(String className) throws IDLEFileAlreadyExistsException {
+	public IDLEJavaFile createJavaFile(String fileName, String className, String packageName)
+			throws IDLEFileAlreadyExistsException {
 		File contents = new File(file, CONTENTS);
 		File folderRoot = new File(contents, className);
 
@@ -214,7 +217,7 @@ public class IDLEFolder extends IDLEFile {
 			throw new IDLEFileAlreadyExistsException();
 		}
 
-		IDLEFileBean fileBean = new IDLEJavaFileBean(className);
+		IDLEFileBean fileBean = new IDLEJavaFileBean(fileName, className, packageName);
 
 		SerializationUtils.serialize(
 				fileBean,
