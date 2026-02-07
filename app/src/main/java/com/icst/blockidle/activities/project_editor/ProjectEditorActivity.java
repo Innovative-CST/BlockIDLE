@@ -33,6 +33,7 @@ import com.icst.blockidle.tooling.ToolingClientImpl;
 import com.icst.blockidle.util.IDLEFolder;
 import com.icst.blockidle.util.IDLEGradleModule;
 import com.icst.blockidle.util.IDLEJavaFile;
+import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.ProjectFile;
 import com.icst.editor.widget.CodeEditorLayout;
 import com.unnamed.b.atv.model.TreeNode;
@@ -173,7 +174,7 @@ public class ProjectEditorActivity extends BaseActivity {
 	}
 
 	private IDLEGradleModule createOrExistsIDLEAppModule() {
-		File projectRootDir = new File(projectFile.getFile(), IDLEFolder.CONTENTS);
+		File projectRootDir = new File(projectFile.getFile(), ProjectEnvironment.IDLEFOLDER_CONTENTS);
 		File appModuleDir = new File(projectRootDir, "app");
 		IDLEGradleModuleBean appModuleBean = new IDLEGradleModuleBean("app");
 		IDLEGradleModule appModule = new IDLEGradleModule(appModuleDir, appModuleBean);

@@ -24,9 +24,6 @@ import com.icst.blockidle.bean.IDLEFolderBean;
 
 public class IDLEFile {
 
-	private static final String IDLEFOLDER = "IDLEFolder";
-	private static final String IDLEFILE = "IDLEFile";
-
 	protected File file;
 
 	public IDLEFile(File file) {
@@ -42,8 +39,8 @@ public class IDLEFile {
 			return false;
 		}
 
-		File idleFolderFile = new File(file, IDLEFOLDER);
-		File idleFile = new File(file, IDLEFILE);
+		File idleFolderFile = new File(file, ProjectEnvironment.IDLEFOLDER);
+		File idleFile = new File(file, ProjectEnvironment.IDLEFILE);
 
 		if (idleFolderFile.exists()) {
 			IDLEFolderBean fileBean = SerializationUtils.deserialize(idleFolderFile, IDLEFolderBean.class);

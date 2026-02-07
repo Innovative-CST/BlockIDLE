@@ -17,6 +17,10 @@
 
 package com.icst.blockidle.util;
 
+import static com.icst.blockidle.util.ProjectEnvironment.IDLEFILE;
+import static com.icst.blockidle.util.ProjectEnvironment.IDLEFOLDER;
+import static com.icst.blockidle.util.ProjectEnvironment.IDLEFOLDER_CONTENTS;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,11 +52,6 @@ import com.icst.blockidle.listener.SerializationListener;
  * the Block IDLE environment.
  */
 public class IDLEFolder extends IDLEFile {
-
-	// Contanst for contents of folder
-	public static final String CONTENTS = "data";
-	public static final String IDLEFOLDER = "IDLEFolder";
-	public static final String IDLEFILE = "IDLEFile";
 
 	private IDLEFileBean fileBean;
 
@@ -95,7 +94,7 @@ public class IDLEFolder extends IDLEFile {
 	 * @param subFolder The name of the subfolder
 	 */
 	public IDLEFolder(IDLEFolder folder, String subFolder) {
-		super(new File(new File(folder.file, CONTENTS), subFolder));
+		super(new File(new File(folder.file, IDLEFOLDER_CONTENTS), subFolder));
 		fileBean = SerializationUtils.deserialize(new File(file, IDLEFILE), IDLEFolderBean.class);
 		if (fileBean == null) {
 			fileBean = new IDLEFolderBean(file.getName());
@@ -119,7 +118,7 @@ public class IDLEFolder extends IDLEFile {
 	 * @return A list of {@code IDLEFile} objects representing child elements for IDLEFolder
 	 */
 	public List<IDLEFile> getFiles() {
-		File contents = new File(file, CONTENTS);
+		File contents = new File(file, IDLEFOLDER_CONTENTS);
 		if (!contents.exists()) {
 			return new ArrayList<IDLEFile>();
 		}
@@ -171,11 +170,11 @@ public class IDLEFolder extends IDLEFile {
 
 	/**
 	 * Creates the physical directory structure on disk for this IDLEFolder,
-	 * including the {@code CONTENTS} subdirectory and the serialized metadata file.
+	 * including the {@code IDLEFOLDER_CONTENTS} subdirectory and the serialized metadata file.
 	 */
 	public void makeDir() {
 		File idleFolderFile = new File(file, IDLEFOLDER);
-		File contents = new File(file, CONTENTS);
+		File contents = new File(file, IDLEFOLDER_CONTENTS);
 		contents.mkdirs();
 		SerializationUtils.serialize(
 				fileBean,
@@ -204,7 +203,7 @@ public class IDLEFolder extends IDLEFile {
 	 */
 	public IDLEJavaFile createJavaFile(String fileName, String className, String packageName)
 			throws IDLEFileAlreadyExistsException {
-		File contents = new File(file, CONTENTS);
+		File contents = new File(file, IDLEFOLDER_CONTENTS);
 		File folderRoot = new File(contents, className);
 
 		if (!folderRoot.exists()) {
@@ -236,7 +235,7 @@ public class IDLEFolder extends IDLEFile {
 	}
 
 	public IDLEJavaFile createGradleFile(String fileName) throws IDLEFileAlreadyExistsException {
-		File contents = new File(file, CONTENTS);
+		File contents = new File(file, IDLEFOLDER_CONTENTS);
 		File folderRoot = new File(contents, fileName);
 
 		if (!folderRoot.exists()) {
@@ -275,7 +274,7 @@ public class IDLEFolder extends IDLEFile {
 	 * @throws IDLEFileAlreadyExistsException if a file or folder with the same name already exists
 	 */
 	public IDLEFolder createFolder(String name) throws IDLEFileAlreadyExistsException {
-		File contents = new File(file, CONTENTS);
+		File contents = new File(file, IDLEFOLDER_CONTENTS);
 		File folderRoot = new File(contents, name);
 
 		if (!folderRoot.exists()) {

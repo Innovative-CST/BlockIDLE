@@ -26,7 +26,6 @@ import com.icst.blockidle.bean.ProjectBean;
 import com.icst.blockidle.exception.ProjectUpdateException;
 import com.icst.blockidle.listener.DeserializationListener;
 import com.icst.blockidle.listener.SerializationListener;
-import com.icst.blockidle.util.IDLEFolder;
 import com.icst.blockidle.util.IDLEGradleModule;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.ProjectFile;
@@ -110,7 +109,7 @@ public class ProjectRepository {
 					public void onSerializationFailed(Exception exception) {
 					}
 				});
-		File projectRootDir = new File(newProjectDir, IDLEFolder.CONTENTS);
+		File projectRootDir = new File(newProjectDir, ProjectEnvironment.IDLEFOLDER_CONTENTS);
 		File appModuleDir = new File(projectRootDir, "app");
 		IDLEGradleModuleBean appModuleBean = new IDLEGradleModuleBean("app");
 		IDLEGradleModule appModule = new IDLEGradleModule(appModuleDir, appModuleBean);

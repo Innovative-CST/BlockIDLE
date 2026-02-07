@@ -28,7 +28,7 @@ public class IDLEGradleModule extends IDLEFolder implements Parcelable {
 
 	public IDLEGradleModule(File file) {
 		super(file);
-		IDLEGradleModuleBean fileBean = SerializationUtils.deserialize(new File(file, IDLEFOLDER),
+		IDLEGradleModuleBean fileBean = SerializationUtils.deserialize(new File(file, ProjectEnvironment.IDLEFOLDER),
 				IDLEGradleModuleBean.class);
 		if (fileBean == null) {
 			fileBean = new IDLEGradleModuleBean(file.getName());

@@ -28,6 +28,11 @@ public class ProjectEnvironment {
 	public static final String INSTANCE_VARIABLE_FILE = "InstanceVariable";
 	public static final String STATIC_VARIABLE_FILE = "StaticVariable";
 
+	// Contanst for contents of folder
+	public static final String IDLEFOLDER_CONTENTS = "data";
+	public static final String IDLEFOLDER = "IDLEFolder";
+	public static final String IDLEFILE = "IDLEFile";
+
 	public static File projectDirectory;
 	public static File extensionsDirectory;
 
