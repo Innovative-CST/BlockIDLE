@@ -50,7 +50,7 @@ public abstract class BaseVariableManagerFragment extends Fragment {
 		getVariableRecyclerView().setLayoutManager(new LinearLayoutManager(parent.getContext()));
 		getVariableRecyclerView().setAdapter(adapter);
 		getNewVariableActionButton().setOnClickListener(v -> {
-			new VariableConfigurationDialog(this);
+			new VariableConfigurationDialog(this, null, true, getVariableRepo());
 		});
 	}
 

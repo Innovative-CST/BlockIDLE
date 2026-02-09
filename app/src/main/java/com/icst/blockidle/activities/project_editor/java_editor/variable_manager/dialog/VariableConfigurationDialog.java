@@ -18,29 +18,51 @@
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.BaseVariableManagerFragment;
 import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.DialogVariableConfigurationBinding;
+import com.icst.blockidle.repository.VariableRepository;
 import com.icst.blockidle.viewmodel.VariableConfigDialogViewModel;
 
 import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 public class VariableConfigurationDialog extends MaterialAlertDialogBuilder {
 
 	private DialogVariableConfigurationBinding binding;
 	private VariableConfigDialogViewModel viewModel;
 	private AlertDialog alertDialog;
+	public String initialVariableName;
 
-	public VariableConfigurationDialog(Fragment fragment) {
+	public VariableConfigurationDialog(BaseVariableManagerFragment fragment, VariableBean variableBean, boolean isNew,
+			VariableRepository.REPO repo) {
 		super(fragment.getContext());
 
 		LayoutInflater inflator = LayoutInflater.from(fragment.getContext());
 		binding = DialogVariableConfigurationBinding.inflate(inflator);
-
+		initialVariableName = isNew ? null : variableBean.getProcessedVariableName();
 		viewModel = new VariableConfigDialogViewModel();
-		viewModel.setVariableBean(new VariableBean());
+		viewModel.setOnVariableConfigChangeListener(new VariableConfigDialogViewModel.OnVariableConfigChangeListener() {
+			@Override
+			public void onConfigurationSave(VariableBean variableBean) {
+				if (variableBean != null) {
+					if (isNew) {
+						fragment.getVariableRepository().createVariable(variableBean, repo);
+					} else {
+						fragment.getVariableRepository().updateVariable(variableBean, initialVariableName, repo);
+					}
+				}
+			}
+		});
+		if (isNew) {
+			VariableBean newVariableBean = new VariableBean();
+			newVariableBean.setAccessModifier(VariableBean.ACCESS_MODIFIER_PUBLIC);
+			newVariableBean.setIsStaticVariable(repo == VariableRepository.REPO.STATIC_VARIABLE);
+			viewModel.setVariableBean(newVariableBean);
+		} else {
+			viewModel.setVariableBean(variableBean);
+		}
 
 		binding.setViewModel(viewModel);
 		setView(binding.getRoot());

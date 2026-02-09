@@ -69,7 +69,7 @@ public class VariableRepository {
 	}
 
 	public boolean canCreateVariable(String name) {
-		return !variables.stream().map(VariableBean::getVariableName).anyMatch(name::equals);
+		return !variables.stream().map(VariableBean::getProcessedVariableName).anyMatch(name::equals);
 	}
 
 	public boolean createVariable(VariableBean variable, REPO repo) {

@@ -26,6 +26,15 @@ public class VariableConfigDialogViewModel extends ViewModel {
 
 	private VariableBean variableBean;
 	private AlertDialog alertDialog;
+	private OnVariableConfigChangeListener listener;
+
+	public interface OnVariableConfigChangeListener {
+		void onConfigurationSave(VariableBean variableBean);
+	}
+
+	public void setOnVariableConfigChangeListener(OnVariableConfigChangeListener listener) {
+		this.listener = listener;
+	}
 
 	public VariableBean getVariableBean() {
 		return this.variableBean;
@@ -46,7 +55,7 @@ public class VariableConfigDialogViewModel extends ViewModel {
 	}
 
 	public void setVariableName(String name) {
-		variableBean.setNonFixedVariableName(name);
+		variableBean.setVariableName(name);
 	}
 
 	public AlertDialog getAlertDialog() {
@@ -55,6 +64,11 @@ public class VariableConfigDialogViewModel extends ViewModel {
 
 	public void setAlertDialog(AlertDialog alertDialog) {
 		this.alertDialog = alertDialog;
+	}
+
+	public void save() {
+		listener.onConfigurationSave(variableBean);
+		alertDialog.dismiss();
 	}
 
 	public void cancel() {
