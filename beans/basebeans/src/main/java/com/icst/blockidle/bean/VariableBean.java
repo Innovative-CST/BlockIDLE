@@ -455,6 +455,16 @@ public class VariableBean implements CloneableBean<VariableBean>, Serializable {
 	}
 
 	/**
+	 * @return the final variable name.
+	 */
+	public String getProcessedVariableName() {
+		if (getNonFixedVariableName() == null) {
+			return variableName;
+		}
+		return getNonFixedVariableName().replace(CodeFormatterUtils.getKeySyntaxString("variableName"), variableName);
+	}
+
+	/**
 	 * Sets the template for generating non-fixed variable names.
 	 *
 	 * @param nonFixedVariableName the format string to set
