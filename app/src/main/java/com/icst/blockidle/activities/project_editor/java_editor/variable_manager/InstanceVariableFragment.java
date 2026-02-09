@@ -17,11 +17,10 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog.VariableConfigurationDialog;
 import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
 import com.icst.blockidle.repository.VariableRepository;
-import com.icst.blockidle.util.IDLEJavaFile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,35 +29,34 @@ import android.view.ViewGroup;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class InstanceVariableFragment extends Fragment {
+public class InstanceVariableFragment extends BaseVariableManagerFragment {
 
 	private FragmentInstanceVariableBinding binding;
-	private IDLEJavaFile javaFile;
-	private VariableAdapter adapter;
-	private VariableRepository variableRepository;
-
-	public static final String IDLEJavaFileArgument = "IDLEJavaFile";
 
 	@Override
 	@SuppressWarnings("deprecation")
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
 		binding = FragmentInstanceVariableBinding.inflate(inflator);
-		javaFile = getArguments().getParcelable(IDLEJavaFileArgument);
-		variableRepository = new VariableRepository(javaFile);
-		adapter = new VariableAdapter(variableRepository, VariableAdapter.VariableType.INSTANCE);
-		binding.instanceVariableList.setLayoutManager(new LinearLayoutManager(parent.getContext()));
-		binding.instanceVariableList.setAdapter(adapter);
-		binding.fab.setOnClickListener(v -> {
-			VariableConfigurationDialog dialog = new VariableConfigurationDialog(InstanceVariableFragment.this);
-		});
+		super.init(parent);
 		return binding.getRoot();
 	}
 
-	public void saveData() {
-		// Todo: Save all the data of variable
+	public RecyclerView getVariableRecyclerView() {
+		return this.binding.instanceVariableList;
+	}
+
+	public FloatingActionButton getNewVariableActionButton() {
+		return this.binding.fab;
+	}
+
+	public VariableAdapter.VariableType getVariableType() {
+		return VariableAdapter.VariableType.INSTANCE;
+	}
+
+	public VariableRepository.REPO getVariableRepo() {
+		return VariableRepository.REPO.INSTANCE_VARIABLE;
 	}
 }

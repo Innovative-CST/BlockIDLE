@@ -17,7 +17,10 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
 import com.icst.blockidle.databinding.FragmentStaticVariableBinding;
+import com.icst.blockidle.repository.VariableRepository;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,21 +29,34 @@ import android.view.ViewGroup;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class StaticVariableFragment extends Fragment {
+public class StaticVariableFragment extends BaseVariableManagerFragment {
 
 	private FragmentStaticVariableBinding binding;
 
 	@Override
+	@SuppressWarnings("deprecation")
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
 		binding = FragmentStaticVariableBinding.inflate(inflator);
+		super.init(parent);
 		return binding.getRoot();
 	}
 
-	public void saveData() {
-		// Todo: Save all the data of variable
+	public RecyclerView getVariableRecyclerView() {
+		return this.binding.staticVariableList;
 	}
 
+	public FloatingActionButton getNewVariableActionButton() {
+		return this.binding.fab;
+	}
+
+	public VariableAdapter.VariableType getVariableType() {
+		return VariableAdapter.VariableType.STATIC;
+	}
+
+	public VariableRepository.REPO getVariableRepo() {
+		return VariableRepository.REPO.STATIC_VARIABLE;
+	}
 }

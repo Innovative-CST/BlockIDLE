@@ -49,19 +49,18 @@ public class VariableManagerFragment extends Fragment {
 		staticVariableFragment = new StaticVariableFragment();
 		instanceVariableFragment = new InstanceVariableFragment();
 
-		Bundle staticVariableManangerArgs = new Bundle();
-		staticVariableManangerArgs.putParcelable(InstanceVariableFragment.IDLEJavaFileArgument, javaFile);
-		instanceVariableFragment.setArguments(staticVariableManangerArgs);
+		Bundle variableManangerArgs = new Bundle();
+		variableManangerArgs.putParcelable(BaseVariableManagerFragment.IDLEJavaFileArgument, javaFile);
+		instanceVariableFragment.setArguments(variableManangerArgs);
+		staticVariableFragment.setArguments(variableManangerArgs);
 
 		binding.navigationRailView.setOnItemSelectedListener(menuItem -> {
 			if (menuItem.getItemId() == R.id.action_instance_variable) {
-				staticVariableFragment.saveData();
 				FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 				transaction.replace(R.id.frameLayout, instanceVariableFragment);
 				transaction.addToBackStack(null);
 				transaction.commit();
 			} else if (menuItem.getItemId() == R.id.action_static_variable) {
-				instanceVariableFragment.saveData();
 				FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
 				transaction.replace(R.id.frameLayout, staticVariableFragment);
 				transaction.addToBackStack(null);
