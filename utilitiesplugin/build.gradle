@@ -83,12 +83,12 @@ android {
 	buildFeatures {
 		viewBinding true
 	}
-	
-      sourceSets {
-            main {
-                  java.srcDirs = ["src/main/java"]
-            }
-      }
+
+	sourceSets {
+		main {
+			java.srcDirs = ["src/main/java"]
+		}
+	}
 }
 
 dependencies {
