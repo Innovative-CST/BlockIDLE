@@ -52,6 +52,12 @@ android {
 		buildConfigField "String", "SDK_VERSION", "\"${sdkInfo.version}\""
 	}
 
+	packagingOptions {
+		jniLibs {
+			useLegacyPackaging true
+		}
+	}
+
 	buildTypes {
 		release {
 			minifyEnabled true
