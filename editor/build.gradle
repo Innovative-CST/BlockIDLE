@@ -52,7 +52,7 @@ dependencies {
 	implementation("com.google.code.gson:gson:$gson_version")
 
 	def editorGroupId = "io.github.Rosemoe.sora-editor"
-	implementation platform("$editorGroupId:bom:$sora_editor_version")
+	api platform("$editorGroupId:bom:$sora_editor_version")
 	api("$editorGroupId:editor")
 	api("$editorGroupId:language-textmate")
 	api("$editorGroupId:language-java")
