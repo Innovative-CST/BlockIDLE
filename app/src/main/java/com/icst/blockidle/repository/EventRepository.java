@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.zip.ZipInputStream;
 
-import com.icst.blockidle.ExtensionZipInputStream;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.listener.SerializationListener;
+import com.icst.blockidle.util.ExtensionZipInputStream;
 import com.icst.blockidle.util.IDLEFile;
 import com.icst.blockidle.util.IDLEGradleFile;
 import com.icst.blockidle.util.IDLEJavaFile;

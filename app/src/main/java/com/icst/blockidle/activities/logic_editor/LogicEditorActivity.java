@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.zip.ZipInputStream;
 
-import com.icst.blockidle.ExtensionZipInputStream;
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.logic_editor.dialog.EventCodeViewer;
@@ -35,6 +34,7 @@ import com.icst.blockidle.bean.SupportedLanguagesBean;
 import com.icst.blockidle.bean.enums.ProgrammingLanguage;
 import com.icst.blockidle.databinding.ActivityLogicEditorBinding;
 import com.icst.blockidle.listener.SerializationListener;
+import com.icst.blockidle.util.ExtensionZipInputStream;
 import com.icst.blockidle.util.ProjectEnvironment;
 import com.icst.blockidle.util.SerializationUtils;
 import com.icst.logic.config.LogicEditorConfiguration;
