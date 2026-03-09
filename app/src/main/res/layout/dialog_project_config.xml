@@ -1,0 +1,95 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.icst.blockidle.viewmodel.ProjectConfigurationDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/project_configuration"
+            android:textSize="24sp"
+            android:fontFamily="@font/noto_sans_semibold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/project_name"
+            android:layout_marginTop="8dp"
+            android:id="@+id/projectNameTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@={viewModel.getProjectName()}"
+                android:id="@+id/projectName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="12sp"
+            android:fontFamily="@font/noto_sans_thin"
+            android:text="@string/project_name_example" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/package_name"
+            android:layout_marginTop="8dp"
+            android:text="@string/block_idle"
+            android:id="@+id/packageNameTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@={viewModel.getPackageName()}"
+                android:id="@+id/packageName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="12sp"
+            android:fontFamily="@font/noto_sans_thin"
+            android:text="@string/package_name_example" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <Button
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.onCreate()}"
+                android:text="@{viewModel.getConfigMode()}" />
+
+            <Button
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel"
+                android:onClick="@{() -> viewModel.onCancel()}" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

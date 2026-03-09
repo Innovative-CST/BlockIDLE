@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:clickable="true"
+    android:padding="8dp"
+    android:focusable="true"
+    android:id="@+id/layout">
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ViewFlipper
+            android:layout_height="24dp"
+            android:layout_width="24dp"
+            android:layout_marginRight="8dp"
+            android:id="@+id/viewFlipper">
+
+            <ImageView
+                android:layout_height="24dp"
+                android:layout_width="24dp"
+                android:visibility="gone"
+                android:scaleType="fitEnd"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/menu_right_outline"
+                android:id="@+id/expandCollapse"
+                app:tint="?attr/colorOnSurface" />
+
+            <ProgressBar
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:indeterminate="true"
+                android:id="@+id/loading_progress" />
+
+        </ViewFlipper>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp">
+        
+            <ImageView
+                android:layout_height="25dp"
+                android:layout_width="25dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/folder_outline"
+                android:id="@+id/icon"
+                app:tint="?attr/colorOnSurface" />
+            <!-- Small icon (overlay) -->
+            <ImageView
+                android:id="@+id/smallIcon"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/folder_outline"
+                android:layout_gravity="bottom|end"
+                android:visibility="gone"
+                app:tint="?attr/colorPrimary" />
+        </FrameLayout>
+        
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:textColor="?attr/colorOnSurface"
+            android:layout_weight="1"
+            android:id="@+id/path" />
+
+    </LinearLayout>
+
+</LinearLayout>

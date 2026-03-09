@@ -1,0 +1,77 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+	id "com.android.application" version "9.1.0" apply false
+	id "com.android.library" version "9.1.0" apply false
+	id "org.jetbrains.kotlin.android" version "2.1.10" apply false
+	id "com.diffplug.spotless" version "7.0.0.BETA3" apply true
+	id "org.jetbrains.dokka" version "2.1.0" apply false
+	id "de.undercouch.download" version "5.6.0" apply false
+	id "com.gradleup.shadow" version "9.3.0" apply false
+}
+
+ext {
+	appcompat_version = "1.7.0"
+	constraintlayout = "2.2.1"
+	coordinatorlayout = "1.3.0"
+	glide = "5.0.5"
+	markwonVersion = "4.6.2"
+	material_design_version = "1.14.0-alpha01"
+	core_splashscreen = "1.0.1"
+	blankj_utilcodex_version = "1.31.1"
+	sora_editor_version = "0.22.0"
+	gson_version = "2.8.7"
+	lottie = "6.6.4"
+	lifecycle_version = "2.2.0"
+}
+
+spotless {
+	java {
+		target "**/src/*/java/**/*.java"
+		importOrder(
+				"java",
+				"javax",
+				"org",
+				"com",
+				"android",
+				"androidx"
+				)
+		removeUnusedImports()
+		cleanthat()
+		eclipse('4.26').configFile('.spotless/eclipse-formatter.xml')
+		formatAnnotations()
+	}
+
+	groovyGradle {
+		target "*.gradle", "**/*.gradle"
+		importOrder()
+		removeSemicolons()
+		greclipse()
+	}
+
+	kotlin {
+		target "**/src/*/java/**/*.kt"
+		ktfmt("0.51").googleStyle().configure {
+			it.setMaxWidth(120)
+			it.setBlockIndent(4)
+			it.setContinuationIndent(4)
+			it.setRemoveUnusedImports(true)
+			it.setManageTrailingCommas(false)
+		}
+	}
+}

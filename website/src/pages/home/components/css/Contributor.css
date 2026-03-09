@@ -1,0 +1,68 @@
+.contributors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+}
+
+.contributor-card {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #ffffff, #f5f7fa);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.contributor-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+.contributor-avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.contributor-card:hover .contributor-avatar {
+  transform: scale(1.08);
+  border: 3px solid var(--primary);
+}
+
+.contributor-card h4 {
+  margin: 0.4rem 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #222;
+  transition: color 0.3s ease;
+}
+
+.contributor-card:hover h4 {
+  color: var(--primary);
+}
+
+.contributor-card p {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.custom-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

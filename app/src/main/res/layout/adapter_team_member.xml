@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:layout_marginVertical="6dp"
+     app:strokeColor="?attr/colorOutlineVariant"
+     android:layout_marginHorizontal="4dp"
+     app:cardElevation="0dp"
+     app:strokeWidth="1dp"
+     app:cardCornerRadius="16dp">
+
+    <LinearLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:padding="20dp"
+         android:orientation="vertical">
+
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                 android:layout_height="56dp"
+                 android:layout_width="56dp"
+                 app:cardElevation="0dp"
+                 app:cardBackgroundColor="?attr/colorPrimaryContainer"
+                 app:cardCornerRadius="28dp">
+
+                <ImageView
+                     android:layout_height="match_parent"
+                     android:layout_width="match_parent"
+                     android:scaleType="centerInside"
+                     android:gravity="center"
+                     android:id="@+id/profile" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="0dp"
+                 android:orientation="vertical"
+                 android:layout_marginStart="16dp"
+                 android:layout_weight="1">
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textAppearance="?attr/textAppearanceTitleMedium"
+                     android:textColor="?attr/colorOnSurface"
+                     android:id="@+id/tvName" />
+
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textAppearance="?attr/textAppearanceLabelMedium"
+                     android:textColor="?attr/colorPrimary"
+                     android:layout_marginTop="2dp"
+                     android:id="@+id/tvRole" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:textAppearance="?attr/textAppearanceBodyMedium"
+             android:textColor="?attr/colorOnSurfaceVariant"
+             android:layout_marginTop="14dp"
+             android:lineSpacingExtra="2dp"
+             android:id="@+id/tvBio" />
+
+        <com.google.android.material.chip.ChipGroup
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             app:chipSpacingVertical="4dp"
+             android:layout_marginTop="12dp"
+             android:id="@+id/chipGroupTags" />
+
+        <com.google.android.material.button.MaterialButton
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             app:icon="@drawable/ic_github"
+             style="@style/Widget.Material3.Button.OutlinedButton"
+             android:layout_marginTop="14dp"
+             android:id="@+id/btnGithub"
+             android:text="@string/team_view_github" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,173 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+	id "com.android.application"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+	localProperties.load(new FileInputStream(localPropertiesFile))
+}
+
+android {
+	namespace "com.icst.blockidle"
+	compileSdk localProperties.getProperty("compileSdk", "36").toInteger()
+
+	defaultConfig {
+		applicationId "com.icst.blockidle"
+		minSdk 26
+		targetSdk 28
+		versionCode 1
+		versionName "1.0"
+		vectorDrawables {
+			useSupportLibrary true
+		}
+		manifestPlaceholders.TERMUX_PACKAGE_NAME = "com.icst.blockidle"
+		def sdkInfo = project(":app-plugin-api")
+				.extensions
+				.extraProperties
+				.get("sdkInfo")
+
+		buildConfigField "String", "SDK_MIN_SUPPORTED", "\"${sdkInfo.minSdkSupported}\""
+		buildConfigField "int",    "SDK_VERSION_NUMBER", "${sdkInfo.versionNumber}"
+		buildConfigField "String", "SDK_VERSION_TYPE", "\"${sdkInfo.versionType}\""
+		buildConfigField "int",    "SDK_SUB_VERSION", "${sdkInfo.subVersion}"
+		buildConfigField "String", "SDK_VERSION_NAME", "\"${sdkInfo.versionName}\""
+		buildConfigField "String", "SDK_VERSION", "\"${sdkInfo.version}\""
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled true
+			proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+		}
+	}
+
+	compileOptions {
+		// Flag to enable support for the new language APIs
+		coreLibraryDesugaringEnabled true
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+
+	buildFeatures {
+		viewBinding true
+		dataBinding true
+		buildConfig true
+	}
+
+	sourceSets {
+		main {
+			assets.srcDirs("src/main/assets", "$buildDir/generated/assets")
+		}
+	}
+}
+
+def beansModules = [
+	":beans:basebeans",
+	":beans:blockbeans",
+	":beans:layoutbeans",
+	":beans:javabeans",
+	":beans:projectbeans",
+	":beans:xmlbeans",
+	":beans:gradlebeans"
+]
+
+def beansJarDir = layout.buildDirectory.dir("libs")
+
+tasks.register("syncBeansJars", Copy) {
+
+	beansModules.each { modulePath ->
+		def p = project(modulePath)
+
+		p.pluginManager.withPlugin("java-library") {
+			dependsOn(p.tasks.named("jar"))
+			from(p.layout.buildDirectory.dir("libs"))
+		}
+	}
+
+	include("*.jar")
+	into(beansJarDir)
+}
+
+tasks.register("copyToolingServerJar", Copy) {
+	dependsOn(":tooling:impl:shadowJar")
+
+	from("$rootDir/tooling/impl/build/libs") {
+		include("tooling-server-all.jar")
+	}
+
+	into("$buildDir/generated/assets")
+}
+
+preBuild.dependsOn(copyToolingServerJar)
+
+dependencies {
+	coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
+
+	implementation("junit:junit:4.13.2")
+
+	implementation("com.google.truth:truth:1.4.2")
+	implementation("com.google.android.material:material:$material_design_version")
+	implementation("com.google.guava:guava:24.1-jre")
+	implementation("com.google.code.gson:gson:$gson_version")
+
+	implementation("com.airbnb.android:lottie:$lottie")
+
+	implementation("com.github.bumptech.glide:glide:$glide")
+
+	implementation("androidx.appcompat:appcompat:$appcompat_version")
+	implementation("androidx.core:core-splashscreen:$core_splashscreen")
+	implementation("androidx.constraintlayout:constraintlayout:$constraintlayout")
+	implementation("androidx.coordinatorlayout:coordinatorlayout:$coordinatorlayout")
+
+	implementation("androidx.lifecycle:lifecycle-extensions:$lifecycle_version")
+	implementation("androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version")
+	implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
+	annotationProcessor("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+
+	implementation project(":tooling:api")
+
+	implementation("org.eclipse.lsp4j:org.eclipse.lsp4j.jsonrpc:0.21.1")
+
+	// Beans
+	implementation project(":beans:basebeans")
+	implementation project(":beans:blockbeans")
+	implementation project(":beans:layoutbeans")
+	implementation project(":beans:javabeans")
+	implementation project(":beans:projectbeans")
+	implementation project(":beans:xmlbeans")
+	implementation project(":beans:gradlebeans")
+	implementation fileTree(dir: beansJarDir, include: ["*.jar"])
+
+	implementation project(":app-plugin-api")
+	implementation project(":editor")
+	implementation project(":logiceditor")
+	implementation project(":terminal:app")
+	implementation project(":treeview")
+	implementation project(":vieweditor")
+}
+
+preBuild.dependsOn(syncBeansJars)
+
+project.afterEvaluate {
+	tasks.matching { it.name.startsWith("assemble") }.configureEach {
+		finalizedBy(rootProject.tasks.named("spotlessApply"))
+	}
+}

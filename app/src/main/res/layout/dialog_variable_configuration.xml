@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.icst.blockidle.viewmodel.VariableConfigDialogViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="24sp"
+            android:fontFamily="@font/noto_sans_semibold"
+            android:text="@string/variable_configuration" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/variable_name"
+            android:layout_marginTop="8dp"
+            android:id="@+id/variableNameTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@={viewModel.variableName}"
+                android:id="@+id/variableName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="12sp"
+            android:fontFamily="@font/noto_sans_thin"
+            android:textColor="?attr/colorOnSurface"
+            android:text="@string/variable_name_example" />
+
+        <com.google.android.material.card.MaterialCardView
+                android:id="@+id/select_datatype"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="12dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="0dp"
+                app:strokeColor="?attr/colorOutlineVariant"
+                app:strokeWidth="1dp">
+            <TextView
+                    android:id="@+id/select_datatype_text"
+                    android:padding="16sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/select_your_datatype" />
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:onClick="@{() -> viewModel.save()}"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:text="@string/done" />
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:onClick="@{() -> viewModel.cancel()}"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:text="@string/cancel" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

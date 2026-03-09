@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Dev Kumar",
+    "role": "Core Developer",
+    "bio": "Founder and lead developer of Block IDLE. Passionate about making Android development accessible to everyone through visual programming.",
+    "github": "https://github.com/DevVigilante",
+    "tags": ["Android", "Java", "Shell", "Student"]
+  },
+  {
+    "name": "Siddhesh2377",
+    "role": "Contributor",
+    "bio": "Hi I am Siddhesh, & I am 19 !\n\nPrivacy-first, offline AI systems that run entirely on-device — no cloud, no compromise.",
+    "github": "https://github.com/Siddhesh2377",
+    "tags": ["Contributor"]
+  },
+  {
+    "name": "CyberGlitch01",
+    "role": "Contributor",
+    "bio": "Contributor to the Block IDLE open source project.",
+    "github": "https://github.com/CyberGlitch01",
+    "tags": ["Contributor"]
+  },
+  {
+    "name": "AndGG1",
+    "role": "Contributor",
+    "bio": "Contributor to the Block IDLE open source project.",
+    "github": "https://github.com/AndGG1",
+    "tags": ["Contributor"]
+  },
+  {
+    "name": "krishandroiddev",
+    "role": "Contributor",
+    "bio": "Contributor to the Block IDLE open source project.",
+    "github": "https://github.com/krishandroiddev",
+    "tags": ["Contributor"]
+  },
+  {
+    "name": "mohammad-samiullah",
+    "role": "Contributor",
+    "bio": "Contributor to the Block IDLE open source project.",
+    "github": "https://github.com/mohammad-samiullah",
+    "tags": ["Contributor"]
+  }
+]

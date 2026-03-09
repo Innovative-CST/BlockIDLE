@@ -1,0 +1,91 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+	id "java-gradle-plugin"
+	id "com.vanniktech.maven.publish" version "0.34.0"
+}
+
+mavenPublishing {
+	publishToMavenCentral()
+	signAllPublications()
+}
+
+signing {
+	String key = findProperty("signingInMemoryKey")
+	String password = findProperty("signingInMemoryKeyPassword")
+	useInMemoryPgpKeys(key, password)
+}
+
+group = "io.github.devvigilante"
+version = "0.0.2"
+
+gradlePlugin {
+	plugins {
+		apkPluginBuilder {
+			id = "io.github.devvigilante.blockidle.plugin-builder"
+			implementationClass = "com.icst.plugin.builder.BlockIdlePlugin"
+			displayName = "BlockIdle APK Plugin Builder"
+			description = "Build and configure Android APK plugins for BlockIdle"
+			tags.set([
+				"android",
+				"icst",
+				"blockidle",
+				"apk"
+			])
+
+			website = "https://github.com/Innovative-CST/BlockIDLE"
+			vcsUrl  = "https://github.com/Innovative-CST/BlockIDLE.git"
+		}
+	}
+}
+
+dependencies {
+	compileOnly("com.google.code.gson:gson:2.11.0")
+	compileOnly("com.android.tools.build:gradle:9.1.0")
+}
+
+mavenPublishing {
+	coordinates(group, "blockidle-gradle-plugin-builder", version)
+
+	pom {
+		name.set("BlockIDLE Gradle Plugin Builder")
+		description.set("Plugin for developing BlockIDLE plugins")
+		url.set("https://github.com/Innovative-CST/BlockIDLE")
+
+		licenses {
+			license {
+				name.set("GNU General Public License v3.0")
+				url.set("https://www.gnu.org/licenses/gpl-3.0.html")
+			}
+		}
+
+		developers {
+			developer {
+				id.set("DevVigilante")
+				name.set("Dev Kumar")
+				url.set("https://github.com/DevVigilante")
+			}
+		}
+
+		scm {
+			url.set("https://github.com/Innovative-CST/BlockIDLE")
+			connection.set("scm:git:https://github.com/Innovative-CST/BlockIDLE.git")
+			developerConnection.set("scm:git:ssh://git@github.com/Innovative-CST/BlockIDLE.git")
+		}
+	}
+}

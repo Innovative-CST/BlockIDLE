@@ -1,0 +1,92 @@
+name: Android CI
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  buildDebug:
+    name: Build Debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+          
+      - name: Allow gradlew permission
+        run: chmod +x ./gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+          
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: block-idle
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload output metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: output-metadata
+          path: app/build/outputs/apk/debug/output-metadata.json
+  buildExtensions:
+    name: Build extensions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+          
+      - name: Allow gradlew permission
+        run: chmod +x ./gradlew
+
+      - name: Build debug APK
+        run: ./gradlew buildExtensions
+          
+      - name: Upload extensions
+        uses: actions/upload-artifact@v4
+        with:
+          name: extensions
+          path: extensions/build/extensions
+  test:
+    name: Run JUnit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Allow gradlew permission
+        run: chmod +x ./gradlew
+
+      - name: Run JUnit Tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Upload test reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-test-reports
+          path: app/build/reports/tests/testDebugUnitTest/

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_static_variable"
+        android:title="@string/static_variables"
+        android:icon="@drawable/static_variable" />
+
+    <item
+        android:id="@+id/action_instance_variable"
+        android:title="@string/instance_variables"
+        android:icon="@drawable/instance_variable" />
+</menu>

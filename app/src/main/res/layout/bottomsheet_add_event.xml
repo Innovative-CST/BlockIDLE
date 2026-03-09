@@ -1,0 +1,43 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:padding="16dp"
+    android:orientation="vertical">
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textSize="32sp"
+        android:fontFamily="@font/noto_sans_thin"
+        android:textStyle="bold"
+        android:text="@string/add_event" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:id="@+id/eventList"
+        android:layout_weight="1"
+        android:clipToPadding="false" />
+
+    <LinearLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="end"
+        android:paddingTop="8dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/dismiss"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/dismiss" />
+
+    </LinearLayout>
+
+</LinearLayout>

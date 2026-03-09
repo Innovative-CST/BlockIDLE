@@ -1,0 +1,90 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+pluginManagement {
+	includeBuild("plugin-builder")
+	includeBuild("markdown-doc-plugin")
+	repositories {
+		gradlePluginPortal()
+		google()
+		mavenCentral()
+	}
+}
+
+dependencyResolutionManagement {
+	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+	repositories {
+		google()
+		mavenCentral()
+		mavenLocal()
+		maven { url "https://jitpack.io" }
+		maven { url 'https://repo.gradle.org/gradle/libs-releases' }
+		flatDir {
+			dirs "terminal/libs"
+		}
+	}
+}
+
+rootProject.name = "Block IDLE"
+
+include(":app")
+
+include(":extensions")
+include(":extension-core")
+
+include(":annotations")
+include(":annotations-processor")
+
+// Beans
+include(":beans:basebeans")
+include(":beans:blockbeans")
+include(":beans:layoutbeans")
+include(":beans:javabeans")
+include(":beans:projectbeans")
+include(":beans:xmlbeans")
+include(":beans:gradlebeans")
+
+// Logic Editor
+include(":logiceditor")
+
+// View Editor
+include(":vieweditor")
+
+// Code Editor
+include(":editor")
+
+// TreeView
+include(":treeview")
+
+// Terminal
+include(":terminal:app")
+include(":terminal:termux-shared")
+include(":terminal:terminal-emulator")
+include(":terminal:terminal-view")
+
+include(":tooling:api")
+include(":tooling:impl")
+
+// Plugin
+include(":app-plugin-api")
+include(":utilitiesplugin")
+
+gradle.beforeProject { project ->
+	if (project.path == ":app") {
+		project.evaluationDependsOn(":app-plugin-api")
+	}
+}

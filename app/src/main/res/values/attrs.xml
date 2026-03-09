@@ -1,0 +1,5 @@
+<resources>
+    <declare-styleable name="LetterImageView">
+        <attr name="letter" format="string" />
+    </declare-styleable>
+</resources>

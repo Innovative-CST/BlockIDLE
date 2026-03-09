@@ -1,0 +1,87 @@
+package android.health.connect;
+
+public final class HealthPermissions
+{
+    public static final String READ_ACTIVE_CALORIES_BURNED = "android.permission.health.READ_ACTIVE_CALORIES_BURNED";
+    public static final String READ_BASAL_BODY_TEMPERATURE = "android.permission.health.READ_BASAL_BODY_TEMPERATURE";
+    public static final String READ_BASAL_METABOLIC_RATE = "android.permission.health.READ_BASAL_METABOLIC_RATE";
+    public static final String READ_BLOOD_GLUCOSE = "android.permission.health.READ_BLOOD_GLUCOSE";
+    public static final String READ_BLOOD_PRESSURE = "android.permission.health.READ_BLOOD_PRESSURE";
+    public static final String READ_BODY_FAT = "android.permission.health.READ_BODY_FAT";
+    public static final String READ_BODY_TEMPERATURE = "android.permission.health.READ_BODY_TEMPERATURE";
+    public static final String READ_BODY_WATER_MASS = "android.permission.health.READ_BODY_WATER_MASS";
+    public static final String READ_BONE_MASS = "android.permission.health.READ_BONE_MASS";
+    public static final String READ_CERVICAL_MUCUS = "android.permission.health.READ_CERVICAL_MUCUS";
+    public static final String READ_DISTANCE = "android.permission.health.READ_DISTANCE";
+    public static final String READ_ELEVATION_GAINED = "android.permission.health.READ_ELEVATION_GAINED";
+    public static final String READ_EXERCISE = "android.permission.health.READ_EXERCISE";
+    public static final String READ_EXERCISE_ROUTES = "android.permission.health.READ_EXERCISE_ROUTES";
+    public static final String READ_FLOORS_CLIMBED = "android.permission.health.READ_FLOORS_CLIMBED";
+    public static final String READ_HEALTH_DATA_HISTORY = "android.permission.health.READ_HEALTH_DATA_HISTORY";
+    public static final String READ_HEALTH_DATA_IN_BACKGROUND = "android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND";
+    public static final String READ_HEART_RATE = "android.permission.health.READ_HEART_RATE";
+    public static final String READ_HEART_RATE_VARIABILITY = "android.permission.health.READ_HEART_RATE_VARIABILITY";
+    public static final String READ_HEIGHT = "android.permission.health.READ_HEIGHT";
+    public static final String READ_HYDRATION = "android.permission.health.READ_HYDRATION";
+    public static final String READ_INTERMENSTRUAL_BLEEDING = "android.permission.health.READ_INTERMENSTRUAL_BLEEDING";
+    public static final String READ_LEAN_BODY_MASS = "android.permission.health.READ_LEAN_BODY_MASS";
+    public static final String READ_MENSTRUATION = "android.permission.health.READ_MENSTRUATION";
+    public static final String READ_NUTRITION = "android.permission.health.READ_NUTRITION";
+    public static final String READ_OVULATION_TEST = "android.permission.health.READ_OVULATION_TEST";
+    public static final String READ_OXYGEN_SATURATION = "android.permission.health.READ_OXYGEN_SATURATION";
+    public static final String READ_PLANNED_EXERCISE = "android.permission.health.READ_PLANNED_EXERCISE";
+    public static final String READ_POWER = "android.permission.health.READ_POWER";
+    public static final String READ_RESPIRATORY_RATE = "android.permission.health.READ_RESPIRATORY_RATE";
+    public static final String READ_RESTING_HEART_RATE = "android.permission.health.READ_RESTING_HEART_RATE";
+    public static final String READ_SEXUAL_ACTIVITY = "android.permission.health.READ_SEXUAL_ACTIVITY";
+    public static final String READ_SKIN_TEMPERATURE = "android.permission.health.READ_SKIN_TEMPERATURE";
+    public static final String READ_SLEEP = "android.permission.health.READ_SLEEP";
+    public static final String READ_SPEED = "android.permission.health.READ_SPEED";
+    public static final String READ_STEPS = "android.permission.health.READ_STEPS";
+    public static final String READ_TOTAL_CALORIES_BURNED = "android.permission.health.READ_TOTAL_CALORIES_BURNED";
+    public static final String READ_VO2_MAX = "android.permission.health.READ_VO2_MAX";
+    public static final String READ_WEIGHT = "android.permission.health.READ_WEIGHT";
+    public static final String READ_WHEELCHAIR_PUSHES = "android.permission.health.READ_WHEELCHAIR_PUSHES";
+    public static final String WRITE_ACTIVE_CALORIES_BURNED = "android.permission.health.WRITE_ACTIVE_CALORIES_BURNED";
+    public static final String WRITE_BASAL_BODY_TEMPERATURE = "android.permission.health.WRITE_BASAL_BODY_TEMPERATURE";
+    public static final String WRITE_BASAL_METABOLIC_RATE = "android.permission.health.WRITE_BASAL_METABOLIC_RATE";
+    public static final String WRITE_BLOOD_GLUCOSE = "android.permission.health.WRITE_BLOOD_GLUCOSE";
+    public static final String WRITE_BLOOD_PRESSURE = "android.permission.health.WRITE_BLOOD_PRESSURE";
+    public static final String WRITE_BODY_FAT = "android.permission.health.WRITE_BODY_FAT";
+    public static final String WRITE_BODY_TEMPERATURE = "android.permission.health.WRITE_BODY_TEMPERATURE";
+    public static final String WRITE_BODY_WATER_MASS = "android.permission.health.WRITE_BODY_WATER_MASS";
+    public static final String WRITE_BONE_MASS = "android.permission.health.WRITE_BONE_MASS";
+    public static final String WRITE_CERVICAL_MUCUS = "android.permission.health.WRITE_CERVICAL_MUCUS";
+    public static final String WRITE_DISTANCE = "android.permission.health.WRITE_DISTANCE";
+    public static final String WRITE_ELEVATION_GAINED = "android.permission.health.WRITE_ELEVATION_GAINED";
+    public static final String WRITE_EXERCISE = "android.permission.health.WRITE_EXERCISE";
+    public static final String WRITE_EXERCISE_ROUTE = "android.permission.health.WRITE_EXERCISE_ROUTE";
+    public static final String WRITE_FLOORS_CLIMBED = "android.permission.health.WRITE_FLOORS_CLIMBED";
+    public static final String WRITE_HEART_RATE = "android.permission.health.WRITE_HEART_RATE";
+    public static final String WRITE_HEART_RATE_VARIABILITY = "android.permission.health.WRITE_HEART_RATE_VARIABILITY";
+    public static final String WRITE_HEIGHT = "android.permission.health.WRITE_HEIGHT";
+    public static final String WRITE_HYDRATION = "android.permission.health.WRITE_HYDRATION";
+    public static final String WRITE_INTERMENSTRUAL_BLEEDING = "android.permission.health.WRITE_INTERMENSTRUAL_BLEEDING";
+    public static final String WRITE_LEAN_BODY_MASS = "android.permission.health.WRITE_LEAN_BODY_MASS";
+    public static final String WRITE_MENSTRUATION = "android.permission.health.WRITE_MENSTRUATION";
+    public static final String WRITE_NUTRITION = "android.permission.health.WRITE_NUTRITION";
+    public static final String WRITE_OVULATION_TEST = "android.permission.health.WRITE_OVULATION_TEST";
+    public static final String WRITE_OXYGEN_SATURATION = "android.permission.health.WRITE_OXYGEN_SATURATION";
+    public static final String WRITE_PLANNED_EXERCISE = "android.permission.health.WRITE_PLANNED_EXERCISE";
+    public static final String WRITE_POWER = "android.permission.health.WRITE_POWER";
+    public static final String WRITE_RESPIRATORY_RATE = "android.permission.health.WRITE_RESPIRATORY_RATE";
+    public static final String WRITE_RESTING_HEART_RATE = "android.permission.health.WRITE_RESTING_HEART_RATE";
+    public static final String WRITE_SEXUAL_ACTIVITY = "android.permission.health.WRITE_SEXUAL_ACTIVITY";
+    public static final String WRITE_SKIN_TEMPERATURE = "android.permission.health.WRITE_SKIN_TEMPERATURE";
+    public static final String WRITE_SLEEP = "android.permission.health.WRITE_SLEEP";
+    public static final String WRITE_SPEED = "android.permission.health.WRITE_SPEED";
+    public static final String WRITE_STEPS = "android.permission.health.WRITE_STEPS";
+    public static final String WRITE_TOTAL_CALORIES_BURNED = "android.permission.health.WRITE_TOTAL_CALORIES_BURNED";
+    public static final String WRITE_VO2_MAX = "android.permission.health.WRITE_VO2_MAX";
+    public static final String WRITE_WEIGHT = "android.permission.health.WRITE_WEIGHT";
+    public static final String WRITE_WHEELCHAIR_PUSHES = "android.permission.health.WRITE_WHEELCHAIR_PUSHES";
+    
+    HealthPermissions() {
+        throw new RuntimeException("Stub!");
+    }
+}

@@ -1,0 +1,171 @@
+/*
+ *  This file is part of Block IDLE.
+ *
+ *  Block IDLE is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Block IDLE is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+plugins {
+	id("com.android.library") version "9.1.0"
+	id("org.jetbrains.dokka") version "2.1.0"
+	id "com.vanniktech.maven.publish" version "0.34.0"
+}
+
+mavenPublishing {
+	publishToMavenCentral()
+	signAllPublications()
+}
+
+signing {
+	useInMemoryPgpKeys(
+			findProperty("signingInMemoryKey"),
+			findProperty("signingInMemoryKeyPassword")
+			)
+}
+
+afterEvaluate {
+	tasks.named("preBuild").configure {
+		dependsOn(tasks.named("generateSdkMetadata"))
+	}
+}
+
+group = "io.github.devvigilante"
+version = "0.0.1"
+
+def sdkMetaDir = layout.buildDirectory.dir("generated/sdkMetadata").get().asFile
+
+ext {
+	appcompat_version = "1.7.0"
+	material_design_version = "1.14.0-alpha01"
+	sdkInfo = [
+		minSdkSupported : "0.0.1",
+		versionNumber : 0,
+		versionType : "alpha",
+		subVersion : 1,
+		versionName : "0-alpha-1",
+		version : "0.0.1"
+	]
+}
+
+extensions.extraProperties.set("sdkInfo", sdkInfo)
+
+android {
+	compileSdk 35
+	namespace "com.icst.blockidle.plugin"
+
+	defaultConfig {
+		minSdk 21
+		targetSdk 28
+	}
+
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+		}
+	}
+
+	sourceSets {
+		main {
+			resources.srcDir(sdkMetaDir)
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility JavaVersion.VERSION_17
+		targetCompatibility JavaVersion.VERSION_17
+	}
+}
+
+dokka {
+	dokkaGeneratorIsolation = ClassLoaderIsolation {}
+	dokkaSourceSets {
+		create("main") {
+			sourceRoots.from(file("src/main/java"))
+		}
+	}
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/org.jetbrains.dokka/android-documentation-plugin
+	runtimeOnly("org.jetbrains.dokka:android-documentation-plugin:2.1.0")
+	compileOnly("com.google.android:android:4.1.1.4")
+	compileOnly("androidx.appcompat:appcompat:$appcompat_version")
+}
+
+import groovy.json.JsonOutput
+
+tasks.register("generateSdkMetadata") {
+	outputs.dir(sdkMetaDir)
+
+	doLast {
+		def outFile = sdkMetaDir.get()
+				.file("META-INF/sdk-metadata.json")
+				.asFile
+
+		def metadata = [
+			version         : project.version.toString(),
+			minSdkSupported : sdkInfo.minSdkSupported,
+			versionNumber   : sdkInfo.versionNumber,
+			versionType     : sdkInfo.versionType,
+			subVersion      : sdkInfo.subVersion,
+			versionName     : sdkInfo.versionName,
+			minApiLevel     : 26,
+			javaVersion     : 17
+		]
+
+		outFile.parentFile.mkdirs()
+		outFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(metadata))
+	}
+}
+
+tasks.register("dokkaJavadocJar", Jar) {
+	group = "build"
+	description = "Assembles a Javadoc jar from Dokka output"
+
+	dependsOn(tasks.named("dokkaGenerateHtml"))
+
+	archiveClassifier.set("javadoc")
+	from(layout.buildDirectory.dir("dokka/html"))
+}
+
+mavenPublishing {
+	coordinates(group, "blockidle-plugin-sdk", project.version.toString())
+
+	pom {
+		name.set("BlockIDLE Plugin SDK")
+		description.set("SDK for developing BlockIDLE plugins")
+		url.set("https://github.com/Innovative-CST/BlockIDLE")
+
+		licenses {
+			license {
+				name.set("GNU General Public License v3.0")
+				url.set("https://www.gnu.org/licenses/gpl-3.0.html")
+			}
+		}
+
+		developers {
+			developer {
+				id.set("DevVigilante")
+				name.set("Dev Kumar")
+				url.set("https://github.com/DevVigilante")
+			}
+		}
+
+		scm {
+			url.set("https://github.com/Innovative-CST/BlockIDLE")
+			connection.set("scm:git:https://github.com/Innovative-CST/BlockIDLE.git")
+			developerConnection.set("scm:git:ssh://git@github.com/Innovative-CST/BlockIDLE.git")
+		}
+	}
+}
