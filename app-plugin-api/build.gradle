@@ -109,9 +109,7 @@ tasks.register("generateSdkMetadata") {
 	outputs.dir(sdkMetaDir)
 
 	doLast {
-		def outFile = sdkMetaDir.get()
-				.file("META-INF/sdk-metadata.json")
-				.asFile
+		def outFile = new File(sdkMetaDir, "META-INF/sdk-metadata.json")
 
 		def metadata = [
 			version         : project.version.toString(),
