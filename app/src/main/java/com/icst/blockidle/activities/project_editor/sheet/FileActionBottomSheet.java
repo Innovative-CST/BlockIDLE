@@ -46,6 +46,7 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 		if (file instanceof IDLEFolder folder) {
 			addFolderAction(folder);
 		}
+		binding.dismiss.setOnClickListener(v -> dismiss());
 		show();
 	}
 
