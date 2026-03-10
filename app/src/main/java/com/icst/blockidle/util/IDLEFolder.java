@@ -169,6 +169,40 @@ public class IDLEFolder extends IDLEFile {
 	}
 
 	/**
+	 * Returns true or file if a IDLEFolder or IDLEFile exists inside a IDLEFolder.
+	 *
+	 * @param fileName the folder or file to check if exists
+	 * @return true if {@code IDLEFolder}, {@code IDLEFile} or file exists in contents folder with given name.
+	 */
+	public boolean exists(String fileName) {
+		File contents = new File(file, IDLEFOLDER_CONTENTS);
+		if (!contents.exists()) {
+			return false;
+		}
+
+		File requiredFile = new File(contents, fileName);
+		if (!requiredFile.exists()) {
+			return false;
+		}
+
+		if (requiredFile.isFile()) {
+			return true;
+		}
+
+		File beanFile = null;
+		if (new File(requiredFile, IDLEFOLDER).exists()) {
+			beanFile = new File(requiredFile, IDLEFOLDER);
+		} else if (new File(requiredFile, IDLEFILE).exists()) {
+			beanFile = new File(requiredFile, IDLEFILE);
+		}
+		if (beanFile == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
 	 * Creates the physical directory structure on disk for this IDLEFolder,
 	 * including the {@code IDLEFOLDER_CONTENTS} subdirectory and the serialized metadata file.
 	 */
