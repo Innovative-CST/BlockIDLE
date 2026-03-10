@@ -22,7 +22,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.icst.blockidle.beans.PluginConfigurationBean;
+import com.icst.blockidle.plugin.bean.PluginConfigurationBean;
 import com.icst.blockidle.plugin.model.PluginModel;
 
 public final class PluginUtils {
