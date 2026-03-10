@@ -169,7 +169,7 @@ public class IDLEFolder extends IDLEFile {
 	}
 
 	/**
-	 * Returns true or file if a IDLEFolder or IDLEFile exists inside a IDLEFolder.
+	 * Returns true or false if a IDLEFolder or IDLEFile exists inside a IDLEFolder.
 	 *
 	 * @param fileName the folder or file to check if exists
 	 * @return true if {@code IDLEFolder}, {@code IDLEFile} or file exists in contents folder with given name.
