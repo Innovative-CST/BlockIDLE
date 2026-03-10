@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.application;
+package com.icst.blockidle;
 
 import com.icst.blockidle.BuildConfig;
 import com.icst.blockidle.activities.crash_handler.CrashHandlerActivity;
