@@ -19,9 +19,9 @@ package com.icst.blockidle.activities.intro;
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
+import com.icst.blockidle.activities.intro.utils.INTENTS;
 import com.icst.blockidle.activities.project_manager.ProjectManagerActivity;
 import com.icst.blockidle.databinding.ActivityIntroBinding;
-import com.icst.blockidle.util.INTENTS;
 
 import android.os.Bundle;
 import android.os.Handler;

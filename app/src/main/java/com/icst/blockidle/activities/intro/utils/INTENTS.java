@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.util;
+package com.icst.blockidle.activities.intro.utils;
 
 import android.app.Activity;
 import android.content.Intent;
