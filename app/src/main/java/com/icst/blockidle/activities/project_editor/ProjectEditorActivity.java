@@ -25,8 +25,8 @@ import com.icst.blockidle.activities.project_editor.viewholder.FileTreeViewHolde
 import com.icst.blockidle.databinding.ActivityProjectEditorBinding;
 import com.icst.blockidle.exception.IDLEFileAlreadyExistsException;
 import com.icst.blockidle.listener.ProcessNotifier;
-import com.icst.blockidle.service.ToolingService;
 import com.icst.blockidle.tooling.ToolingClientImpl;
+import com.icst.blockidle.tooling.ToolingService;
 import com.icst.blockidle.util.IDLEFolder;
 import com.icst.blockidle.util.IDLEGradleFile;
 import com.icst.blockidle.util.IDLEJavaFile;

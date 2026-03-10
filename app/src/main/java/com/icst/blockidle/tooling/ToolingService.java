@@ -15,14 +15,12 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.service;
+package com.icst.blockidle.tooling;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import com.icst.blockidle.R;
-import com.icst.blockidle.tooling.IToolingServer;
-import com.icst.blockidle.tooling.ToolingProcess;
 
 import android.app.Notification;
 import android.app.NotificationChannel;

@@ -27,7 +27,7 @@ import com.icst.blockidle.activities.project_manager.dialog.InstallBuildToolsDia
 import com.icst.blockidle.activities.project_manager.viewmodel.ProjectManagerViewModel;
 import com.icst.blockidle.activities.team.TeamActivity;
 import com.icst.blockidle.databinding.ActivityProjectManagerBinding;
-import com.icst.blockidle.service.ToolingService;
+import com.icst.blockidle.tooling.ToolingService;
 import com.icst.blockidle.util.EnvironmentUtils;
 import com.termux.app.TermuxActivity;
 
