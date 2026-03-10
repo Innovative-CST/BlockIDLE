@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.icst.blockidle.api.PluginRuntimeInfo;
-import com.icst.blockidle.model.PluginModel;
+import com.icst.blockidle.plugin.model.PluginModel;
 import com.icst.blockidle.util.PluginEnvironment;
 import com.icst.blockidle.util.PluginUtils;
 

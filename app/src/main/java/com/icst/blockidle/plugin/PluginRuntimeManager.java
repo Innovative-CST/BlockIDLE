@@ -24,7 +24,7 @@ import com.icst.blockidle.api.AppPlugin;
 import com.icst.blockidle.api.PluginActivity;
 import com.icst.blockidle.api.PluginApplication;
 import com.icst.blockidle.api.PluginRuntimeInfo;
-import com.icst.blockidle.model.PluginModel;
+import com.icst.blockidle.plugin.model.PluginModel;
 import com.icst.blockidle.util.SdkVersionUtils;
 
 import android.app.Application;

@@ -23,7 +23,7 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.icst.blockidle.beans.PluginConfigurationBean;
-import com.icst.blockidle.model.PluginModel;
+import com.icst.blockidle.plugin.model.PluginModel;
 
 public final class PluginUtils {
 

@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.model;
+package com.icst.blockidle.plugin.model;
 
 public final class SdkModel {
 
