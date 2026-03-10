@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.icst.blockidle.viewmodel.ProjectAdapterViewModel" />
+            type="com.icst.blockidle.activities.project_manager.viewmodel.ProjectAdapterViewModel" />
     </data>
 
     <LinearLayout

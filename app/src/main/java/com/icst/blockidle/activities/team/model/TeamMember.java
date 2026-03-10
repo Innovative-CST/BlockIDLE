@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.model;
+package com.icst.blockidle.activities.team.model;
 
 import java.util.List;
 

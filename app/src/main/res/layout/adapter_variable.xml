@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.icst.blockidle.viewmodel.VariableViewModel" />
+            type="com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel.VariableViewModel" />
     </data>
 
     <LinearLayout

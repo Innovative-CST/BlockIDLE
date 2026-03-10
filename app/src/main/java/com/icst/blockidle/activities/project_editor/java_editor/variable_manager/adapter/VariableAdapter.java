@@ -17,10 +17,10 @@
 
 package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter;
 
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel.VariableViewModel;
 import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.AdapterVariableBinding;
 import com.icst.blockidle.repository.VariableRepository;
-import com.icst.blockidle.viewmodel.VariableViewModel;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

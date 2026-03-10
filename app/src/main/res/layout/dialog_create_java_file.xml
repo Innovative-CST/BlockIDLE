@@ -4,7 +4,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.icst.blockidle.viewmodel.NewJavaClassDialogViewModel" />
+            type="com.icst.blockidle.activities.project_editor.viewmodel.NewJavaClassDialogViewModel" />
     </data>
 
     <LinearLayout

@@ -15,13 +15,13 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.viewmodel;
+package com.icst.blockidle.activities.team.viewmodel;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.icst.blockidle.model.TeamMember;
+import com.icst.blockidle.activities.team.model.TeamMember;
 import com.icst.blockidle.repository.TeamRepository;
 
 import android.app.Application;

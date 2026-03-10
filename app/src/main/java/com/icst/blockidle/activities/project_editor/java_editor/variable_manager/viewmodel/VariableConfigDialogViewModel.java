@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.viewmodel;
+package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel;
 
 import com.icst.blockidle.bean.VariableBean;
 

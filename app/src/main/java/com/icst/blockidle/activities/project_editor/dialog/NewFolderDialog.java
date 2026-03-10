@@ -19,10 +19,10 @@ package com.icst.blockidle.activities.project_editor.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
+import com.icst.blockidle.activities.project_editor.viewmodel.NewFolderDialogViewModel;
 import com.icst.blockidle.databinding.DialogCreateFolderBinding;
 import com.icst.blockidle.util.FolderValidators;
 import com.icst.blockidle.util.IDLEFolder;
-import com.icst.blockidle.viewmodel.NewFolderDialogViewModel;
 
 import android.view.LayoutInflater;
 

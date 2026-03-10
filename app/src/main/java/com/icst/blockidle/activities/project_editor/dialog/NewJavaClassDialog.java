@@ -19,12 +19,12 @@ package com.icst.blockidle.activities.project_editor.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
+import com.icst.blockidle.activities.project_editor.viewmodel.NewJavaClassDialogViewModel;
 import com.icst.blockidle.databinding.DialogCreateJavaFileBinding;
 import com.icst.blockidle.util.IDLEFolder;
 import com.icst.blockidle.util.JavaValidators;
 import com.icst.blockidle.util.ProjectBeanValidator;
 import com.icst.blockidle.util.ProjectFile;
-import com.icst.blockidle.viewmodel.NewJavaClassDialogViewModel;
 
 import android.view.LayoutInflater;
 

@@ -26,7 +26,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.icst.blockidle.model.TeamMember;
+import com.icst.blockidle.activities.team.model.TeamMember;
 
 import android.content.Context;
 

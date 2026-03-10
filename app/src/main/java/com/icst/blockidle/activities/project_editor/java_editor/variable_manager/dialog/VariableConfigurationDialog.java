@@ -19,10 +19,10 @@ package com.icst.blockidle.activities.project_editor.java_editor.variable_manage
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.BaseVariableManagerFragment;
+import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel.VariableConfigDialogViewModel;
 import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.DialogVariableConfigurationBinding;
 import com.icst.blockidle.repository.VariableRepository;
-import com.icst.blockidle.viewmodel.VariableConfigDialogViewModel;
 
 import android.view.LayoutInflater;
 

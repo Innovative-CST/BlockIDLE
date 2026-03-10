@@ -19,9 +19,9 @@ package com.icst.blockidle.activities.project_manager.adapter;
 
 import java.util.ArrayList;
 
+import com.icst.blockidle.activities.project_manager.viewmodel.ProjectAdapterViewModel;
 import com.icst.blockidle.databinding.ProjectListItemBinding;
 import com.icst.blockidle.util.ProjectFile;
-import com.icst.blockidle.viewmodel.ProjectAdapterViewModel;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

@@ -20,8 +20,8 @@ package com.icst.blockidle.activities.team;
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
 import com.icst.blockidle.activities.team.adapter.TeamMemberAdapter;
+import com.icst.blockidle.activities.team.viewmodel.TeamViewModel;
 import com.icst.blockidle.databinding.ActivityTeamBinding;
-import com.icst.blockidle.viewmodel.TeamViewModel;
 
 import android.os.Bundle;
 import android.view.View;

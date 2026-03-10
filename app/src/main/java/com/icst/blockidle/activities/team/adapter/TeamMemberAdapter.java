@@ -23,8 +23,8 @@ import java.util.List;
 import com.bumptech.glide.Glide;
 import com.google.android.material.chip.Chip;
 import com.icst.blockidle.R;
+import com.icst.blockidle.activities.team.model.TeamMember;
 import com.icst.blockidle.databinding.AdapterTeamMemberBinding;
-import com.icst.blockidle.model.TeamMember;
 
 import android.content.Context;
 import android.content.Intent;
