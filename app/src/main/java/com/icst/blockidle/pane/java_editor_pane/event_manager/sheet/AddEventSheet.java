@@ -15,13 +15,13 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.event_manager.sheet;
+package com.icst.blockidle.pane.java_editor_pane.event_manager.sheet;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter.AddNewEventAdapter;
-import com.icst.blockidle.activities.project_editor.java_editor.event_manager.interfaces.OnAddEventListener;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.BottomsheetAddEventBinding;
+import com.icst.blockidle.pane.java_editor_pane.event_manager.adapter.AddNewEventAdapter;
+import com.icst.blockidle.pane.java_editor_pane.event_manager.interfaces.OnAddEventListener;
 import com.icst.blockidle.repository.EventRepository;
 
 import android.content.Context;

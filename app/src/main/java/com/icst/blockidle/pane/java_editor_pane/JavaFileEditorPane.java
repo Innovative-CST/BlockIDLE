@@ -15,11 +15,11 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor;
+package com.icst.blockidle.pane.java_editor_pane;
 
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.icst.blockidle.activities.project_editor.java_editor.adapter.JavaFileEditorViewPager;
 import com.icst.blockidle.databinding.PaneJavaFileEditorBinding;
+import com.icst.blockidle.pane.java_editor_pane.adapter.JavaFileEditorViewPager;
 import com.icst.blockidle.util.IDLEJavaFile;
 import com.icst.blockidle.view.PaneView;
 

@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter;
+package com.icst.blockidle.pane.java_editor_pane.event_manager.adapter;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -15,13 +15,13 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter;
+package com.icst.blockidle.pane.java_editor_pane.event_manager.adapter;
 
 import java.util.ArrayList;
 
-import com.icst.blockidle.activities.project_editor.java_editor.event_manager.interfaces.OnAddEventListener;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.AdapterAddNewEventBinding;
+import com.icst.blockidle.pane.java_editor_pane.event_manager.interfaces.OnAddEventListener;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;

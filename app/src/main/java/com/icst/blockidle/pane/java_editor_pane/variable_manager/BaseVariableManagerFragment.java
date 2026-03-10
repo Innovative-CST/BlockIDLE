@@ -15,11 +15,11 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog.VariableConfigurationDialog;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.adapter.VariableAdapter;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.dialog.VariableConfigurationDialog;
 import com.icst.blockidle.repository.VariableRepository;
 import com.icst.blockidle.util.IDLEJavaFile;
 

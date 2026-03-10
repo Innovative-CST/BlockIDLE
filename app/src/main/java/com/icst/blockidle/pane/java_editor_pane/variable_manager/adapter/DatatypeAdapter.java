@@ -15,13 +15,13 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager.adapter;
 
 import java.util.ArrayList;
 
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog.DatatypeSelectorDialog;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.databinding.AdapterDatatypeBinding;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.dialog.DatatypeSelectorDialog;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;

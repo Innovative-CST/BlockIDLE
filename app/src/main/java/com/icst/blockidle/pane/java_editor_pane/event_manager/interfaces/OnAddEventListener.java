@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.event_manager.interfaces;
+package com.icst.blockidle.pane.java_editor_pane.event_manager.interfaces;
 
 import com.icst.blockidle.bean.EventBean;
 

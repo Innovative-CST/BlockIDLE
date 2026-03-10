@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager;
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.databinding.FragmentVariableManagerBinding;

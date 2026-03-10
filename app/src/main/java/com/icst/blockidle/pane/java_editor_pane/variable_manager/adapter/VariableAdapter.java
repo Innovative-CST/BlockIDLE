@@ -15,11 +15,11 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager.adapter;
 
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel.VariableViewModel;
 import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.AdapterVariableBinding;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.viewmodel.VariableViewModel;
 import com.icst.blockidle.repository.VariableRepository;
 
 import android.view.LayoutInflater;

@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager.dialog;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.zip.ZipInputStream;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.DatatypeAdapter;
 import com.icst.blockidle.bean.DatatypeBean;
 import com.icst.blockidle.databinding.DialogDatatypeSelectorBinding;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.adapter.DatatypeAdapter;
 import com.icst.blockidle.util.ExtensionZipInputStream;
 import com.icst.blockidle.util.ProjectEnvironment;
 

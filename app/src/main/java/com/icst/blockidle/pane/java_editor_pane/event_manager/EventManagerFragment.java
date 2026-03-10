@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.event_manager;
+package com.icst.blockidle.pane.java_editor_pane.event_manager;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -23,10 +23,10 @@ import static android.view.View.VISIBLE;
 import java.io.File;
 import java.util.ArrayList;
 
-import com.icst.blockidle.activities.project_editor.java_editor.event_manager.adapter.EventAdapter;
-import com.icst.blockidle.activities.project_editor.java_editor.event_manager.sheet.AddEventSheet;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.FragmentEventManagerBinding;
+import com.icst.blockidle.pane.java_editor_pane.event_manager.adapter.EventAdapter;
+import com.icst.blockidle.pane.java_editor_pane.event_manager.sheet.AddEventSheet;
 import com.icst.blockidle.repository.EventRepository;
 import com.icst.blockidle.util.IDLEJavaFile;
 

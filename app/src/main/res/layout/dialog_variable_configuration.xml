@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel.VariableConfigDialogViewModel" />
+            type="com.icst.blockidle.pane.java_editor_pane.variable_manager.viewmodel.VariableConfigDialogViewModel" />
 
     </data>
 

@@ -15,13 +15,13 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager.dialog;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.BaseVariableManagerFragment;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.viewmodel.VariableConfigDialogViewModel;
 import com.icst.blockidle.bean.VariableBean;
 import com.icst.blockidle.databinding.DialogVariableConfigurationBinding;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.BaseVariableManagerFragment;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.viewmodel.VariableConfigDialogViewModel;
 import com.icst.blockidle.repository.VariableRepository;
 
 import android.view.LayoutInflater;

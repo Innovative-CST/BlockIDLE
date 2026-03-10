@@ -15,11 +15,11 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.java_editor.variable_manager;
+package com.icst.blockidle.pane.java_editor_pane.variable_manager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.icst.blockidle.activities.project_editor.java_editor.variable_manager.adapter.VariableAdapter;
-import com.icst.blockidle.databinding.FragmentInstanceVariableBinding;
+import com.icst.blockidle.databinding.FragmentStaticVariableBinding;
+import com.icst.blockidle.pane.java_editor_pane.variable_manager.adapter.VariableAdapter;
 import com.icst.blockidle.repository.VariableRepository;
 
 import android.os.Bundle;
@@ -31,21 +31,21 @@ import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class InstanceVariableFragment extends BaseVariableManagerFragment {
+public class StaticVariableFragment extends BaseVariableManagerFragment {
 
-	private FragmentInstanceVariableBinding binding;
+	private FragmentStaticVariableBinding binding;
 
 	@Override
 	@SuppressWarnings("deprecation")
 	@MainThread
 	@Nullable public View onCreateView(LayoutInflater inflator, ViewGroup parent, Bundle bundle) {
-		binding = FragmentInstanceVariableBinding.inflate(inflator);
+		binding = FragmentStaticVariableBinding.inflate(inflator);
 		super.init(parent);
 		return binding.getRoot();
 	}
 
 	public RecyclerView getVariableRecyclerView() {
-		return this.binding.instanceVariableList;
+		return this.binding.staticVariableList;
 	}
 
 	public FloatingActionButton getNewVariableActionButton() {
@@ -53,10 +53,10 @@ public class InstanceVariableFragment extends BaseVariableManagerFragment {
 	}
 
 	public VariableAdapter.VariableType getVariableType() {
-		return VariableAdapter.VariableType.INSTANCE;
+		return VariableAdapter.VariableType.STATIC;
 	}
 
 	public VariableRepository.REPO getVariableRepo() {
-		return VariableRepository.REPO.INSTANCE_VARIABLE;
+		return VariableRepository.REPO.STATIC_VARIABLE;
 	}
 }
