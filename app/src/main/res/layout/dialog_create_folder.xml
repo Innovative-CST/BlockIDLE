@@ -1,0 +1,65 @@
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.icst.blockidle.viewmodel.NewFolderDialogViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/new_folder_name"
+            android:textSize="24sp"
+            android:fontFamily="@font/noto_sans_semibold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/folder_name"
+            android:layout_marginTop="8dp"
+            android:id="@+id/folderNameTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@={viewModel.folderName}"
+                android:id="@+id/folderName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/create"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.createFolder()}"
+                android:text="@string/create" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cancel"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.dismissDialog()}"
+                android:text="@string/cancel" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
