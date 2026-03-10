@@ -21,6 +21,7 @@ import java.util.concurrent.Executors;
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
+import com.icst.blockidle.activities.project_editor.sheet.FileActionBottomSheet;
 import com.icst.blockidle.databinding.ViewHolderFileTreeBinding;
 import com.icst.blockidle.util.IDLEFile;
 import com.icst.blockidle.util.IDLEFolder;
@@ -72,6 +73,10 @@ public class FileTreeViewHolder extends TreeNode.BaseNodeViewHolder<IDLEFile> {
 		}
 
 		binding.getRoot().setOnClickListener(new TreeItemClickListener(value, node));
+		binding.getRoot().setOnLongClickListener(v -> {
+			new FileActionBottomSheet(activity, value);
+			return true;
+		});
 
 		return binding.getRoot();
 	}

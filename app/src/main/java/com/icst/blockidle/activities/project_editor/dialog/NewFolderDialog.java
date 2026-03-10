@@ -18,23 +18,53 @@
 package com.icst.blockidle.activities.project_editor.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.blockidle.R;
+import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
 import com.icst.blockidle.databinding.DialogCreateFolderBinding;
+import com.icst.blockidle.util.FolderValidators;
 import com.icst.blockidle.util.IDLEFolder;
+import com.icst.blockidle.viewmodel.NewFolderDialogViewModel;
 
-import android.content.Context;
 import android.view.LayoutInflater;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class NewFolderDialog extends MaterialAlertDialogBuilder {
 
 	private DialogCreateFolderBinding binding;
+	private NewFolderDialogViewModel viewModel;
 
-	public NewFolderDialog(Context ctx, IDLEFolder parent) {
-		super(ctx);
-		LayoutInflater layoutInflator = LayoutInflater.from(ctx);
+	public NewFolderDialog(ProjectEditorActivity activity, IDLEFolder parent) {
+		super(activity);
+		LayoutInflater layoutInflator = LayoutInflater.from(activity);
+
+		viewModel = new NewFolderDialogViewModel();
+		viewModel.setParentDirectory(parent);
+		viewModel.setContext(activity);
 		binding = DialogCreateFolderBinding.inflate(layoutInflator);
+		binding.setViewModel(viewModel);
+		binding.setLifecycleOwner(activity);
 
-		setTitle(R.string.new_folder);
 		setView(binding.getRoot());
+
+		AlertDialog alertDialog = create();
+		alertDialog.show();
+		viewModel.setAlertDialog(alertDialog);
+
+		viewModel.getFolderName().observe(activity, folderName -> {
+			boolean isValidFolderName = FolderValidators.isValid(folderName);
+			boolean isFolderAlreadyExists = parent.exists(folderName);
+
+			binding.folderNameTextInputLayout.setErrorEnabled(!isValidFolderName || isFolderAlreadyExists);
+			if (!isValidFolderName) {
+				binding.folderNameTextInputLayout.setError("Invalid folder name");
+			}
+
+			if (isFolderAlreadyExists) {
+				binding.folderNameTextInputLayout.setError("Folder/file already exists");
+			}
+		});
+
+		// Do not show error initially
+		binding.folderNameTextInputLayout.setErrorEnabled(false);
 	}
 }
