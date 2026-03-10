@@ -18,11 +18,11 @@
 package com.icst.blockidle.activities.project_manager.adapter.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.icst.blockidle.activities.project_manager.viewmodel.ProjectConfigurationDialogViewModel;
 import com.icst.blockidle.bean.ProjectBean;
 import com.icst.blockidle.databinding.DialogProjectConfigBinding;
 import com.icst.blockidle.listener.ProjectConfigurationDialogListener;
 import com.icst.blockidle.util.ProjectBeanValidator;
-import com.icst.blockidle.viewmodel.ProjectConfigurationDialogViewModel;
 
 import android.view.LayoutInflater;
 
