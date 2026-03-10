@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.icst.blockidle.viewmodel.ProjectManagerViewModel" />
+            type="com.icst.blockidle.activities.project_manager.viewmodel.ProjectManagerViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
