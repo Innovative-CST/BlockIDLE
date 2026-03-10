@@ -15,14 +15,14 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.gradle_editor;
+package com.icst.blockidle.pane.gradle_editor_pane;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import com.icst.blockidle.activities.project_editor.gradle_editor.adapter.EventAdapter;
 import com.icst.blockidle.bean.EventBean;
 import com.icst.blockidle.databinding.PaneGradleFileEditorBinding;
+import com.icst.blockidle.pane.gradle_editor_pane.adapter.EventAdapter;
 import com.icst.blockidle.repository.EventRepository;
 import com.icst.blockidle.util.IDLEGradleFile;
 import com.icst.blockidle.view.PaneView;

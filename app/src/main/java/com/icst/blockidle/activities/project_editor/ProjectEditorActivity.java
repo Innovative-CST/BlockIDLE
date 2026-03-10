@@ -19,11 +19,11 @@ package com.icst.blockidle.activities.project_editor;
 
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.BaseActivity;
-import com.icst.blockidle.activities.project_editor.gradle_editor.GradleFileEditorPane;
 import com.icst.blockidle.activities.project_editor.viewholder.FileTreeViewHolder;
 import com.icst.blockidle.databinding.ActivityProjectEditorBinding;
 import com.icst.blockidle.exception.IDLEFileAlreadyExistsException;
 import com.icst.blockidle.listener.ProcessNotifier;
+import com.icst.blockidle.pane.gradle_editor_pane.GradleFileEditorPane;
 import com.icst.blockidle.pane.java_editor_pane.JavaFileEditorPane;
 import com.icst.blockidle.tooling.ToolingClientImpl;
 import com.icst.blockidle.tooling.ToolingService;

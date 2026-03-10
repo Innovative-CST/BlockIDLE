@@ -15,7 +15,7 @@
  *   along with Block IDLE.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package com.icst.blockidle.activities.project_editor.gradle_editor.adapter;
+package com.icst.blockidle.pane.gradle_editor_pane.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
