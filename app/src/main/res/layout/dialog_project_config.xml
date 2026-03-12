@@ -1,31 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.icst.blockidle.activities.project_manager.viewmodel.ProjectConfigurationDialogViewModel" />
+
     </data>
 
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/project_configuration"
             android:textSize="24sp"
-            android:fontFamily="@font/noto_sans_semibold" />
+            android:fontFamily="@font/noto_sans_semibold"
+            android:text="@string/project_configuration" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:hint="@string/project_name"
+            style="@style/Widget.App.TextInputLayout.FilledRounded"
             android:layout_marginTop="8dp"
+            app:startIconDrawable="@drawable/abc_24px"
             android:id="@+id/projectNameTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -39,16 +44,18 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textColor="?attr/colorOnSurface"
             android:textSize="12sp"
             android:fontFamily="@font/noto_sans_thin"
+            android:textColor="?attr/colorOnSurface"
             android:text="@string/project_name_example" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:hint="@string/package_name"
+            style="@style/Widget.App.TextInputLayout.FilledRounded"
             android:layout_marginTop="8dp"
+            app:startIconDrawable="@drawable/package_2_24px"
             android:text="@string/block_idle"
             android:id="@+id/packageNameTextInputLayout">
 
@@ -63,30 +70,35 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textColor="?attr/colorOnSurface"
             android:textSize="12sp"
             android:fontFamily="@font/noto_sans_thin"
+            android:textColor="?attr/colorOnSurface"
             android:text="@string/package_name_example" />
 
         <LinearLayout
-            android:orientation="vertical"
-            android:gravity="end"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
 
             <Button
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:onClick="@{() -> viewModel.onCancel()}"
+                android:fontFamily="@font/noto_sans_semibold"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:id="@+id/cancel"
+                android:text="@string/cancel" />
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:onClick="@{() -> viewModel.onCreate()}"
+                android:fontFamily="@font/noto_sans_semibold"
+                android:id="@+id/create"
                 android:text="@{viewModel.getConfigMode()}" />
-
-            <Button
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:onClick="@{() -> viewModel.onCancel()}" />
 
         </LinearLayout>
 
