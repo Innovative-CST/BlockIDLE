@@ -55,6 +55,7 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 
 		itemBinding.icon.setImageResource(R.drawable.folder_outline);
 		itemBinding.text.setText(R.string.new_folder);
+		itemBinding.desc.setText(R.string.creates_a_new_folder_in_the_selected_folder);
 
 		binding.content.addView(itemBinding.getRoot());
 

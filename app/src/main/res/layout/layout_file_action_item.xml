@@ -1,29 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
      xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="56dp"
+     android:layout_height="wrap_content"
      android:layout_width="match_parent"
      android:paddingEnd="16dp"
      android:gravity="center_vertical"
-     android:orientation="horizontal"
+     android:background="@drawable/shape_item_alone"
      android:paddingStart="16dp"
+     android:paddingVertical="8dp"
      tools:context=".activities.project_editor.ProjectEditorActivity">
 
     <ImageView
-         android:layout_height="32dp"
-         android:layout_width="32dp"
-         android:layout_marginEnd="16dp"
+         android:layout_height="24dp"
+         android:layout_width="24dp"
          tools:src="@drawable/folder_outline"
+         android:layout_marginRight="8dp"
          android:tint="?attr/colorOnSurfaceVariant"
          android:id="@+id/icon" />
 
     <TextView
          android:layout_height="wrap_content"
          android:layout_width="wrap_content"
-         android:textSize="18sp"
+         android:textSize="16sp"
+         android:fontFamily="@font/noto_sans"
+         android:layout_toRightOf="@id/icon"
          android:textColor="?attr/colorOnSurface"
          tools:text="New Folder"
          android:id="@+id/text" />
 
-</LinearLayout>
+    <TextView
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:layout_below="@id/text"
+         android:textSize="12sp"
+         android:fontFamily="@font/noto_sans_thin"
+         android:layout_toRightOf="@id/icon"
+         android:textColor="?attr/colorOnSurface"
+         tools:text="Creates a new folder in the selected folder"
+         android:id="@+id/desc" />
+
+</RelativeLayout>

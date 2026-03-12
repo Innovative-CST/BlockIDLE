@@ -8,6 +8,7 @@
     <string name="class_name">Class Name</string>
     <string name="class_name_example">Example \: MyClass</string>
     <string name="create">Create</string>
+    <string name="creates_a_new_folder_in_the_selected_folder">Creates a new folder in the selected folder</string>
     <string name="create_a_new_project">Create a new project</string>
     <string name="dismiss">Dismiss</string>
     <string name="done">Done</string>
