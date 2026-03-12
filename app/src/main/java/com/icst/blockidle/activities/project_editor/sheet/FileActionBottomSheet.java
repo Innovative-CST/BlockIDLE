@@ -20,13 +20,17 @@ package com.icst.blockidle.activities.project_editor.sheet;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.icst.blockidle.R;
 import com.icst.blockidle.activities.project_editor.ProjectEditorActivity;
+import com.icst.blockidle.activities.project_editor.dialog.DeleteIDLEFileDialog;
 import com.icst.blockidle.activities.project_editor.dialog.NewFolderDialog;
 import com.icst.blockidle.databinding.BottomsheetFileActionBinding;
 import com.icst.blockidle.databinding.LayoutFileActionItemBinding;
 import com.icst.blockidle.util.IDLEFile;
 import com.icst.blockidle.util.IDLEFolder;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 
 public class FileActionBottomSheet extends BottomSheetDialog {
 	private BottomsheetFileActionBinding binding;
@@ -46,8 +50,36 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 		if (file instanceof IDLEFolder folder) {
 			addFolderAction(folder);
 		}
+		addDeleteAction(file);
+		int count = binding.content.getChildCount();
+
+		for (int i = 0; i < count; i++) {
+			View child = binding.content.getChildAt(i);
+			applyShape(child, i, count);
+		}
 		binding.dismiss.setOnClickListener(v -> dismiss());
 		show();
+	}
+
+	private int dp(int value) {
+		Resources res = getContext().getResources();
+		return (int) (value * res.getDisplayMetrics().density);
+	}
+
+	public static void applyShape(View view, int index, int size) {
+
+		if (size == 1) {
+			view.setBackgroundResource(R.drawable.shape_item_alone);
+			return;
+		}
+
+		if (index == 0) {
+			view.setBackgroundResource(R.drawable.shape_item_top);
+		} else if (index == size - 1) {
+			view.setBackgroundResource(R.drawable.shape_item_bottom);
+		} else {
+			view.setBackgroundResource(R.drawable.shape_item_middle);
+		}
 	}
 
 	public void addFolderAction(IDLEFolder folder) {
@@ -57,10 +89,38 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 		itemBinding.text.setText(R.string.new_folder);
 		itemBinding.desc.setText(R.string.creates_a_new_folder_in_the_selected_folder);
 
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		params.setMargins(0, dp(4), 0, dp(4));
+		itemBinding.getRoot().setLayoutParams(params);
+
 		binding.content.addView(itemBinding.getRoot());
 
 		itemBinding.getRoot().setOnClickListener(v -> {
 			new NewFolderDialog(activity, folder);
+		});
+	}
+
+	public void addDeleteAction(IDLEFile file) {
+		LayoutFileActionItemBinding itemBinding = LayoutFileActionItemBinding.inflate(layoutInflater);
+
+		itemBinding.icon.setImageResource(R.drawable.delete_24px);
+		itemBinding.text.setText("Delete");
+		itemBinding.desc.setText("Deletes the selected file permanent and this action cannot be undone.");
+
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+
+		params.setMargins(0, dp(4), 0, dp(4));
+		itemBinding.getRoot().setLayoutParams(params);
+
+		binding.content.addView(itemBinding.getRoot());
+
+		itemBinding.getRoot().setOnClickListener(v -> {
+			new DeleteIDLEFileDialog(activity, file);
 		});
 	}
 }

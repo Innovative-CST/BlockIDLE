@@ -51,4 +51,8 @@ public class IDLEFile {
 		} else
 			return false;
 	}
+
+	public boolean delete() {
+		return FileUtils.deleteFolder(file);
+	}
 }
