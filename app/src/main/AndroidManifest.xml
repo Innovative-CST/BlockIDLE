@@ -57,7 +57,7 @@
             android:exported="true" />
 
         <service
-            android:name=".service.ToolingService"
+            android:name=".tooling.ToolingService"
             android:exported="false"
             android:foregroundServiceType="dataSync" />
 
