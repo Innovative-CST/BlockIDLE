@@ -1,62 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.icst.blockidle.activities.project_editor.viewmodel.NewFolderDialogViewModel" />
+
     </data>
 
     <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingEnd="24dp"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingBottom="16dp"
+        android:paddingStart="24dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/new_folder_name"
-            android:textSize="24sp"
-            android:fontFamily="@font/noto_sans_semibold" />
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:fontFamily="@font/noto_sans_semibold"
+            android:paddingBottom="8dp"
+            android:text="@string/new_folder_name" />
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <ImageView
+                        android:layout_height="60dp"
+                        android:layout_width="60dp"
+                        android:src="@drawable/ic_folder_filled"
+                        android:scaleType="centerCrop"
+                        android:tint="?attr/colorOnPrimaryContainer" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:hint="@string/folder_name"
-            android:layout_marginTop="8dp"
+            style="@style/Widget.App.TextInputLayout.FilledRounded"
+            android:layout_marginTop="12dp"
+            app:startIconDrawable="@drawable/ic_folder_filled"
             android:id="@+id/folderNameTextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:text="@={viewModel.folderName}"
-                android:id="@+id/folderName" />
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:id="@+id/folderName"
+                android:text="@={viewModel.folderName}" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
-            android:orientation="vertical"
-            android:gravity="end"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:gravity="end"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/create"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.createFolder()}"
-                android:text="@string/create" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/cancel"
-                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:onClick="@{() -> viewModel.dismissDialog()}"
+                android:fontFamily="@font/noto_sans_semibold"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:id="@+id/cancel"
                 android:text="@string/cancel" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:onClick="@{() -> viewModel.createFolder()}"
+                android:fontFamily="@font/noto_sans_semibold"
+                android:id="@+id/create"
+                android:text="@string/create" />
 
         </LinearLayout>
 
