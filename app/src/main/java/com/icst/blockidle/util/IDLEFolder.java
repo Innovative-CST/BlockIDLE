@@ -268,6 +268,27 @@ public class IDLEFolder extends IDLEFile {
 		return new IDLEJavaFile(folderRoot);
 	}
 
+	/**
+	 * Creates a new Gradle configuration file within this {@code IDLEFolder}.
+	 *
+	 * <p>This method creates a dedicated directory for the Gradle file inside
+	 * the {@code IDLEFOLDER_CONTENTS} directory and stores its metadata using
+	 * an {@link IDLEGradleFileBean}. The metadata is serialized into a special
+	 * file named {@code IDLEFILE} inside the created folder.</p>
+	 *
+	 * <p>If a file or folder with the same name already exists and contains
+	 * either {@code IDLEFILE} or {@code IDLEFOLDER} metadata, an
+	 * {@link IDLEFileAlreadyExistsException} will be thrown.</p>
+	 *
+	 * <p>After successful serialization, the method returns an instance of
+	 * {@link IDLEGradleFile} representing the newly created Gradle file.</p>
+	 *
+	 * @param fileName The name of the Gradle file (also used as the folder name
+	 *                 in the {@code IDLEFOLDER_CONTENTS} directory).
+	 * @return An {@link IDLEGradleFile} representing the newly created Gradle file.
+	 * @throws IDLEFileAlreadyExistsException if a Gradle file or folder with the
+	 *                                        same name already exists in this folder.
+	 */
 	public IDLEGradleFile createGradleFile(String fileName) throws IDLEFileAlreadyExistsException {
 		File contents = new File(file, IDLEFOLDER_CONTENTS);
 		File folderRoot = new File(contents, fileName);
