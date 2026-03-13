@@ -26,6 +26,7 @@ import com.icst.blockidle.databinding.BottomsheetFileActionBinding;
 import com.icst.blockidle.databinding.LayoutFileActionItemBinding;
 import com.icst.blockidle.util.IDLEFile;
 import com.icst.blockidle.util.IDLEFolder;
+import com.icst.blockidle.util.ViewShapeUtils;
 
 import android.content.res.Resources;
 import android.view.LayoutInflater;
@@ -57,7 +58,7 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 
 		for (int i = 0; i < count; i++) {
 			View child = binding.content.getChildAt(i);
-			applyShape(child, i, count);
+			ViewShapeUtils.applyItemShape(child, i, count);
 		}
 		binding.dismiss.setOnClickListener(v -> dismiss());
 		show();
@@ -66,22 +67,6 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 	private int dp(int value) {
 		Resources res = getContext().getResources();
 		return (int) (value * res.getDisplayMetrics().density);
-	}
-
-	public static void applyShape(View view, int index, int size) {
-
-		if (size == 1) {
-			view.setBackgroundResource(R.drawable.shape_item_alone);
-			return;
-		}
-
-		if (index == 0) {
-			view.setBackgroundResource(R.drawable.shape_item_top);
-		} else if (index == size - 1) {
-			view.setBackgroundResource(R.drawable.shape_item_bottom);
-		} else {
-			view.setBackgroundResource(R.drawable.shape_item_middle);
-		}
 	}
 
 	public void addFolderAction(IDLEFolder folder) {
