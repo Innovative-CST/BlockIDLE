@@ -1,89 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
-            name="viewModel"
-            type="com.icst.blockidle.activities.project_manager.viewmodel.ProjectAdapterViewModel" />
+             name="viewModel"
+             type="com.icst.blockidle.activities.project_manager.viewmodel.ProjectAdapterViewModel" />
+
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingVertical="4dp"
+         android:paddingHorizontal="12dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
-            android:layout_marginVertical="12dp"
-			android:onClick="@{() -> viewModel.onProjectSelected()}"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="?attr/colorSurfaceVariant">
+        <RelativeLayout
+             android:layout_height="64dp"
+             android:layout_width="match_parent"
+             android:paddingVertical="8dp"
+             android:onClick="@{() -> viewModel.onProjectSelected()}"
+             android:paddingHorizontal="12dp"
+             android:id="@+id/backdrop">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginVertical="8dp"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp">
+            <com.icst.blockidle.view.LetterImageView
+                 android:layout_height="48dp"
+                 android:layout_width="48dp"
+                 android:layout_centerVertical="true"
+                 android:id="@+id/letterImageView"
+                 app:letter="@{viewModel.getProjectNameFirstLetter()}" />
 
-                <!-- Letter Image View -->
-                <com.icst.blockidle.view.LetterImageView
-                    android:id="@+id/letterImageView"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_centerVertical="true"
-                    app:letter="@{viewModel.getProjectNameFirstLetter()}" />
+            <LinearLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:layout_toEndOf="@id/letterImageView"
+                 android:layout_toStartOf="@+id/moreOptions"
+                 android:layout_centerVertical="true"
+                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@+id/moreOptions"
-                    android:layout_toEndOf="@id/letterImageView"
-                    android:orientation="vertical">
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textSize="15sp"
+                     android:textColor="?attr/colorOnSurface"
+                     android:layout_marginStart="12dp"
+                     android:id="@+id/titleTextView"
+                     android:text="@{viewModel.projectName}"
+                     android:textStyle="bold" />
 
-                    <!-- Title Text -->
-                    <TextView
-                        android:id="@+id/titleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="@{viewModel.projectName}"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
+                <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textSize="12sp"
+                     android:textColor="?attr/colorOnSurface"
+                     android:layout_marginStart="12dp"
+                     android:id="@+id/subtitleTextView"
+                     android:text="@{viewModel.packageName}" />
 
-                    <!-- Subtitle Text -->
-                    <TextView
-                        android:id="@+id/subtitleTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:text="@{viewModel.packageName}"
-                        android:textColor="?attr/colorOnSurface"
-                        android:textSize="12sp" />
-                </LinearLayout>
+            </LinearLayout>
 
+            <ImageView
+                 android:layout_height="24dp"
+                 android:layout_width="24dp"
+                 android:contentDescription="@string/more_options"
+                 android:src="@drawable/more"
+                 android:layout_centerVertical="true"
+                 app:tint="?attr/colorOnSurface"
+                 android:onClick="@{() -> viewModel.onProjectConfigSelected()}"
+                 android:layout_alignParentEnd="true"
+                 android:id="@+id/moreOptions" />
 
-                <!-- More Options (3 dots) -->
-                <ImageView
-                    android:id="@+id/moreOptions"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/more_options"
-                    android:src="@drawable/more"
-                    android:onClick="@{() -> viewModel.onProjectConfigSelected()}"
-                    app:tint="?attr/colorOnSurface" />
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
+        </RelativeLayout>
 
     </LinearLayout>
 

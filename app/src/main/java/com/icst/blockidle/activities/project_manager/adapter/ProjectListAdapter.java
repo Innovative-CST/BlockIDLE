@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import com.icst.blockidle.activities.project_manager.viewmodel.ProjectAdapterViewModel;
 import com.icst.blockidle.databinding.ProjectListItemBinding;
 import com.icst.blockidle.util.ProjectFile;
+import com.icst.blockidle.util.ViewShapeUtils;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -59,6 +60,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 					holder.binding.titleTextView.setText(projectName);
 					holder.binding.letterImageView.setLetter(projectName.charAt(0));
 				});
+		ViewShapeUtils.applyItemShape(holder.binding.backdrop, position, data.size());
 	}
 
 	@Override
