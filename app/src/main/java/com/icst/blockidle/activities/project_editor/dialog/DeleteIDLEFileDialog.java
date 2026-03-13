@@ -18,20 +18,29 @@
 package com.icst.blockidle.activities.project_editor.dialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.icst.blockidle.R;
+import com.icst.blockidle.databinding.DialogDeleteFileBinding;
 import com.icst.blockidle.util.IDLEFile;
 
 import android.content.Context;
+import android.view.LayoutInflater;
+
+import androidx.core.util.Consumer;
 
 public class DeleteIDLEFileDialog extends MaterialAlertDialogBuilder {
-	public DeleteIDLEFileDialog(Context context, IDLEFile file) {
+
+	private Consumer<Void> dismissCallback;
+
+	public DeleteIDLEFileDialog(Context context, IDLEFile file, Consumer<Void> dismissCallback) {
 		super(context);
-		setTitle("Delete File?");
-		setIcon(R.drawable.delete_24px);
-		setMessage("Are you sure that you want to delete selected file? This action cannot be undone");
-		setPositiveButton("Delete", (v, which) -> file.delete());
-		setNegativeButton("Cancel", (v, which) -> {
+		this.dismissCallback = dismissCallback;
+
+		LayoutInflater layoutInflater = LayoutInflater.from(context);
+		DialogDeleteFileBinding binding = DialogDeleteFileBinding.inflate(layoutInflater);
+		binding.cancel.setOnClickListener(v -> dismissCallback.accept(null));
+		binding.delete.setOnClickListener(v -> {
+			file.delete();
+			dismissCallback.accept(null);
 		});
-		create().show();
+		setView(binding.getRoot());
 	}
 }

@@ -1,8 +1,10 @@
 <resources>
 
-    <style name="Widget.App.TextInputLayout.FilledRounded"
+    <style
+        name="Widget.App.TextInputLayout.FilledRounded"
         parent="Widget.Material3.TextInputLayout.FilledBox">
 
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
         <item name="boxStrokeColor">@android:color/transparent</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">0dp</item>

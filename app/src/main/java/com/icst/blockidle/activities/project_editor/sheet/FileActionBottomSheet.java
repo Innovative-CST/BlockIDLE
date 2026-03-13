@@ -32,6 +32,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AlertDialog;
+
 public class FileActionBottomSheet extends BottomSheetDialog {
 	private BottomsheetFileActionBinding binding;
 	private LayoutInflater layoutInflater;
@@ -103,6 +105,8 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 		});
 	}
 
+	private AlertDialog deleteFileDialog;
+
 	public void addDeleteAction(IDLEFile file) {
 		LayoutFileActionItemBinding itemBinding = LayoutFileActionItemBinding.inflate(layoutInflater);
 
@@ -119,8 +123,14 @@ public class FileActionBottomSheet extends BottomSheetDialog {
 
 		binding.content.addView(itemBinding.getRoot());
 
-		itemBinding.getRoot().setOnClickListener(v -> {
-			new DeleteIDLEFileDialog(activity, file);
+		itemBinding.getRoot().setOnClickListener(view -> {
+			DeleteIDLEFileDialog dialog = new DeleteIDLEFileDialog(activity, file, v -> {
+				if (deleteFileDialog == null)
+					return;
+				deleteFileDialog.dismiss();
+			});
+			deleteFileDialog = dialog.create();
+			deleteFileDialog.show();
 		});
 	}
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:paddingEnd="24dp"
+    android:paddingBottom="16dp"
+    android:paddingStart="24dp"
+    android:paddingTop="20dp">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textAppearance="?attr/textAppearanceHeadlineSmall"
+        android:fontFamily="@font/noto_sans_semibold"
+        android:id="@+id/title"
+        android:text="Delete File?" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:id="@+id/illustration">
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:background="?attr/colorPrimaryContainer"
+            android:padding="20dp">
+
+            <ImageView
+                android:layout_height="60dp"
+                android:layout_width="60dp"
+                android:src="@drawable/delete_24px"
+                android:scaleType="centerCrop"
+                android:tint="?attr/colorOnPrimaryContainer" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/illustration"
+        android:textSize="16sp"
+        android:fontFamily="@font/noto_sans"
+        android:layout_marginTop="8dp"
+        android:id="@+id/desc"
+        android:text="Are you sure that you want to delete selected file? This action cannot be undone." />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/desc"
+        android:layout_marginEnd="8dp"
+        android:layout_toLeftOf="@id/delete"
+        android:fontFamily="@font/noto_sans_semibold"
+        style="@style/Widget.Material3.Button.TonalButton"
+        android:layout_marginTop="8dp"
+        android:id="@+id/cancel"
+        android:text="@string/cancel" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignEnd="@id/desc"
+        android:layout_below="@id/desc"
+        app:backgroundTint="?attr/colorError"
+        android:fontFamily="@font/noto_sans_semibold"
+        android:textColor="?attr/colorOnError"
+        android:layout_marginTop="8dp"
+        android:id="@+id/delete"
+        android:text="Delete" />
+
+</RelativeLayout>
