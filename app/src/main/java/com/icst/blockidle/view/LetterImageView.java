@@ -17,6 +17,7 @@
 
 package com.icst.blockidle.view;
 
+import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
@@ -123,7 +124,7 @@ public class LetterImageView extends View {
 		canvas.drawCircle(width / 2f, height / 2f, radius, circlePaint);
 
 		// Draw letter in center
-		String text = String.valueOf(letter).toUpperCase();
+		String text = String.valueOf(letter).toUpperCase(Locale.getDefault());
 		textPaint.getTextBounds(text, 0, 1, textBounds);
 		float textHeight = textBounds.height();
 
