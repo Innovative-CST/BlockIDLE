@@ -37,6 +37,7 @@ import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
 import android.webkit.MimeTypeMap;
+import java.util.Locale;
 
 /**
  * A document provider for the Storage Access Framework which exposes the files in the
@@ -52,9 +53,10 @@ import android.webkit.MimeTypeMap;
 public class BlockIDLEDocumentsProvider extends DocumentsProvider {
 
 	/*
-	* Modifications made (2025)
+	* BlockIDLE Modifications (2025)
 	* - Changed file package name.
 	* - Removed TermuxContants and replaced with EnvironmentUtils
+      * - Used Locale.ROOT for querySearchDocuments search matching
 	*/
 
 	private static final String ALL_MIME_TYPES = "*/*";
@@ -206,7 +208,9 @@ public class BlockIDLEDocumentsProvider extends DocumentsProvider {
 				if (file.isDirectory()) {
 					Collections.addAll(pending, file.listFiles());
 				} else {
-					if (file.getName().toLowerCase().contains(query)) {
+                              String lowerCaseFile = file.getName().toLowerCase(Locale.ROOT);
+                              String lowerCaseQuery = query.toLowerCase(Locale.ROOT);
+					if (lowerCaseFile.contains(lowerCaseQuery)) {
 						includeFile(result, null, file);
 					}
 				}
