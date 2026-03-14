@@ -38,6 +38,32 @@ jobs:
         with:
           name: output-metadata
           path: app/build/outputs/apk/debug/output-metadata.json
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Allow gradlew permission
+        run: chmod +x ./gradlew
+
+      - name: Run Android Lint
+        run: ./gradlew lintDebug
+
+      - name: Upload Lint HTML App Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-webpage
+          path: app/build/reports/lint-results-debug.html
   buildExtensions:
     name: Build extensions
     runs-on: ubuntu-latest
