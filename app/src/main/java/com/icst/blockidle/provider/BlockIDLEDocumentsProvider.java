@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import com.icst.blockidle.R;
 
@@ -37,7 +38,6 @@ import android.provider.DocumentsContract.Document;
 import android.provider.DocumentsContract.Root;
 import android.provider.DocumentsProvider;
 import android.webkit.MimeTypeMap;
-import java.util.Locale;
 
 /**
  * A document provider for the Storage Access Framework which exposes the files in the
@@ -56,7 +56,10 @@ public class BlockIDLEDocumentsProvider extends DocumentsProvider {
 	* BlockIDLE Modifications (2025)
 	* - Changed file package name.
 	* - Removed TermuxContants and replaced with EnvironmentUtils
-      * - Used Locale.ROOT for querySearchDocuments search matching
+	  *
+	  * BlockIDLE Modifications (2026)
+	  * - Use Locale.ROOT for querySearchDocuments search matching
+	  * - Use Locale.ROOT for getMimeType extension name matching
 	*/
 
 	private static final String ALL_MIME_TYPES = "*/*";
@@ -208,8 +211,8 @@ public class BlockIDLEDocumentsProvider extends DocumentsProvider {
 				if (file.isDirectory()) {
 					Collections.addAll(pending, file.listFiles());
 				} else {
-                              String lowerCaseFile = file.getName().toLowerCase(Locale.ROOT);
-                              String lowerCaseQuery = query.toLowerCase(Locale.ROOT);
+					String lowerCaseFile = file.getName().toLowerCase(Locale.ROOT);
+					String lowerCaseQuery = query.toLowerCase(Locale.ROOT);
 					if (lowerCaseFile.contains(lowerCaseQuery)) {
 						includeFile(result, null, file);
 					}
@@ -252,7 +255,7 @@ public class BlockIDLEDocumentsProvider extends DocumentsProvider {
 			final String name = file.getName();
 			final int lastDot = name.lastIndexOf('.');
 			if (lastDot >= 0) {
-				final String extension = name.substring(lastDot + 1).toLowerCase();
+				final String extension = name.substring(lastDot + 1).toLowerCase(Locale.ROOT);
 				final String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
 				if (mime != null)
 					return mime;
