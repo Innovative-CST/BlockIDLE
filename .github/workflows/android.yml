@@ -39,7 +39,7 @@ jobs:
           name: output-metadata
           path: app/build/outputs/apk/debug/output-metadata.json
   lint:
-    name: Lint
+    name: Lint Report
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -56,14 +56,28 @@ jobs:
       - name: Allow gradlew permission
         run: chmod +x ./gradlew
 
-      - name: Run Android Lint
-        run: ./gradlew lintDebug
-
-      - name: Upload Lint HTML App Report
+      - name: Run Android Lint Report
+        run: |
+          ./gradlew \
+          :app:lintReportDebug \
+          :app-plugin-api:lintReportDebug \
+          :editor:lintReportDebug \
+          :logiceditor:lintReportDebug \
+          :treeview:lintReportDebug \
+          :vieweditor:lintReportDebug
+        
+      - name: Upload Lint HTML Reports
         uses: actions/upload-artifact@v4
         with:
           name: lint-webpage
-          path: app/build/reports/lint-results-debug.html
+          path: |
+            app/build/reports/lint-results-debug.html
+            app-plugin-api/build/reports/lint-results-debug.html
+            editor/build/reports/lint-results-debug.html
+            logiceditor/build/reports/lint-results-debug.html
+            treeview/build/reports/lint-results-debug.html
+            vieweditor/build/reports/lint-results-debug.html
+
   buildExtensions:
     name: Build extensions
     runs-on: ubuntu-latest
